@@ -24,7 +24,7 @@ RUN bazel build //...
 FROM debian:stable-slim AS target
 
 # Copy the built binary from the base image to the target image
-COPY --from=base_image /app/prover/bazel-bin/src/starkware/main/cpu/cpu_air_prover /usr/bin/
+COPY --from=base_image /app/prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/bin/
 # Uncomment the following line if you need to copy the verifier as well
 # COPY --from=base_image /app/prover/bazel-bin/src/starkware/main/cpu/cpu_air_verifier /usr/bin/
 
