@@ -37,14 +37,32 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}-prover
       - name: Prover image build & push
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile
+          file: air_prover/Dockerfile
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.coutputs.labels }}
+
+      # Verifier
+
+      - name: Verifier image tags & labels
+        id: meta-ver
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}-verifier
+      - name: Verifier image build & push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: air_verifier/Dockerfile
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta-ver.outputs.tags }}
+          labels: ${{ steps.meta-ver.coutputs.labels }}
