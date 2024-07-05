@@ -88,15 +88,18 @@ jobs:
 
       #Release files
 
-      # - name: Extract binary from Docker image
-      #   run: |
-      #     container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
-      #     docker cp $container_id:/usr/bin/cpu_air_prover .
-      #     docker cp $container_id:/usr/bin/cpu_air_verifier .
-      #     docker rm $container_id
+      - name: Extract binary from Docker image
+        run: |
+          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
+          docker cp $container_id:/usr/bin/cpu_air_prover .
+          docker cp $container_id:/usr/bin/cpu_air_verifier .
+          docker rm $container_id
+          
+      - name: Verify file existence#1
+        run: pwd
 
-      # - name: Verify file existence
-      #   run: ls -l cpu_air*
+      - name: Verify file existence#2
+        run: ls -l
 
       - name: Upload files to a GitHub release
         uses: svenstaro/upload-release-action@2.4.0
@@ -104,5 +107,5 @@ jobs:
           file_glob: true
           overwrite: true
           tag: ${{ github.ref }}
-          file: /usr/bin/cpu_air*
+          file: cpu_air*
           repo_token: ${{ secrets.GITHUB_TOKEN }}
