@@ -31,6 +31,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Prover and Verifier
+
+      - name: Prover&Verifier image tags & labels
+        id: meta-all
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}
+      - name: Prover&Verifier image build & push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta-all.outputs.tags }}
+          labels: ${{ steps.meta-all.coutputs.labels }}
+
+
       # Prover
 
       - name: Prover image tags & labels
