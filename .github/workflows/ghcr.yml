@@ -90,7 +90,7 @@ jobs:
 
       - name: Extract binary from Docker image
         run: |
-          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }})
+          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
           docker cp $container_id:/usr/bin/cpu_air_prover .
           docker cp $container_id:/usr/bin/cpu_air_verifier .
           docker rm $container_id
