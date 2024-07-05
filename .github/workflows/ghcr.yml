@@ -107,5 +107,5 @@ jobs:
           file_glob: true
           overwrite: true
           tag: ${{ github.ref }}
-          file: cpu_air*
+          file: /home/runner/work/stone-packaging/stone-packaging/cpu_air*
           repo_token: ${{ secrets.GITHUB_TOKEN }}
