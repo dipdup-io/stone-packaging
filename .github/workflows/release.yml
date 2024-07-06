@@ -14,6 +14,10 @@ jobs:
   build:
     name: Docker images for ghcr.io
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      DOCKER_REGISTRY: ghcr.io
+      DOCKER_IMAGE_BASE: ${{ github.repository }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
