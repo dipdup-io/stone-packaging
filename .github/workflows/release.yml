@@ -1,14 +1,8 @@
 name: release
 
 on:
-  push:
-    branches:
-      - 'master'
-    tags:
-      - 'v*.*.*'
-  pull_request:
-    branches:
-      - 'master'
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -57,9 +51,6 @@ jobs:
           docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/cpu_air_verifier
           docker rm $container_id
           
-      - name: Verify file existence#1
-        run: pwd
-
       - name: Verify file existence#2
         run: ls -l /tmp/cpu*
 
