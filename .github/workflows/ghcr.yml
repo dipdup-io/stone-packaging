@@ -37,7 +37,8 @@ jobs:
         id: meta-all
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/stone-prover
+
       - name: Prover&Verifier image build & push
         uses: docker/build-push-action@v3
         with:
@@ -56,7 +57,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}-prover
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_prover
       - name: Prover image build & push
         uses: docker/build-push-action@v3
         with:
@@ -74,7 +75,7 @@ jobs:
         id: meta-ver
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}-verifier
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_verifier
       - name: Verifier image build & push
         uses: docker/build-push-action@v3
         with:

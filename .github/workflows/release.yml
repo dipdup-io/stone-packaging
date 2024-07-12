@@ -1,8 +1,9 @@
 name: release
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
@@ -50,13 +51,12 @@ jobs:
           docker cp $container_id:/usr/bin/cpu_air_prover /tmp/cpu_air_prover
           docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/cpu_air_verifier
           docker rm $container_id
-          
+
       - name: Verify file existence#2
         run: ls -l /tmp/cpu*
 
       - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@2.4.0
+        id: create_release
+        uses: softprops/action-gh-release@v2
         with:
-          file_glob: true
-          tag: ${{ github.ref }}
-          file: /tmp/cpu_air*
+          files: /tmp/cpu_air*
