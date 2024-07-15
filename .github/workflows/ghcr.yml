@@ -37,7 +37,8 @@ jobs:
         id: meta-all
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/stone-prover
+
       - name: Prover&Verifier image build & push
         uses: docker/build-push-action@v3
         with:
@@ -56,7 +57,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}-prover
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_prover
       - name: Prover image build & push
         uses: docker/build-push-action@v3
         with:
@@ -74,7 +75,7 @@ jobs:
         id: meta-ver
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}-verifier
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_verifier
       - name: Verifier image build & push
         uses: docker/build-push-action@v3
         with:
@@ -85,27 +86,3 @@ jobs:
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-ver.outputs.tags }}
           labels: ${{ steps.meta-ver.coutputs.labels }}
-
-      #Release files
-
-      - name: Extract binary from Docker image
-        run: |
-          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
-          docker cp $container_id:/usr/bin/cpu_air_prover .
-          docker cp $container_id:/usr/bin/cpu_air_verifier .
-          docker rm $container_id
-          
-      - name: Verify file existence#1
-        run: pwd
-
-      - name: Verify file existence#2
-        run: ls -l
-
-      - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@2.4.0
-        with:
-          file_glob: true
-          overwrite: true
-          tag: ${{ github.ref }}
-          file: /home/runner/work/stone-packaging/stone-packaging/cpu_air*
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
