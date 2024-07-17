@@ -27,7 +27,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Prover and Verifier
+      # Prover and Verifier and deb
 
       - name: Prover&Verifier image tags & labels
         id: meta-all
@@ -47,9 +47,10 @@ jobs:
 
       - name: Extract binary from Docker image
         run: |
-          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
+          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }})
           docker cp $container_id:/usr/bin/cpu_air_prover /tmp/cpu_air_prover
           docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/cpu_air_verifier
+          docker cp $container_id:/app/stone-prover.deb /tmp/stone-prover.deb
           docker rm $container_id
 
       - name: Verify file existence#2
@@ -60,3 +61,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: /tmp/cpu_air*
+
+      - name: Upload dep to a GitHub release
+        id: create_release_deb
+        uses: softprops/action-gh-release@v2
+        with:
+          files: /tmp/stone-prover.deb
