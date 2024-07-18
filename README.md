@@ -40,16 +40,22 @@ chmod +x cpu_air_prover
 
 ### Creating and verifying a test proof using binaries
 
+Navigate to the directory
+
+```bash
+cd /tmp/
+```
+
 Clone the repository:
 
 ```bash
 git clone https://github.com/dipdup-io/stone-packaging.git
 ```
 
-Navigate to the example test directory (`test_files/`):
+Navigate to the example test directory (`stone-packaging/test_files/`):
 
 ```bash
-cd test_files/
+cd stone-packaging/test_files/
 ```
 
 Copy or download from latest release the binary files to this directory.
@@ -81,22 +87,28 @@ docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
 
 ### Creating and verifying a test proof using docker images
 
+Navigate to the directory
+
+```bash
+cd /tmp/
+```
+
 Clone the repository:
 
 ```bash
 git clone https://github.com/dipdup-io/stone-packaging.git
 ```
 
-Navigate to the example test directory (`test_files/`):
+Navigate to the example test directory (`stone-packaging/test_files/`):
 
 ```bash
-cd test_files/
+cd stone-packaging/test_files/
 ```
 
 Run docker images with volume:
 
 ```bash
-docker run --entrypoint /bin/bash -v /your_directory/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_prover \
+docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_prover \
     --out_file=fibonacci_proof.json \
     --private_input_file=fibonacci_private_input.json \
     --public_input_file=fibonacci_public_input.json \
@@ -109,5 +121,47 @@ The proof is now available in the file test_files/fibonacci_proof.json
 Run the verifier to verify the proof:
 
 ```bash
-docker run --entrypoint /bin/bash -v /your_directory/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
+docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
 ```
+
+## Download Native packages for Debian/Ubuntu
+
+Download the deb package from latest release. For example:
+
+```bash
+wget https://github.com/dipdup-io/stone-packaging/releases/download/v2.0.2/stone-prover.deb
+```
+
+### Creating and verifying a test proof using deb package
+
+Navigate to the directory
+
+```bash
+cd /tmp/
+```
+
+Copy or download from latest release the deb package to this directory.
+
+Install the deb package:
+
+```bash
+sudo dpkg -i stone-prover.deb
+```
+
+Run the prover:
+```bash
+cpu_air_prover \
+    --out_file=fibonacci_proof.json \
+    --private_input_file=fibonacci_private_input.json \
+    --public_input_file=fibonacci_public_input.json \
+    --prover_config_file=cpu_air_prover_config.json \
+    --parameter_file=cpu_air_params.json
+```
+
+The proof is now available in the file `fibonacci_proof.json`.
+
+Finally, run the verifier to verify the proof:
+```bash
+cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
+```
+
