@@ -111,3 +111,5 @@ Run the verifier to verify the proof:
 ```bash
 docker run --entrypoint /bin/bash -v /your_directory/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
 ```
+
+Project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
