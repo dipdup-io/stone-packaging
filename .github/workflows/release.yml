@@ -45,18 +45,42 @@ jobs:
           tags: ${{ steps.meta-all.outputs.tags }}
           labels: ${{ steps.meta-all.coutputs.labels }}
 
+      - name: Create a new folder
+        run: |
+          mkdir -p stone-prover/DEBIAN
+          echo "Folder 'my-folder/sub-folder' created."
+
+      - name: Set permissions on the folder
+        run: |
+          chmod -R 755 stone-prover
+          echo "Permissions set to 755 on 'my-folder'."
+
       - name: Extract binary from Docker image
         run: |
-          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
-          docker cp $container_id:/usr/bin/cpu_air_prover /tmp/cpu_air_prover
-          docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/cpu_air_verifier
+          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }})
+          docker cp $container_id:/usr/bin/cpu_air_prover /stone-prover/cpu_air_prover
+          docker cp $container_id:/usr/bin/cpu_air_verifier /stone-prover/cpu_air_verifier
           docker rm $container_id
 
-      - name: Verify file existence#2
+      - name: Extract files and build DEB package
+        run: |
+          chmod +x ./build_dpkg.sh
+          ./build_dpkg.sh
+
+      - name: Verify file existence#1
         run: ls -l /tmp/cpu*
+
+      - name: Verify file existence#1
+        run: ls -l /stone-prover/*.deb
 
       - name: Upload files to a GitHub release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: /tmp/cpu_air*
+          files: /stone-prover/cpu_air*
+
+      - name: Upload files to a GitHub release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: /stone-prover/stone-prover.deb
