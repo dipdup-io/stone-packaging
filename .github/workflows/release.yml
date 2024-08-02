@@ -27,36 +27,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Prover and Verifier
+      # Prover and Verifier and deb
 
-      - name: Prover&Verifier image tags & labels
-        id: meta-all
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}
-      - name: Prover&Verifier image build & push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: ${{ steps.meta-all.outputs.tags }}
-          labels: ${{ steps.meta-all.coutputs.labels }}
-
-      - name: Extract binary from Docker image
+      - name: Extract files and build DEB package
         run: |
-          container_id=$(docker create ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}:pr-3)
-          docker cp $container_id:/usr/bin/cpu_air_prover /tmp/cpu_air_prover
-          docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/cpu_air_verifier
-          docker rm $container_id
+        chmod +x ./build_deb.sh  # Ensure your script is executable
 
       - name: Verify file existence#2
-        run: ls -l /tmp/cpu*
+        run: ls -la /tmp/stone-prover
 
       - name: Upload files to a GitHub release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: /tmp/cpu_air*
+          files: /tmp/stone-prover/cpu_air*
+
+      - name: Upload dep to a GitHub release
+        id: create_release_deb
+        uses: softprops/action-gh-release@v2
+        with:
+          files: /tmp/stone-prover/stone-prover.deb
