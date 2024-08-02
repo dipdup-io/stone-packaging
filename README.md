@@ -8,8 +8,8 @@ The goal of this project is to reduce the friction and time to start producing p
 
 ## Roadmap
 
-- [ ] Releases with static binaries for x86_64
-- [ ] Minimal docker images for x86_64
+- [x] Releases with static binaries for x86_64
+- [x] Minimal docker images for x86_64
 - [ ] Native packages for Debian/Ubuntu
 - [ ] Native packages for Fedora
 - [ ] ARM builds
@@ -165,3 +165,4 @@ Finally, run the verifier to verify the proof:
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
 
+Project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
