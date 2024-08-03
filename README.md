@@ -10,7 +10,7 @@ The goal of this project is to reduce the friction and time to start producing p
 
 - [x] Releases with static binaries for x86_64
 - [x] Minimal docker images for x86_64
-- [ ] Native packages for Debian/Ubuntu
+- [x] Native packages for Debian/Ubuntu
 - [ ] Native packages for Fedora
 - [ ] ARM builds
 

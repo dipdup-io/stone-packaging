@@ -31,7 +31,8 @@ jobs:
 
       - name: Extract files and build DEB package
         run: |
-        chmod +x ./build_deb.sh  # Ensure your script is executable
+          chmod +x ./build_deb.sh  # Ensure your script is executable
+          ./build_deb.sh
 
       - name: Verify file existence#2
         run: ls -la /tmp/stone-prover

@@ -5,7 +5,8 @@ set -e
 # Create a temporary directory for the package
 mkdir -p /tmp/stone-prover/DEBIAN
 
-container_id=$(docker create ghcr.io/dipdup-io/stone-packaging/stone-prover)
+docker build --tag prover .
+container_id=$(docker create prover)
 docker cp $container_id:/usr/bin/cpu_air_prover /tmp/stone-prover/cpu_air_prover
 docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/stone-prover/cpu_air_verifier
 docker rm $container_id
