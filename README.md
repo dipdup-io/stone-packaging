@@ -40,22 +40,16 @@ chmod +x cpu_air_prover
 
 ### Creating and verifying a test proof using binaries
 
-Navigate to the directory
-
-```bash
-cd /tmp/
-```
-
 Clone the repository:
 
 ```bash
-git clone https://github.com/dipdup-io/stone-packaging.git
+git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
 Navigate to the example test directory (`stone-packaging/test_files/`):
 
 ```bash
-cd stone-packaging/test_files/
+cd /tmp/stone-packaging/test_files/
 ```
 
 Copy or download from latest release the binary files to this directory.
