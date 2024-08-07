@@ -13,7 +13,7 @@ docker rm $container_id
 
 cat <<EOF > /tmp/stone-prover/DEBIAN/control
 Package: stone-prover
-Version: 1.0.0
+Version: ${{ steps.tag.outputs.tag }}
 Architecture: all
 Depends: libdw1
 Maintainer: Zaariel91 na@baking-bad.org
