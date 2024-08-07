@@ -30,6 +30,7 @@ jobs:
       # Prover and Verifier and deb
 
       - name: Extract files and build DEB package
+        id: tag
         run: |
           chmod +x ./build_deb.sh  # Ensure your script is executable
           ./build_deb.sh
