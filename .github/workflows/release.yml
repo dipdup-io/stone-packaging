@@ -28,12 +28,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Prover and Verifier and deb
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: Extract files and build DEB package
-        id: tag
         run: |
           chmod +x ./build_deb.sh  # Ensure your script is executable
-          ./build_deb.sh
+          ./build_deb.sh ${{ steps.vars.outputs.tag }}
 
       - name: Verify file existence#2
         run: ls -la /tmp/stone-prover
