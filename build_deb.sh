@@ -2,15 +2,18 @@
 
 set -e
 
+sudo apt-get install -y build-essential devscripts debhelper dh-make
+
 # Create a temporary directory for the package
 mkdir -p /tmp/stone-prover/DEBIAN
+mkdir -p /tmp/stone-prover/usr/bin
 
 TAG=$1
 
 docker build --tag prover .
 container_id=$(docker create prover)
-docker cp $container_id:/usr/bin/cpu_air_prover /tmp/stone-prover/cpu_air_prover
-docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/stone-prover/cpu_air_verifier
+docker cp $container_id:/usr/bin/cpu_air_prover /tmp/stone-prover/usr/bin/cpu_air_prover
+docker cp $container_id:/usr/bin/cpu_air_verifier /tmp/stone-prover/usr/bin/cpu_air_verifier
 docker rm $container_id
 
 cat <<EOF > /tmp/stone-prover/DEBIAN/control

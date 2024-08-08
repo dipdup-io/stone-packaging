@@ -44,7 +44,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: /tmp/stone-prover/cpu_air*
+          files: /tmp/stone-prover/usr/bin/cpu_air*
 
       - name: Upload dep to a GitHub release
         id: create_release_deb
