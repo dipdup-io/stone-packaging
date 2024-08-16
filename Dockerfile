@@ -1,32 +1,20 @@
 # Stage 1: Base Image
-FROM ciimage/python:3.9 AS base_image
+FROM ubuntu:22.04 AS build
 
-# Install necessary dependencies including git
 RUN apt-get update && apt-get install -y git
 
-# Clone the public prover repository
-RUN git clone https://github.com/starkware-libs/stone-prover.git /app/prover
+RUN git clone https://github.com/baking-bad/stone-prover.git /app
 
-# Set the working directory to the cloned repository
-WORKDIR /app/prover
+WORKDIR /app
 
-# Run the installation scripts from the cloned repository
-RUN /app/prover/install_deps.sh
-RUN ./docker_common_deps.sh
+COPY . .
 
-# Change ownership of the /app directory
-RUN chown -R starkware:starkware /app
+# Install dependencies.
+RUN ./install_deps.sh
 
-# Build the project using Bazel
-RUN bazel build //...
+# Build.
+RUN bazelisk build //...
 
-# Stage 2: Target Image
-FROM debian:stable-slim AS target
-
-# Copy the built binary from the base image to the target image
-COPY --from=base_image /app/prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/bin/
-# Uncomment the following line if you need to copy the verifier as well
-COPY --from=base_image /app/prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/bin/
-
-# Install the necessary runtime dependencies
-RUN apt update && apt install -y libdw1
+# Copy cpu_air_prover and cpu_air_verifier.
+RUN ln -s /app/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /bin/cpu_air_prover
+RUN ln -s /app/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /bin/cpu_air_verifier

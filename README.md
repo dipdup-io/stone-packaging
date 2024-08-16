@@ -78,12 +78,6 @@ Clone the repository:
 git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
-Navigate to the example test directory (`/tmp/stone-packaging/test_files/`):
-
-```bash
-cd /tmp/stone-packaging/test_files/
-```
-
 Run docker images with volume:
 
 ```bash
