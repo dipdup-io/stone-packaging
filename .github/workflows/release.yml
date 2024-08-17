@@ -9,6 +9,10 @@ jobs:
   build:
     name: Docker images for ghcr.io
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        arch: [linux/amd64, linux/arm64]
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       DOCKER_REGISTRY: ghcr.io
@@ -16,6 +20,15 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+
+      - name: Set up environment
+        run: |
+          echo "Setting up environment for ${{ matrix.arch }}"
+          if [ "${{ matrix.arch }}" == "linux/amd64" ]; then
+            echo "TARGET_ARCH=x86_64" >> $GITHUB_ENV
+          elif [ "${{ matrix.arch }}" == "linux/arm64" ]; then
+            echo "TARGET_ARCH=arm64" >> $GITHUB_ENV
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -40,11 +53,17 @@ jobs:
       - name: Verify file existence#2
         run: ls -la /tmp/stone-prover
 
+      - name: Rename binaries and deb
+        run: |
+          echo "Renaming binaries to include architecture"
+          mv /tmp/stone-prover/usr/bin/cpu_air_prover ./cpu_air_prover-linux-${TARGET_ARCH}
+          mv /tmp/stone-prover/usr/bin/cpu_air_verifier ./cpu_air_verifier-linux-${TARGET_ARCH}
+          mv /tmp/stone-prover/stone-prover.deb /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
+  
       - name: Upload files to a GitHub release
-        id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: /tmp/stone-prover/usr/bin/cpu_air*
+          files: ./cpu_air*
 
       - name: Upload dep to a GitHub release
         id: create_release_deb
