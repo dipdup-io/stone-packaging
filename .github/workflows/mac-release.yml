@@ -12,31 +12,32 @@ jobs:
       matrix:
         os: [macos-14]
         arch: [x64, arm64]
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up environment
       run: |
+        echo "Setting up environment for ${{ matrix.arch }}"
         if [ "${{ matrix.arch }}" == "x64" ]; then
-          export TARGET_ARCH="x86_64"
+          echo "TARGET_ARCH=x86_64" >> $GITHUB_ENV
         elif [ "${{ matrix.arch }}" == "arm64" ]; then
-          export TARGET_ARCH="arm64"
+          echo "TARGET_ARCH=arm64" >> $GITHUB_ENV
         fi
 
     - name: Build binary
       run: |
         chmod +x ./build_mac.sh
-        ./build_mac.sh # Replace this with your build command
+        ./build_mac.sh
 
-    - name: Rename binary
+    - name: Rename binaries
       run: |
+        echo "Renaming binaries to include architecture"
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-macOS-${TARGET_ARCH}
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-macOS-${TARGET_ARCH}
 
     - name: Upload files to a GitHub release
-      id: create_release
       uses: softprops/action-gh-release@v2
       with:
         files: ./cpu_air*
-
