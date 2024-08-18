@@ -5,9 +5,6 @@ set -e
 os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-# Print the current directory
-echo "Current directory: $(pwd)"
-
 if [ "$os" == "linux" ]; then
     export DEBIAN_FRONTEND=noninteractive
 
