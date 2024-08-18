@@ -5,11 +5,6 @@ set -e
 os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
-
-cd /tmp/stone-prover || exit
-
-
 if [ "$os" == "linux" ]; then
     export DEBIAN_FRONTEND=noninteractive
 
@@ -26,13 +21,16 @@ elif [ "$os" == "darwin" ]; then
     brew install gmp
 
     python3 -m pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
-    
 
 else
     echo "$os/$arch is not supported"
     exit 1
 
 fi
+
+git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
+
+cd /tmp/stone-prover || exit
 
 bazelisk build //...
 
