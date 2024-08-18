@@ -14,7 +14,7 @@ if [ "$os" == "linux" ]; then
 
     wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-$os-$arch"
     chmod 755 "bazelisk-$os-$arch"
-    mv "bazelisk-$os-$arch" /bin/bazelisk
+    sudo mv "bazelisk-$os-$arch" /bin/bazelisk
 
 elif [ "$os" == "darwin" ]; then
 
