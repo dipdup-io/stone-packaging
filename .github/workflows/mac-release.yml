@@ -1,4 +1,4 @@
-name: release
+name: MacOS release
 
 on:
   push:
@@ -28,8 +28,8 @@ jobs:
 
     - name: Build binary
       run: |
-        chmod +x ./build_mac.sh
-        ./build_mac.sh
+        chmod +x ./build_and_test.sh
+        ./build_and_test.sh
 
     - name: Rename binaries
       run: |
