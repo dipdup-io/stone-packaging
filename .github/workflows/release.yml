@@ -7,66 +7,50 @@ on:
 
 jobs:
   build:
-    name: Docker images for ghcr.io
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        arch: [linux/amd64, linux/arm64]
-    env:
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      DOCKER_REGISTRY: ghcr.io
-      DOCKER_IMAGE_BASE: ${{ github.repository }}
+        os: [ubuntu-22.04, macos-14]
+        arch: [x64, arm64]
+
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up environment
-        run: |
-          echo "Setting up environment for ${{ matrix.arch }}"
-          if [ "${{ matrix.arch }}" == "linux/amd64" ]; then
-            echo "TARGET_ARCH=x86_64" >> $GITHUB_ENV
-          elif [ "${{ matrix.arch }}" == "linux/arm64" ]; then
-            echo "TARGET_ARCH=arm64" >> $GITHUB_ENV
-          fi
+    - name: Set up environment
+      run: |
+        echo "Setting up environment for ${{ matrix.arch }}"
+        if [ "${{ matrix.arch }}" == "x64" ]; then
+          echo "TARGET_ARCH=x86_64" >> $GITHUB_ENV
+        elif [ "${{ matrix.arch }}" == "arm64" ]; then
+          echo "TARGET_ARCH=arm64" >> $GITHUB_ENV
+        fi
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Build and Test
+      run: |
+        chmod +x ./build_and_test.sh
+        ./build_and_test.sh
 
-      - name: Log in to the registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set output
+      id: vars
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      # Prover and Verifier and deb
-      - name: Set output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+    - name: Extract files and build DEB package
+      if: matrix.os == 'ubuntu-22.04'
+      run: |
+        chmod +x ./package_deb.sh
+        ./package_deb.sh ${{ steps.vars.outputs.tag }}
 
-      - name: Extract files and build DEB package
-        run: |
-          chmod +x ./build_deb.sh  # Ensure your script is executable
-          ./build_deb.sh ${{ steps.vars.outputs.tag }}
+    - name: Rename binaries
+      run: |
+        echo "Renaming binaries to include architecture"
+        mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-linux-${TARGET_ARCH}
+        mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-linux-${TARGET_ARCH}
+        mv /tmp/stone-prover/stone-prover.deb /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
 
-      - name: Verify file existence#2
-        run: ls -la /tmp/stone-prover
-
-      - name: Rename binaries and deb
-        run: |
-          echo "Renaming binaries to include architecture"
-          mv /tmp/stone-prover/usr/bin/cpu_air_prover ./cpu_air_prover-linux-${TARGET_ARCH}
-          mv /tmp/stone-prover/usr/bin/cpu_air_verifier ./cpu_air_verifier-linux-${TARGET_ARCH}
-          mv /tmp/stone-prover/stone-prover.deb /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
-  
-      - name: Upload files to a GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ./cpu_air*
-
-      - name: Upload dep to a GitHub release
-        id: create_release_deb
-        uses: softprops/action-gh-release@v2
-        with:
-          files: /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
+    - name: Upload files to a GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+         ./cpu_air*
+         /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb

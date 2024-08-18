@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
 
 cd /tmp/stone-prover || exit
@@ -11,8 +13,8 @@ bazelisk build //...
 bazelisk test //...
 
 # Create symbolic links for cpu_air_prover and cpu_air_verifier
-ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /bin/cpu_air_prover
-ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /bin/cpu_air_verifier
+ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/local/bin/cpu_air_prover
+ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/local/bin/cpu_air_verifier
 
 cd /tmp/stone-prover/e2e_test/CairoZero || exit
 
