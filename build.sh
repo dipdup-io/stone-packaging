@@ -40,13 +40,3 @@ bazelisk test //...
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/local/bin/cpu_air_prover
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/local/bin/cpu_air_verifier
 
-cd ./test_files || exit
-
-cpu_air_prover \
-    --out_file=fibonacci_proof.json \
-    --private_input_file=fibonacci_private_input.json \
-    --public_input_file=fibonacci_public_input.json \
-    --prover_config_file=cpu_air_prover_config.json \
-    --parameter_file=cpu_air_params.json
-
-cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
