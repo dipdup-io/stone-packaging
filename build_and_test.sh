@@ -5,6 +5,9 @@ set -e
 os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
+# Print the current directory
+echo "Current directory: $(pwd)"
+
 if [ "$os" == "linux" ]; then
     export DEBIAN_FRONTEND=noninteractive
 
@@ -40,7 +43,7 @@ bazelisk test //...
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/local/bin/cpu_air_prover
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/local/bin/cpu_air_verifier
 
-cd /tmp/stone-prover/test_files || exit
+cd ./test_files || exit
 
 cpu_air_prover \
     --out_file=fibonacci_proof.json \
