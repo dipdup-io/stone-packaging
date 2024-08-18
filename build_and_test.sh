@@ -20,7 +20,7 @@ elif [ "$os" == "darwin" ]; then
 
     brew install gmp
 
-    python3 -m pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+    python3 -m pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0 --break-system-packages
 
 else
     echo "$os/$arch is not supported"
