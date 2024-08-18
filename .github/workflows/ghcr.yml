@@ -48,7 +48,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-all.outputs.tags }}
-          labels: ${{ steps.meta-all.coutputs.labels }}
+          labels: ${{ steps.meta-all.outputs.labels }}
 
 
       # Prover
@@ -67,7 +67,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.coutputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       # Verifier
 
@@ -85,4 +85,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-ver.outputs.tags }}
-          labels: ${{ steps.meta-ver.coutputs.labels }}
+          labels: ${{ steps.meta-ver.outputs.labels }}
