@@ -1,8 +1,8 @@
 #!/bin/bash
 
-git clone https://github.com/baking-bad/stone-prover.git /app
+git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
 
-cd /app || exit
+cd /tmp/stone-prover || exit
 
 ./install_deps.sh
 
@@ -11,10 +11,10 @@ bazelisk build //...
 bazelisk test //...
 
 # Create symbolic links for cpu_air_prover and cpu_air_verifier
-ln -s /app/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /bin/cpu_air_prover
-ln -s /app/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /bin/cpu_air_verifier
+ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /bin/cpu_air_prover
+ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /bin/cpu_air_verifier
 
-cd /app/e2e_test/CairoZero || exit
+cd /tmp/stone-prover/e2e_test/CairoZero || exit
 
 cairo-compile fibonacci.cairo --output fibonacci_compiled.json --proof_mode
 
