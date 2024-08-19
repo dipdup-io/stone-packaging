@@ -48,17 +48,20 @@ jobs:
         chmod +x ./package_deb.sh
         ./package_deb.sh ${{ steps.vars.outputs.tag }}
 
-    - name: Rename binaries
+    - name: Rename binaries ubuntu
+      if: matrix.os == 'ubuntu-22.04'
       run: |
         echo "Renaming binaries to include architecture"
-        if [ matrix.os == 'ubuntu-22.04' ]; then
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-linux-${TARGET_ARCH}
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-linux-${TARGET_ARCH}
         mv /tmp/stone-prover/stone-prover.deb /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
-        else
+
+    - name: Rename binaries macos
+      if: matrix.os == 'macos-14'
+      run: |
+        echo "Renaming binaries to include architecture"
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-macos-${TARGET_ARCH}
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-macos-${TARGET_ARCH}
-        fi
 
     - name: Verify file existence#2
       run: |
