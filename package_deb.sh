@@ -10,8 +10,8 @@ mkdir -p /tmp/stone-prover/usr/bin
 
 TAG=$1
 
-cp /bin/cpu_air_prover /tmp/stone-prover/usr/local/bin/
-cp /bin/cpu_air_verifier /tmp/stone-prover/usr/local/bin/
+cp /usr/local/bin/cpu_air_prover /tmp/stone-prover/usr/bin/
+cp /usr/local/bin/cpu_air_verifier /tmp/stone-prover/usr/bin/
 
 cat <<EOF > /tmp/stone-prover/DEBIAN/control
 Package: stone-prover
