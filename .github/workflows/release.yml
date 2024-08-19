@@ -53,7 +53,9 @@ jobs:
         echo "Renaming binaries to include architecture"
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-linux-${TARGET_ARCH}
         mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-linux-${TARGET_ARCH}
+        if [ matrix.os == 'ubuntu-22.04' ]; then
         mv /tmp/stone-prover/stone-prover.deb /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
+        fi
 
     - name: Upload files to a GitHub release
       uses: softprops/action-gh-release@v2
