@@ -73,4 +73,4 @@ jobs:
       with:
         files: |
          ./cpu_air*
-         /tmp/stone-prover/stone-prover-linux-${TARGET_ARCH}.deb
+         /tmp/stone-prover/*.deb
