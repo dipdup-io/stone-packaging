@@ -48,6 +48,12 @@ jobs:
         chmod +x ./package_deb.sh
         ./package_deb.sh ${{ steps.vars.outputs.tag }}
 
+    - name: Extract files and build RPM package
+      if: matrix.os == 'fedora-40'
+      run: |
+        chmod +x ./package_rpm.sh
+        ./package_rpm.sh ${{ steps.vars.outputs.tag }}
+
     - name: Rename binaries ubuntu
       if: matrix.os == 'ubuntu-22.04'
       run: |
@@ -74,3 +80,4 @@ jobs:
         files: |
          ./cpu_air*
          /tmp/stone-prover/*.deb
+

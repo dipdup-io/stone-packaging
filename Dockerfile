@@ -1,5 +1,5 @@
 # Stage 1: Base Image
-FROM ubuntu:22.04 AS build
+FROM --platform=$BUILDPLATFORM ubuntu:22.04 AS build
 
 RUN apt-get update && apt-get install -y git
 
