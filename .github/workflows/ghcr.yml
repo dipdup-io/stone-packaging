@@ -45,6 +45,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-all.outputs.tags }}
@@ -64,6 +65,7 @@ jobs:
           context: .
           file: air_prover/Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
@@ -82,6 +84,7 @@ jobs:
           context: .
           file: air_verifier/Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-ver.outputs.tags }}

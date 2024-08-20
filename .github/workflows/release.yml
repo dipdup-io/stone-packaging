@@ -12,7 +12,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, macos-14]
-        arch: [x64, aarch64]
 
     steps:
     - name: Checkout code
@@ -21,9 +20,9 @@ jobs:
     - name: Set up environment
       run: |
         echo "Setting up environment for ${{ matrix.arch }}"
-        if [ "${{ matrix.arch }}" == "x64" ]; then
+        if [ "${{ matrix.os }}" == "ubuntu-22.04" ]; then
           echo "TARGET_ARCH=x86_64" >> $GITHUB_ENV
-        elif [ "${{ matrix.arch }}" == "aarch64" ]; then
+        elif [ "${{ matrix.os }}" == "macos-14" ]; then
           echo "TARGET_ARCH=aarch64" >> $GITHUB_ENV
         fi
 
@@ -47,12 +46,6 @@ jobs:
       run: |
         chmod +x ./package_deb.sh
         ./package_deb.sh ${{ steps.vars.outputs.tag }}
-
-    - name: Extract files and build RPM package
-      if: matrix.os == 'fedora-40'
-      run: |
-        chmod +x ./package_rpm.sh
-        ./package_rpm.sh ${{ steps.vars.outputs.tag }}
 
     - name: Rename binaries ubuntu
       if: matrix.os == 'ubuntu-22.04'
