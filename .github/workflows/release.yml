@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, macos-14]
-        arch: [x64, arm64]
+        arch: [x64, aarch64]
 
     steps:
     - name: Checkout code
@@ -23,8 +23,8 @@ jobs:
         echo "Setting up environment for ${{ matrix.arch }}"
         if [ "${{ matrix.arch }}" == "x64" ]; then
           echo "TARGET_ARCH=x86_64" >> $GITHUB_ENV
-        elif [ "${{ matrix.arch }}" == "arm64" ]; then
-          echo "TARGET_ARCH=arm64" >> $GITHUB_ENV
+        elif [ "${{ matrix.arch }}" == "aarch64" ]; then
+          echo "TARGET_ARCH=aarch64" >> $GITHUB_ENV
         fi
 
     - name: Build
