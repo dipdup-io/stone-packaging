@@ -21,10 +21,22 @@ jobs:
       DOCKER_REGISTRY: ghcr.io
       DOCKER_IMAGE_BASE: ${{ github.repository }}
     steps:
-      - name: Install docker
+      - name: Install Docker
         if: matrix.os == 'macos-14'
         run: |
           brew install --cask docker
+          open -a Docker
+          while ! docker system info > /dev/null 2>&1; do
+            echo "Waiting for Docker to start..."
+            sleep 5
+          done
+      
+      - name: Check Docker Status
+        if: matrix.os == 'macos-14'
+        run: |
+          docker --version
+          docker info
+          ps aux | grep -i docker
 
       - name: Check out the repo
         uses: actions/checkout@v3
