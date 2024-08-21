@@ -12,16 +12,14 @@ on:
 jobs:
   build:
     name: Docker images for ghcr.io
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        arch: [amd64, arm64]
+        os: [ubuntu-22.04, macos-14]
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       DOCKER_REGISTRY: ghcr.io
       DOCKER_IMAGE_BASE: ${{ github.repository }}
-      DOCKER_PLATFORM: linux/${{ matrix.arch }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -42,7 +40,7 @@ jobs:
         id: meta-all
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/stone-prover-${{ matrix.arch }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/stone-prover
 
       - name: Prover&Verifier image build & push
         uses: docker/build-push-action@v3
@@ -50,7 +48,6 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          platforms: ${{ env.DOCKER_PLATFORM }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-all.outputs.tags }}
@@ -63,14 +60,13 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_prover-${{ matrix.arch }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_prover
       - name: Prover image build & push
         uses: docker/build-push-action@v3
         with:
           context: .
           file: air_prover/Dockerfile
           push: true
-          platforms: ${{ env.DOCKER_PLATFORM }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
@@ -82,14 +78,13 @@ jobs:
         id: meta-ver
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_verifier-${{ matrix.arch }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_verifier
       - name: Verifier image build & push
         uses: docker/build-push-action@v3
         with:
           context: .
           file: air_verifier/Dockerfile
           push: true
-          platforms: ${{ env.DOCKER_PLATFORM }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta-ver.outputs.tags }}
