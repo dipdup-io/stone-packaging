@@ -15,21 +15,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-14]
+        os: [ubuntu-22.04, macos-13]
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       DOCKER_REGISTRY: ghcr.io
       DOCKER_IMAGE_BASE: ${{ github.repository }}
     steps:
-      - name: Install Docker
+      - name: Install and start Colima
         if: matrix.os == 'macos-14'
         run: |
-          brew install --cask docker
-          open /Applications/Docker.app
-          while ! docker system info > /dev/null 2>&1; do
-            echo "Waiting for Docker to start..."
-            sleep 5
-          done
+          brew install docker
+          brew install colima
+          colima version
+          colima start
       
 
       - name: Check Docker Status
