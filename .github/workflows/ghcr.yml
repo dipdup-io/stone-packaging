@@ -20,9 +20,6 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -46,7 +43,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
           file: Dockerfile
           push: true
           cache-from: type=gha
@@ -54,40 +50,40 @@ jobs:
           tags: ${{ steps.meta-all.outputs.tags }}
           labels: ${{ steps.meta-all.outputs.labels }}
 
-      # # Prover
+      # Prover
 
-      # - name: Prover image tags & labels
-      #   id: meta
-      #   uses: docker/metadata-action@v3
-      #   with:
-      #     images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_prover
+      - name: Prover image tags & labels
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_prover
 
-      # - name: Prover image build & push
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     context: .
-      #     file: air_prover/Dockerfile
-      #     push: true
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Prover image build & push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: air_prover/Dockerfile
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      # # Verifier
+      # Verifier
 
-      # - name: Verifier image tags & labels
-      #   id: meta-ver
-      #   uses: docker/metadata-action@v3
-      #   with:
-      #     images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_verifier
+      - name: Verifier image tags & labels
+        id: meta-ver
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_BASE }}/cpu_air_verifier
 
-      # - name: Verifier image build & push
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     context: .
-      #     file: air_verifier/Dockerfile
-      #     push: true
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      #     tags: ${{ steps.meta-ver.outputs.tags }}
-      #     labels: ${{ steps.meta-ver.outputs.labels }}
+      - name: Verifier image build & push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: air_verifier/Dockerfile
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta-ver.outputs.tags }}
+          labels: ${{ steps.meta-ver.outputs.labels }}
