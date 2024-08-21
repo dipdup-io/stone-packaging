@@ -36,7 +36,6 @@ jobs:
         chmod +x ./test.sh
         ./test.sh
 
-
     - name: Set output
       id: vars
       run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
