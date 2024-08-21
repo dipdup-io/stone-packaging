@@ -1,32 +1,59 @@
 # Stage 1: Base Image
-FROM ciimage/python:3.9 AS base_image
+FROM --platform=$BUILDPLATFORM ubuntu:22.04 AS build
 
-# Install necessary dependencies including git
 RUN apt-get update && apt-get install -y git
 
-# Clone the public prover repository
-RUN git clone https://github.com/starkware-libs/stone-prover.git /app/prover
+RUN git clone https://github.com/baking-bad/stone-prover.git /app
 
-# Set the working directory to the cloned repository
-WORKDIR /app/prover
+WORKDIR /app
 
-# Run the installation scripts from the cloned repository
-RUN /app/prover/install_deps.sh
-RUN ./docker_common_deps.sh
+COPY . .
 
-# Change ownership of the /app directory
-RUN chown -R starkware:starkware /app
+# Install dependencies.
+RUN ./install_deps.sh
 
-# Build the project using Bazel
-RUN bazel build //...
+# Build.
+RUN bazelisk build //...
+
+FROM build AS test
+
+# Run tests.
+RUN bazelisk test //...
+
+# Copy cpu_air_prover and cpu_air_verifier.
+RUN ln -s /app/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /bin/cpu_air_prover
+RUN ln -s /app/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /bin/cpu_air_verifier
+
+# End to end test.
+WORKDIR /app/e2e_test/CairoZero
+
+RUN cairo-compile fibonacci.cairo --output fibonacci_compiled.json --proof_mode
+
+RUN cairo-run \
+    --program=fibonacci_compiled.json \
+    --layout=small \
+    --program_input=fibonacci_input.json \
+    --air_public_input=fibonacci_public_input.json \
+    --air_private_input=fibonacci_private_input.json \
+    --trace_file=fibonacci_trace.json \
+    --memory_file=fibonacci_memory.json \
+    --print_output \
+    --proof_mode
+
+RUN cpu_air_prover \
+    --out_file=fibonacci_proof.json \
+    --private_input_file=fibonacci_private_input.json \
+    --public_input_file=fibonacci_public_input.json \
+    --prover_config_file=cpu_air_prover_config.json \
+    --parameter_file=cpu_air_params.json
+
+RUN cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 
 # Stage 2: Target Image
 FROM debian:stable-slim AS target
 
-# Copy the built binary from the base image to the target image
-COPY --from=base_image /app/prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/bin/
-# Uncomment the following line if you need to copy the verifier as well
-COPY --from=base_image /app/prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/bin/
+COPY --from=build /app/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/bin/
+COPY --from=build /app/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/bin/
 
 # Install the necessary runtime dependencies
 RUN apt update && apt install -y libdw1

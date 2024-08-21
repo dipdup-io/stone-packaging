@@ -9,24 +9,34 @@ The goal of this project is to reduce the friction and time to start producing p
 ## Roadmap
 
 - [x] Releases with static binaries for x86_64
+- [x] Releases with static binaries for arm64
 - [x] Minimal docker images for x86_64
 - [x] Native packages for Debian/Ubuntu
-- [ ] Native packages for Fedora
-- [ ] ARM builds
 
 Follow-up work:
+- Native packages for Fedora
+- Native packages for Alpine
+- Native packages for Homebrew
 - Technical docs for file formats (inputs, outputs, memory, trace, proof), test data
+- Docs hosted on github pages
 - Integrated proof decomposition (related to https://github.com/zksecurity/stark-evm-adapter)
 - Observability suite (metrics, dashboard, configurable logging)
 - Stwo support
 
 # Instructions for use
 
-## Download binaries for x86_64
+### Download binaries for x86_64
 
 ```bash
-sudo wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_prover -O /usr/bin/cpu_air_prover && sudo chmod +x /usr/bin/cpu_air_prover
-sudo wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_verifier -O /usr/bin/cpu_air_verifier && sudo chmod +x /usr/bin/cpu_air_verifier
+sudo wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_prover-x86_64 -O /usr/local/bin/cpu_air_prover && sudo chmod +x /usr/local/bin/cpu_air_prover
+sudo wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_verifier-x86_64 -O /usr/local/bin/cpu_air_verifier && sudo chmod +x /usr/local/bin/cpu_air_verifier
+```
+
+### Download binaries for MacOS Arm64
+
+```bash
+wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_prover-arm64 -O /usr/local/bin/cpu_air_prover && chmod +x /usr/local/bin/cpu_air_prover
+wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_verifier-arm64 -O /usr/local/bin/cpu_air_verifier && chmod +x /usr/local/bin/cpu_air_verifier
 ```
 
 ### Creating and verifying a test proof using binaries
@@ -78,12 +88,6 @@ Clone the repository:
 git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
-Navigate to the example test directory (`/tmp/stone-packaging/test_files/`):
-
-```bash
-cd /tmp/stone-packaging/test_files/
-```
-
 Run docker images with volume:
 
 ```bash
@@ -108,7 +112,7 @@ docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover
 Download the deb package from the latest release. For example:
 
 ```bash
-wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover.deb && sudo dpkg -i stone-prover.deb
+wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-linux-x86_64.deb && sudo dpkg -i stone-prover-linux-x86_64.deb
 ```
 
 ### Creating and verifying a test proof using deb package
