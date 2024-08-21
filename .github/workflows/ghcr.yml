@@ -34,6 +34,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install and start Colima
+        if: matrix.os == 'macos-14'
+        run: |
+          brew install docker
+          brew install colima
+          colima version
+          colima start
+
       # Prover and Verifier
 
       - name: Prover&Verifier image tags & labels
