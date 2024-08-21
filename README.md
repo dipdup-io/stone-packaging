@@ -9,13 +9,15 @@ The goal of this project is to reduce the friction and time to start producing p
 ## Roadmap
 
 - [x] Releases with static binaries for x86_64
+- [x] Releases with static binaries for arm64
 - [x] Minimal docker images for x86_64
 - [x] Native packages for Debian/Ubuntu
-- [ ] Native packages for Fedora
-- [ ] ARM builds
 
 Follow-up work:
+- Native packages for Fedora
+- Native packages for Homebrew
 - Technical docs for file formats (inputs, outputs, memory, trace, proof), test data
+- Docs page
 - Integrated proof decomposition (related to https://github.com/zksecurity/stark-evm-adapter)
 - Observability suite (metrics, dashboard, configurable logging)
 - Stwo support
