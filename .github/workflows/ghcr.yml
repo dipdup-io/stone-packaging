@@ -21,13 +21,10 @@ jobs:
       DOCKER_REGISTRY: ghcr.io
       DOCKER_IMAGE_BASE: ${{ github.repository }}
     steps:
-      - name: Install and start Colima
+      - name: Install docker
         if: matrix.os == 'macos-14'
         run: |
-          brew install docker
-          brew install colima
-          colima version
-          colima start
+          brew install --cask docker
 
       - name: Check out the repo
         uses: actions/checkout@v3
