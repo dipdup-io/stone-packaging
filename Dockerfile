@@ -1,7 +1,7 @@
 # Stage 1: Base Image
 FROM --platform=$BUILDPLATFORM ubuntu:22.04 AS build
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git qemu-user-static
 
 RUN git clone https://github.com/baking-bad/stone-prover.git /app
 
@@ -56,4 +56,4 @@ COPY --from=build /app/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr
 COPY --from=build /app/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/bin/
 
 # Install the necessary runtime dependencies
-RUN apt update && apt install -y libdw1
+RUN apt update && apt install -y libdw1 qemu-user-static
