@@ -8,10 +8,10 @@ The goal of this project is to reduce friction and speed up the process of gener
 
 ## Roadmap
 
-- Static binary releases for x86_64
-- Static binary releases for ARM64
-- Minimal Docker images for x86_64
-- Native packages for Debian/Ubuntu
+- [x] Static binary releases for x86_64
+- [x] Static binary releases for ARM64
+- [x] Minimal Docker images for x86_64
+- [x] Native packages for Debian/Ubuntu
 
 Follow-up work:
 - Native packages for Fedora
