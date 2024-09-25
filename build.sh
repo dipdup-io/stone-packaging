@@ -28,7 +28,7 @@ else
 
 fi
 
-git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
+git clone --branch v3 https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
 
 cd /tmp/stone-prover || exit
 
