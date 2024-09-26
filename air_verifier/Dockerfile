@@ -3,6 +3,7 @@ FROM ubuntu:22.04 AS build
 
 RUN apt-get update && apt-get install -y git
 
+#Don't forget to remove the --branch after merging
 RUN git clone https://github.com/baking-bad/stone-prover.git /app
 
 WORKDIR /app
@@ -37,6 +38,7 @@ RUN cairo-run \
     --air_private_input=fibonacci_private_input.json \
     --trace_file=fibonacci_trace.json \
     --memory_file=fibonacci_memory.json \
+    --min_steps=512 \
     --print_output \
     --proof_mode
 

@@ -37,6 +37,7 @@ RUN cairo-run \
     --air_private_input=fibonacci_private_input.json \
     --trace_file=fibonacci_trace.json \
     --memory_file=fibonacci_memory.json \
+    --min_steps=512 \
     --print_output \
     --proof_mode
 
