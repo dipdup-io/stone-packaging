@@ -4,7 +4,7 @@ FROM ubuntu:22.04 AS build
 RUN apt-get update && apt-get install -y git
 
 #Don't forget to remove the --branch after merging
-RUN git clone --branch v3 https://github.com/baking-bad/stone-prover.git /app
+RUN git clone https://github.com/baking-bad/stone-prover.git /app
 
 WORKDIR /app
 
