@@ -150,3 +150,59 @@ cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified e
 ```
 
 This project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
+
+
+### USING VOCS TO GENERATE STATIC SITE OUT OF MARKDOWN FILES FOR DOCUMEMNTATION
+
+We use Vocs to generate our documentation site. Here's how to set it up and run it locally:
+
+### Prerequisites
+
+- Node.js (version 14 or later)
+- Yarn package manager
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/dipdup-io/stone-packaging.git
+   cd stone-packaging
+   ```
+
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+### Running the Development Server
+
+To start the development server:
+
+```bash
+yarn dev
+```
+
+This will start the server at `http://localhost:5173`. The site will automatically reload if you make changes to the source files.
+
+### Building the Static Site
+
+To build the static site:
+
+```bash
+yarn build
+```
+This will generate the static files in the `dist` directory.
+
+### Project Structure
+
+- `docs/`: Contains all the documentation markdown files.
+- `docs/pages/`: Contains the main content pages.
+- `docs/index.md`: The home page of the documentation.
+- `vocs.config.ts`: Configuration file for Vocs.
+
+### Adding New Pages
+
+To add a new page to the documentation:
+
+1. Create a new markdown file in the `docs/pages/` directory.
+2. Add the new page to the sidebar in `vocs.config.ts`.
