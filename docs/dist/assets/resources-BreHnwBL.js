@@ -1,0 +1,3 @@
+import{u as t,j as e}from"./index-Cv_ltchs.js";const c={title:"Resources",description:"Resources for Stone Packaging",route:"/resources"};function s(r){const n={a:"a",div:"div",h1:"h1",header:"header",p:"p",...t(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"resources",children:["Resources",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#resources",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+`,e.jsx(n.p,{children:"Here you can find additional resources for Stone Packaging."}),`
+`,e.jsx(n.p,{children:"[Add your resources here]"})]})}function a(r={}){const{wrapper:n}={...t(),...r.components};return n?e.jsx(n,{...r,children:e.jsx(s,{...r})}):s(r)}export{a as default,c as frontmatter};
