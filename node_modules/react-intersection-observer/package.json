@@ -1,0 +1,162 @@
+{
+  "name": "react-intersection-observer",
+  "version": "9.13.1",
+  "description": "Monitor if a component is inside the viewport, using IntersectionObserver API",
+  "type": "commonjs",
+  "source": "src/index.tsx",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "./test-utils": {
+      "import": {
+        "types": "./test-utils/index.d.mts",
+        "default": "./test-utils/index.mjs"
+      },
+      "require": {
+        "types": "./test-utils/index.d.ts",
+        "default": "./test-utils/index.js"
+      }
+    },
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "test-utils"
+  ],
+  "author": "Daniel Schmidt",
+  "license": "MIT",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebuilder/react-intersection-observer.git"
+  },
+  "packageManager": "pnpm@9.7.0+sha256.b35018fbfa8f583668b2649e407922a721355cd81f61beeb4ac1d4258e585559",
+  "scripts": {
+    "prebuild": "rm -rf dist lib",
+    "build": "tsup && mkdir dist/esm && cp dist/index.mjs dist/esm/index.js",
+    "postbuild": "attw --pack && publint && size-limit",
+    "dev": "run-p dev:*",
+    "dev:package": "tsup src/index.tsx --watch",
+    "dev:storybook": "pnpm --filter storybook dev",
+    "lint": "biome check .",
+    "version": "pnpm build",
+    "storybook:build": "pnpm build && pnpm --filter storybook build",
+    "test": "vitest",
+    "test:browser": "vitest --workspace=vitest.workspace.ts"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "hooks",
+    "viewport",
+    "intersection",
+    "observer",
+    "lazy load",
+    "inview",
+    "useInView",
+    "useIntersectionObserver"
+  ],
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md,ts,tsx}": [
+      "biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"
+    ]
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.mjs",
+      "name": "InView",
+      "import": "{ InView }",
+      "limit": "1.8 kB"
+    },
+    {
+      "path": "dist/index.mjs",
+      "name": "useInView",
+      "import": "{ useInView }",
+      "limit": "1.3 kB"
+    },
+    {
+      "path": "dist/index.mjs",
+      "name": "observe",
+      "import": "{ observe }",
+      "limit": "1 kB"
+    }
+  ],
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.3",
+    "@biomejs/biome": "^1.8.3",
+    "@size-limit/preset-small-lib": "^11.1.4",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/browser": "^2.0.1",
+    "@vitest/coverage-istanbul": "^2.0.1",
+    "jsdom": "^24.1.0",
+    "lint-staged": "^15.2.7",
+    "microbundle": "^0.15.1",
+    "npm-run-all": "^4.1.5",
+    "playwright": "^1.45.1",
+    "publint": "^0.2.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "simple-git-hooks": "^2.11.1",
+    "size-limit": "^11.1.4",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.1"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18",
+        "vite": "5"
+      }
+    },
+    "allowedDeprecatedVersions": {
+      "rollup-plugin-terser": "*",
+      "sourcemap-codec": "*",
+      "source-map-resolve": "*",
+      "source-map-url": "*",
+      "stable": "*",
+      "urix": "*"
+    }
+  }
+}

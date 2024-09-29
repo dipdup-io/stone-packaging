@@ -1,0 +1,57 @@
+{
+  "name": "remark-mdx-frontmatter",
+  "version": "4.0.0",
+  "description": "A remark plugin for converting frontmatter metadata into MDX exports",
+  "author": "Remco Haszing <remcohaszing@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./index.js",
+  "repository": "remcohaszing/remark-mdx-frontmatter",
+  "bugs": "https://github.com/remcohaszing/remark-mdx-frontmatter/issues",
+  "homepage": "https://github.com/remcohaszing/remark-mdx-frontmatter#readme",
+  "funding": "https://github.com/sponsors/remcohaszing",
+  "keywords": [
+    "frontmatter",
+    "markdown",
+    "markdown-frontmatter",
+    "mdast",
+    "mdx",
+    "remark",
+    "remark-plugin",
+    "toml",
+    "unified",
+    "yaml"
+  ],
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "prepack": "tsc --noEmit false",
+    "test": "c8 tsx ./test.ts"
+  },
+  "dependencies": {
+    "@types/mdast": "^4.0.0",
+    "estree-util-is-identifier-name": "^3.0.0",
+    "estree-util-value-to-estree": "^3.0.0",
+    "toml": "^3.0.0",
+    "unified": "^11.0.0",
+    "yaml": "^2.0.0"
+  },
+  "devDependencies": {
+    "@mdx-js/mdx": "^3.0.0",
+    "@types/node": "*",
+    "c8": "^8.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-remcohaszing": "^10.0.0",
+    "eslint-plugin-jsx-a11y": "^6.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "mdast-util-mdx": "^3.0.0",
+    "prettier": "^3.0.0",
+    "remark-cli": "^11.0.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-preset-remcohaszing": "^2.0.0",
+    "tsx": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}
