@@ -55,8 +55,6 @@ Navigate to the example test directory:
 cd /tmp/stone-packaging/test_files/
 ```
 
-Copy or download the binary files from the latest release to this directory.
-
 Run the prover:
 ```bash
 cpu_air_prover \
@@ -85,11 +83,6 @@ docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
 
 ### Creating and Verifying a Test Proof Using Docker
 
-Clone the repository:
-
-```bash
-git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
-```
 
 Run the Docker container with a volume mounted:
 
@@ -119,12 +112,6 @@ wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone
 ```
 
 ### Creating and Verifying a Test Proof Using the .deb Package
-
-Clone the repository:
-
-```bash
-git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
-```
 
 Navigate to the example test directory:
 
