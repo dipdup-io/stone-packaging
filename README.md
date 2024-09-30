@@ -25,6 +25,9 @@ Follow-up work:
 
 ## Usage Instructions
 
+### Downloading Binaries
+Before cloning the repository, download the binaries based on your operating system:
+
 ### Download Binaries for x86_64
 
 ```bash
@@ -43,11 +46,7 @@ wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_a
 
 ### Creating and Verifying a Test Proof Using Binaries
 
-Clone the repository:
-
-```bash
-git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
-```
+Note: You still need to clone the repo to create and verify a test proof.
 
 Navigate to the example test directory:
 
@@ -82,7 +81,6 @@ docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
 ```
 
 ### Creating and Verifying a Test Proof Using Docker
-
 
 Run the Docker container with a volume mounted:
 

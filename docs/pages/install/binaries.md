@@ -76,19 +76,12 @@ nano ~/.zshrc # for zsh users
 export PATH="/usr/local/bin:$PATH"
 ```
 
-3. Save and close the file, then reload your shell:
+3. Save and close the file, then reload your shell to apply the changes:
 
 ```bash
 source ~/.bashrc 
 # or
 source ~/.zshrc
-```
-
-4. Apply the changes by running:
-
-```bash
-source ~/.bashrc # for bash users
-source ~/.zshrc # for zsh users
 ```
 
 This step ensures that binaries placed in /usr/local/bin can be accessed from anywhere in your system without needing to move them to /usr/bin.
