@@ -6,48 +6,43 @@ This guide provides step-by-step instructions on how to use the Stone Prover to 
 
 To create and verify a proof using Stone Prover, follow these steps:
 
-#### 1. Clone the Stone Prover repository:
+#### 1. Download the Stone Prover binary::
 
 ```bash
-git clone https://github.com/starkware-libs/stone-prover.git
-cd stone-prover
+git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
-#### 2. Build the prover
+Navigate to the example test directory:
 
-Use Bazel to build the Stone Prover executable:
-
-```bash
-bazel build //src/main/prover:stone_prover
+```
+  cd /tmp/stone-packaging/test_files/
 ```
 
-#### 3. Run the prover to generate a proof:
+Copy or download the binary files from the latest release to this directory.
+
+#### 2. Run the prover to generate a proof:
 
 Execute the prover with the necessary input arguments to generate a proof:
 
 ```bash
-bazel-bin/src/main/prover/stone_prover \
+./stone_prover_file_name \
   --out_file=example_proof.json \
   --program_name=fibonacci \
-  --parameter_file=src/main/prover/cpu_air_params.json \
-  --prover_config_file=src/main/prover/cpu_air_prover_config.json \
-  --public_input_file=src/main/prover/example_public_input.json \
-  --private_input_file=src/main/prover/example_private_input.json \
-  --air_file=src/main/prover/cpu_air.cairo \
+  --parameter_file=cpu_air_params.json \
+  --prover_config_file=cpu_air_prover_config.json \
+  --public_input_file=example_public_input.json \
+  --private_input_file=example_private_input.json \
+  --air_file=cpu_air.cairo \
   --log_file=example_logs.txt
 ```
 
-#### 4. Verify the generated proof:
+#### 3. Verify the generated proof:
 
 Similarly, you can verify proofs within the Docker container:
+Run the verifier to verify the proof:
 
 ```bash
-bazel-bin/src/main/prover/stone_prover \
-  --proof_file=example_proof.json \
-  --parameter_file=src/main/prover/cpu_air_params.json \
-  --public_input_file=src/main/prover/example_public_input.json \
-  --prover_config_file=src/main/prover/cpu_air_prover_config.json \
-  --air_file=src/main/prover/cpu_air.cairo
+cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
 
 This command verifies the proof located at `/data/example_proof.json`
@@ -105,7 +100,13 @@ ENTRYPOINT ["bazel-bin/src/main/prover/stone_prover"]
 
 ```
 
-To use this Docker setup:
+### To use this Docker setup:
+
+Download the Docker image. The stone-prover package includes both cpu_air_prover and cpu_air_verifier:
+
+```
+  docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
+```
 
 1.  Build the Docker image:
 
@@ -113,18 +114,21 @@ To use this Docker setup:
 docker build -t stone-prover .
 ```
 
-2. Run the prover using Docker:
+2. Run the prover using Docker with a volume mounted:
 
 ```bash
-  docker run -v $(pwd):/data stone-prover \
- --out_file=/data/example_proof.json \
- --program_name=fibonacci \
- --parameter_file=src/main/prover/cpu_air_params.json \
- --prover_config_file=src/main/prover/cpu_air_prover_config.json \
- --public_input_file=src/main/prover/example_public_input.json \
- --private_input_file=src/main/prover/example_private_input.json \
- --air_file=src/main/prover/cpu_air.cairo \
- --log_file=/data/example_logs.txt
+  docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_prover \
+   --out_file=fibonacci_proof.json \
+   --private_input_file=fibonacci_private_input.json \
+   --public_input_file=fibonacci_public_input.json \
+   --prover_config_file=cpu_air_prover_config.json \
+   --parameter_file=cpu_air_params.json"
+```
+
+To verify the proof:
+
+```
+  docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
 ```
 
 Note: This Docker setup is not officially provided or supported by the Stone Prover repository. It's a suggested approach based on the repository's build instructions.
@@ -133,10 +137,10 @@ Note: This Docker setup is not officially provided or supported by the Stone Pro
 
 ### Common Issues
 
-- **Bazel Not Found:** Ensure Bazel is installed correctly by running `bazel --version`. If not installed, follow the [Bazel installation guide](https://bazel.build/install).
-
 - **Docker not found:** Ensure Bazel is installed correctly by running `docker --version`. If not installed, follow the [Docker installation guide](https://docs.docker.com/get-started/get-docker/).
 
 - **Build Failures:** Ensure all dependencies are correctly installed. Refer to the [Stone Prover repository](https://github.com/starkware-libs/stone-prover) for any additional setup instructions.
+
+  here is a link to [basel documentation](https://bazel.build/) if needed
 
 - **Docker Build Errors:** Make sure your Dockerfile syntax is correct and that you have a stable internet connection to download dependencies.
