@@ -26,7 +26,7 @@ Follow-up work:
 ## Usage Instructions
 
 ### Downloading Binaries
-Before cloning the repository, download the binaries based on your operating system:
+Note: Before cloning the repository, download the binaries based on your operating system:
 
 ### Download Binaries for x86_64
 
