@@ -1,7 +1,3 @@
----
-title: Cairo artifacts
----
-
 # Executing cairo program to obtain execution trace, memory, and AIR inputs
 
 This document guides the user through installing and running Cairo programs to obtain execution traces, memory and AIR inputs, as well as creating and verifying tests.
@@ -74,7 +70,6 @@ Then run the compiled project's sierra file located at `project_name/target/proj
 
 ## Creating and verifying a proof of a Cairo program
 
-
 Navigate to the example test directory (`e2e_test/Cairo`):
 
 ```bash
@@ -128,7 +123,6 @@ cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified e
 
 
 ## CLI argument list
-
 The cairo1-run cli supports the following optional arguments:
 
 * `--layout all_cairo`: Sets the layout for the cairo_run. This will limit the available builtins. The deafult layout is `plain`, which has no builtins. For general purpose, the `all_cairo` layout contains all currently available builtins.
