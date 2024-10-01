@@ -25,9 +25,6 @@ Follow-up work:
 
 ## Usage Instructions
 
-### Downloading Binaries
-Note: Before cloning the repository, download the binaries based on your operating system:
-
 ### Download Binaries for x86_64
 
 ```bash
@@ -46,7 +43,10 @@ wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_a
 
 ### Creating and Verifying a Test Proof Using Binaries
 
-Note: You still need to clone the repo to create and verify a test proof.
+Clone the repository:
+    ```bash
+    git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
+    ```
 
 Navigate to the example test directory:
 
