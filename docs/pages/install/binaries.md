@@ -5,8 +5,8 @@ This guide provides detailed instructions on how to download and install the [St
 ## Supported Architectures
 
 Stone binaries are available for the following architectures:
-- **x86_64** (Linux and macOS)
-- **ARM64** (macOS and Linux)
+- **x86_64 Linux**
+- **ARM64 macOS**
 
 ## Download and Install Binaries
 
