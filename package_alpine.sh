@@ -5,20 +5,31 @@ echo "Starting package creation process..."
 echo "Checking necessary dependencies..."
 
 # Ensure necessary dependencies are installed
-apk add --no-cache alpine-sdk build-base || { echo "Failed to install dependencies"; exit 1; }
+apk add --no-cache alpine-sdk build-base
+
+# Build the binaries if they don't exist
+if [ ! -f /usr/local/bin/cpu_air_prover ] || [ ! -f /usr/local/bin/cpu_air_verifier ]; then
+    echo "Binaries not found, building them..."
+    # Assuming there's a build step, replace this with actual build commands
+    cmake .
+    make
+    # Move binaries to /usr/local/bin or appropriate path
+    cp ./cpu_air_prover /usr/local/bin/
+    cp ./cpu_air_verifier /usr/local/bin/
+fi
 
 # Define the binary paths
-PROVER_PATH=$(which cpu_air_prover) || { echo "Failed to find cpu_air_prover"; exit 1; }
-VERIFIER_PATH=$(which cpu_air_verifier) || { echo "Failed to find cpu_air_verifier"; exit 1; }
+PROVER_PATH="/usr/local/bin/cpu_air_prover"
+VERIFIER_PATH="/usr/local/bin/cpu_air_verifier"
 
 # Check if the binaries exist
-if [ -z "$PROVER_PATH" ]; then
-    echo "Error: cpu_air_prover not found in PATH. Please ensure the binary is built and available."
+if [ ! -f "$PROVER_PATH" ]; then
+    echo "Error: cpu_air_prover not found in /usr/local/bin. Please ensure the binary is built."
     exit 1
 fi
 
-if [ -z "$VERIFIER_PATH" ]; then
-    echo "Error: cpu_air_verifier not found in PATH. Please ensure the binary is built and available."
+if [ ! -f "$VERIFIER_PATH" ]; then
+    echo "Error: cpu_air_verifier not found in /usr/local/bin. Please ensure the binary is built."
     exit 1
 fi
 
@@ -36,8 +47,8 @@ echo "Using tag $TAG"
 
 # Copy binaries to the appropriate directory
 echo "Copying binaries to package directories..."
-cp "$PROVER_PATH" /tmp/stone-prover/usr/bin/ || { echo "Failed to copy cpu_air_prover"; exit 1; }
-cp "$VERIFIER_PATH" /tmp/stone-prover/usr/bin/ || { echo "Failed to copy cpu_air_verifier"; exit 1; }
+cp "$PROVER_PATH" /tmp/stone-prover/usr/bin/
+cp "$VERIFIER_PATH" /tmp/stone-prover/usr/bin/
 
 # Create the APKBUILD file for Alpine package creation
 echo "Creating APKBUILD file..."
@@ -53,7 +64,7 @@ license="GPL-3.0"
 source=""
 builddir="/tmp/stone-prover"
 
-package() { 
+package() {
     mkdir -p "\$pkgdir/usr/bin"
     install -Dm755 "\$builddir"/usr/bin/cpu_air_prover "\$pkgdir"/usr/bin/cpu_air_prover
     install -Dm755 "\$builddir"/usr/bin/cpu_air_verifier "\$pkgdir"/usr/bin/cpu_air_verifier

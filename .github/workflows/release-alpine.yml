@@ -12,8 +12,7 @@ jobs:
       image: alpine:latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -28,6 +27,11 @@ jobs:
           build-base \
           boost-dev \
           gmp-dev
+ 
+    - name: Build binaries
+      run: |
+        cmake .
+        make
 
     - name: Create Alpine package
       run: |
