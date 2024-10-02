@@ -37,9 +37,8 @@ pkgname=stone-prover
 pkgver=$(echo $TAG | cut -c 2-)
 pkgrel=0
 pkgdesc="Stone prover alpine package"
-arch="all"
+arch="x86_64"
 license="GPL-3.0"
-depends="libdw"
 source=""
 builddir="/tmp/stone-prover"
 

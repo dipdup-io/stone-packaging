@@ -12,7 +12,8 @@ jobs:
       image: alpine:latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -27,7 +28,7 @@ jobs:
           build-base \
           boost-dev \
           gmp-dev
- 
+
     - name: Create Alpine package
       run: |
         chmod +x ./package_alpine.sh
