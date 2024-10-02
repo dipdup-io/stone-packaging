@@ -4,6 +4,10 @@ title: Cairo artifacts
 
 # Executing cairo program to obtain execution trace, memory, and AIR inputs
 
+### Installing Rust
+
+In order to run the program you need to install Rust. Follow the instructions on the official website [here](https://www.rust-lang.org/tools/install).
+
 ### Installing corelib
 
 **1.** First you need to clone de Cairo repository:
