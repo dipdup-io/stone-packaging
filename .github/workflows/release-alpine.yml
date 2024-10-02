@@ -1,64 +1,37 @@
-name: Build Alpine Package
+name: Release Alpine Package
 
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: alpine:latest
-
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Alpine build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apk-tools build-essential
 
-    - name: Install dependencies
-      run: |
-        apk add --no-cache \
-          alpine-sdk \
-          cmake \
-          git \
-          curl \
-          bash
+      - name: Build Alpine Package
+        run: |
+          ./package_alpine.sh
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Build stone-prover and create Alpine package
-      run: |
-        chmod +x ./package_alpine.sh
-        ./package_alpine.sh
-
-    - name: Upload Alpine package
-      uses: actions/upload-artifact@v3
-      with:
-        name: stone-prover-alpine-package
-        path: ./alpine-package/*.apk
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./alpine-package/stone-prover-*.apk
-        asset_name: stone-prover-alpine-${{ github.ref }}.apk
-        asset_content_type: application/vnd.alpine.linux.apk
+      - name: Upload Alpine Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: alpine-package
+          path: ./build/output/*.apk
+          
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./build/output/*.apk
