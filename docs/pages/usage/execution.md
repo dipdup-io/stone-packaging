@@ -16,10 +16,12 @@ rm -rf cairo/
 ```
 
 ### Installing cairo1-run
-
+- TODO
 ### Running cairo1-run in a Scarb project
+- TODO
 
 ### Running cairo1-run in a Scarb workspace (Sierra file)
+- TODO
 
 As cairo1-run skips gas checks when running, you will need to add the following to your Scarb.toml to ensure that compilation is done without adding gas checks:
 
