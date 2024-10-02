@@ -5,6 +5,21 @@ set -e
 # Ensure necessary dependencies are installed
 apk add --no-cache alpine-sdk build-base
 
+# Define the binary paths
+PROVER_PATH="/usr/local/bin/cpu_air_prover"
+VERIFIER_PATH="/usr/local/bin/cpu_air_verifier"
+
+# Check if the binaries exist
+if [ ! -f "$PROVER_PATH" ]; then
+  echo "Error: $PROVER_PATH not found. Please ensure the binary is built and available."
+  exit 1
+fi
+
+if [ ! -f "$VERIFIER_PATH" ]; then
+  echo "Error: $VERIFIER_PATH not found. Please ensure the binary is built and available."
+  exit 1
+fi
+
 # Create a temporary directory for the package
 mkdir -p /tmp/stone-prover/ALPINE
 mkdir -p /tmp/stone-prover/usr/bin
@@ -12,12 +27,12 @@ mkdir -p /tmp/stone-prover/usr/bin
 TAG=$1
 
 # Copy binaries to the appropriate directory
-cp /usr/local/bin/cpu_air_prover /tmp/stone-prover/usr/bin/
-cp /usr/local/bin/cpu_air_verifier /tmp/stone-prover/usr/bin/
+cp "$PROVER_PATH" /tmp/stone-prover/usr/bin/
+cp "$VERIFIER_PATH" /tmp/stone-prover/usr/bin/
 
 # Create the APKBUILD file for Alpine package creation
 cat <<EOF > /tmp/stone-prover/APKBUILD
-# Contributor: Collins Ikechukwu <na@baking-bad.org>
+# Contributor: Baking Bad <na@baking-bad.org>
 # Maintainer: Baking Bad <na@baking-bad.org>
 pkgname=stone-prover
 pkgver=$(echo $TAG | cut -c 2-)
