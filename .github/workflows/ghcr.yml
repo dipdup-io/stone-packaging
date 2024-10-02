@@ -3,9 +3,9 @@ name: Build
 on:
   repository_dispatch:
     types: [prover-update]
-  pull_request:
-    branches:
-      - "master"
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
