@@ -28,13 +28,14 @@ To pull an image, use the `docker pull` command followed by the image name. Here
 - **For the Stone Prover :**
   ```bash
 docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:master
-
+```
 
 - **For the CPU Air Prover (Lightweight):**
   ```bash
 docker pull ghcr.io/dipdup-io/stone-packaging/cpu_air_prover:master
-
+```
 
 - **For the CPU Air Verifier (Lightweight):**
   ```bash
 docker pull ghcr.io/dipdup-io/stone-packaging/cpu_air_verifier:master
+```
