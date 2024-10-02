@@ -7,17 +7,6 @@ echo "Checking necessary dependencies..."
 # Ensure necessary dependencies are installed
 apk add --no-cache alpine-sdk build-base
 
-# Build the binaries if they don't exist
-if [ ! -f /usr/local/bin/cpu_air_prover ] || [ ! -f /usr/local/bin/cpu_air_verifier ]; then
-    echo "Binaries not found, building them..."
-    # Assuming there's a build step, replace this with actual build commands
-    cmake .
-    make
-    # Move binaries to /usr/local/bin or appropriate path
-    cp ./cpu_air_prover /usr/local/bin/
-    cp ./cpu_air_verifier /usr/local/bin/
-fi
-
 # Define the binary paths
 PROVER_PATH="/usr/local/bin/cpu_air_prover"
 VERIFIER_PATH="/usr/local/bin/cpu_air_verifier"
