@@ -1,3 +1,9 @@
+---
+title: Cairo artifacts
+---
+
+# Executing cairo program to obtain execution trace, memory, and AIR inputs
+
 ### Installing corelib
 
 **1.** First you need to clone de Cairo repository:
