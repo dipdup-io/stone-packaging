@@ -28,10 +28,6 @@ jobs:
           boost-dev \
           gmp-dev
  
-    - name: Build binaries
-      run: |
-        cmake .
-        make
 
     - name: Create Alpine package
       run: |
