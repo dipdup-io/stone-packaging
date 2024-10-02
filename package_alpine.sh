@@ -5,17 +5,17 @@ set -e
 apk add --no-cache alpine-sdk build-base
 
 # Define the binary paths
-PROVER_PATH="/usr/local/bin/cpu_air_prover"
-VERIFIER_PATH="/usr/local/bin/cpu_air_verifier"
+PROVER_PATH=$(which cpu_air_prover)
+VERIFIER_PATH=$(which cpu_air_verifier)
 
 # Check if the binaries exist
-if [ ! -f "$PROVER_PATH" ]; then
-    echo "Error: $PROVER_PATH not found. Please ensure the binary is built and available."
+if [ -z "$PROVER_PATH" ]; then
+    echo "Error: cpu_air_prover not found in PATH. Please ensure the binary is built and available."
     exit 1
 fi
 
-if [ ! -f "$VERIFIER_PATH" ]; then
-    echo "Error: $VERIFIER_PATH not found. Please ensure the binary is built and available."
+if [ -z "$VERIFIER_PATH" ]; then
+    echo "Error: cpu_air_verifier not found in PATH. Please ensure the binary is built and available."
     exit 1
 fi
 
@@ -41,16 +41,18 @@ arch="all"
 license="GPL-3.0"
 depends="libdw"
 source=""
-builddir=""
+builddir="/tmp/stone-prover"
 
 package() {
-    install -Dm755 \$srcdir/usr/bin/cpu_air_prover \$pkgdir/usr/bin/cpu_air_prover
-    install -Dm755 \$srcdir/usr/bin/cpu_air_verifier \$pkgdir/usr/bin/cpu_air_verifier
+    mkdir -p "\$pkgdir/usr/bin"
+    install -Dm755 "\$builddir"/usr/bin/cpu_air_prover "\$pkgdir"/usr/bin/cpu_air_prover
+    install -Dm755 "\$builddir"/usr/bin/cpu_air_verifier "\$pkgdir"/usr/bin/cpu_air_verifier
 }
 EOF
 
 # Build the Alpine package using abuild
 cd /tmp/stone-prover
+abuild checksum
 abuild -r
 
 # Output the built package location
