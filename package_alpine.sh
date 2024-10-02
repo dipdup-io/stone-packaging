@@ -53,7 +53,7 @@ license="GPL-3.0"
 source=""
 builddir="/tmp/stone-prover"
 
-package() {
+package() { 
     mkdir -p "\$pkgdir/usr/bin"
     install -Dm755 "\$builddir"/usr/bin/cpu_air_prover "\$pkgdir"/usr/bin/cpu_air_prover
     install -Dm755 "\$builddir"/usr/bin/cpu_air_verifier "\$pkgdir"/usr/bin/cpu_air_verifier
