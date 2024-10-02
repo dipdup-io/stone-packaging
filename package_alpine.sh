@@ -1,42 +1,42 @@
 #!/bin/bash
+
 set -e
 
-# Get the version from the git tag
-VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')
+# Ensure necessary dependencies are installed
+apk add --no-cache alpine-sdk build-base
 
-# Create the APKBUILD file
-cat << EOF > APKBUILD
-# Contributor: Your Name <your.email@example.com>
-# Maintainer: Your Name <your.email@example.com>
+# Create a temporary directory for the package
+mkdir -p /tmp/stone-prover/ALPINE
+mkdir -p /tmp/stone-prover/usr/bin
+
+TAG=$1
+
+# Copy binaries to the appropriate directory
+cp /usr/local/bin/cpu_air_prover /tmp/stone-prover/usr/bin/
+cp /usr/local/bin/cpu_air_verifier /tmp/stone-prover/usr/bin/
+
+# Create the APKBUILD file for Alpine package creation
+cat <<EOF > /tmp/stone-prover/APKBUILD
+# Contributor: Collins Ikechukwu <na@baking-bad.org>
+# Maintainer: Baking Bad <na@baking-bad.org>
 pkgname=stone-prover
-pkgver=$VERSION
+pkgver=$(echo $TAG | cut -c 2-)
 pkgrel=0
-pkgdesc="Stone Prover - a zero-knowledge proof system"
-url="https://github.com/baking-bad/stone-prover"
+pkgdesc="Stone prover alpine package"
 arch="all"
-license="MIT"
-depends=""
-makedepends="cmake"
+license="GPL-3.0"
+depends="libdw"
 source=""
-builddir="$srcdir/$pkgname-$pkgver"
-
-build() {
-    mkdir build && cd build
-    cmake ..
-    make
-}
-
+builddir=""
 package() {
-    install -Dm755 build/stone_prover "$pkgdir"/usr/bin/stone_prover
+  install -Dm755 \$srcdir/usr/bin/cpu_air_prover \$pkgdir/usr/bin/cpu_air_prover
+  install -Dm755 \$srcdir/usr/bin/cpu_air_verifier \$pkgdir/usr/bin/cpu_air_verifier
 }
 EOF
 
-# Build the package
-abuild -F checksum
-abuild -F -r
+# Build the Alpine package using abuild
+cd /tmp/stone-prover
+abuild -r
 
-# Move the built package to a specific directory
-mkdir -p ./alpine-package
-mv ~/packages/main/x86_64/*.apk ./alpine-package/
-
-echo "Alpine package built and moved to ./alpine-package/"
+# Output the built package location
+echo "Alpine package built successfully."
