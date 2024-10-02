@@ -20,20 +20,8 @@ jobs:
       run: |
         apk add --no-cache \
           alpine-sdk \
-          cmake \
-          git \
-          curl \
           bash \
-          build-base \
-          boost-dev \
-          gmp-dev
-
-    - name: Build Stone Prover binaries
-      run: |
-        mkdir build && cd build
-        cmake ..
-        make cpu_air_prover cpu_air_verifier
-        sudo cp cpu_air_prover cpu_air_verifier /usr/local/bin/
+          libdw
 
     - name: Create Alpine package
       run: |
