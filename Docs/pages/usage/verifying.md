@@ -4,76 +4,76 @@ This guide will walk you through how to verify a Stone proof using the provided 
 
 - Ensure Docker is installed on your machine. You can refer to [Docker’s official documentation](https://docs.docker.com/get-docker/) for installation instructions.
 
-### Building the Docker Image
+## Creating and Verifying a Test Proof Using Static Binaries
 
-Clone the repository:
-
-```bash
-git clone https://github.com/starkware-libs/stone-prover.git
-```
-
-Then build the Docker image:
+- Clone the repository:
 
 ```bash
-cd stone-prover
-docker build --tag prover .
+git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
-- Once the Docker image is built, the prover and verifier executables can be retrieved:
+- Navigate to the example test directory
 
 ```bash
-container_id=$(docker create prover)
-docker cp -L ${container_id}:/bin/cpu_air_prover .
-docker cp -L ${container_id}:/bin/cpu_air_verifier .
+cd /tmp/stone-packaging/test_files/
 ```
 
-## Creating and Verifying a Proof of a Cairo Program
+- Download the Binary Files:
 
-1. Navigate to the Example Test Directory:
+Copy or download the binary files from the latest release to this directory.
 
-   - Start by navigating to the Cairo example test directory.
-
-   ```bash
-   cd e2e_test/Cairo
-   ```
-
-2. Install the cairo-vm/cairo1-run
-
-```bash
-git clone https://github.com/lambdaclass/cairo-vm.git
-cd cairo-vm/cairo1-run
-make deps
-```
-
-3. Compile and run the program to generate the prover input files:
-
-```bash
-cargo run ../../fibonacci.cairo \
-    --layout=small \
-    --air_public_input=fibonacci_public_input.json \
-    --air_private_input=fibonacci_private_input.json \
-    --trace_file=fibonacci_trace.bin \
-    --memory_file=fibonacci_memory.bin \
-    --proof_mode
-```
-
-4. Then Run the prover:
+- Run the prover:
 
 ```bash
 cpu_air_prover \
     --out_file=fibonacci_proof.json \
     --private_input_file=fibonacci_private_input.json \
     --public_input_file=fibonacci_public_input.json \
-    --prover_config_file=../../cpu_air_prover_config.json \
-    --parameter_file=../../cpu_air_params.json
+    --prover_config_file=cpu_air_prover_config.json \
+    --parameter_file=cpu_air_params.json
 ```
 
-The proof will be stored in the file`fibonacci_proof.json`.
+The proof will be available at `fibonacci_proof.json`.
 
-## Verifying the Proof
-
-- Run the verifier:
+- Run the verifier to verify the proof:
 
 ```bash
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
+```
+
+## Creating and Verifying a Test Proof Using Docker Images
+
+1. Clone the Repository:
+
+```bash
+git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
+```
+
+2. Download Docker Image
+
+Download the Docker image that includes both cpu_air_prover and cpu_air_verifier:
+
+```bash
+docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
+```
+
+3. Run the Docker Container to Create the Proof
+
+Run the container with a volume mounted to the local repository directory:
+
+```bash
+docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_prover \
+    --out_file=fibonacci_proof.json \
+    --private_input_file=fibonacci_private_input.json \
+    --public_input_file=fibonacci_public_input.json \
+    --prover_config_file=cpu_air_prover_config.json \
+    --parameter_file=cpu_air_params.json"
+```
+
+The proof will be created at `/tmp/stone-packaging/test_files/fibonacci_proof.json`.
+
+4. Verify the Proof Using Docker
+
+```bash
+docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
 ```
