@@ -4,7 +4,7 @@ This guide will walk you through how to verify a Stone proof using the provided 
 
 - Ensure Docker is installed on your machine. You can refer to [Docker’s official documentation](https://docs.docker.com/get-docker/) for installation instructions.
 
-## Creating and Verifying a Test Proof Using Static Binaries
+## Creating and Verifying a Test Proof Using Binaries
 
 - Clone the repository:
 
@@ -41,7 +41,15 @@ The proof will be available at `fibonacci_proof.json`.
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
 
-## Creating and Verifying a Test Proof Using Docker Images
+## Download Minimal Docker Images for x86_64
+
+Download the Docker image. The stone-prover package includes both cpu_air_prover and cpu_air_verifier:
+
+```bash
+docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
+```
+
+## Creating and Verifying a Test Proof Using Docker
 
 1. Clone the Repository:
 
@@ -49,15 +57,7 @@ cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified e
 git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
-2. Download Docker Image
-
-Download the Docker image that includes both cpu_air_prover and cpu_air_verifier:
-
-```bash
-docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
-```
-
-3. Run the Docker Container to Create the Proof
+2. Run the Docker Container to Create the Proof
 
 Run the container with a volume mounted to the local repository directory:
 
@@ -70,9 +70,9 @@ docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover
     --parameter_file=cpu_air_params.json"
 ```
 
-The proof will be created at `/tmp/stone-packaging/test_files/fibonacci_proof.json`.
+The proof will be created at `test_files/fibonacci_proof.json.`.
 
-4. Verify the Proof Using Docker
+3. Verify the Proof Using Docker
 
 ```bash
 docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
