@@ -2,8 +2,6 @@
 
 This guide will walk you through how to verify a Stone proof using the provided binaries. It includes steps for both setting up the environment using Docker and manually installing the required dependencies.
 
-- Ensure Docker is installed on your machine. You can refer to [Docker’s official documentation](https://docs.docker.com/get-docker/) for installation instructions.
-
 ## Creating and Verifying a Test Proof Using Binaries
 
 - Clone the repository:
@@ -20,7 +18,7 @@ cd /tmp/stone-packaging/test_files/
 
 - Download the Binary Files:
 
-Copy or download the binary files from the latest release to this directory.
+You can download the binary files by navigating to the [Installation Guide](https://github.com/dipdup-io/stone-packaging/blob/master/docs/pages/install/binaries.md)
 
 - Run the prover:
 
@@ -50,6 +48,8 @@ docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
 ```
 
 ## Creating and Verifying a Test Proof Using Docker
+
+- Ensure Docker is installed on your machine. You can refer to [Docker’s official documentation](https://docs.docker.com/get-docker/) for installation instructions.
 
 1. Clone the Repository:
 
