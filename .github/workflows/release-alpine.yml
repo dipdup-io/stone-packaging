@@ -1,37 +1,58 @@
-name: Release Alpine Package
+name: Build Alpine Package
 
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      
-      - name: Set up Alpine build environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y apk-tools build-essential
+    container:
+      image: alpine:latest
 
-      - name: Build Alpine Package
-        run: |
-          ./package_alpine.sh
-
-      - name: Upload Alpine Package
-        uses: actions/upload-artifact@v3
-        with:
-          name: alpine-package
-          path: ./build/output/*.apk
-          
-  release:
-    needs: build
-    runs-on: ubuntu-latest
     steps:
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./build/output/*.apk
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Install dependencies
+      run: |
+        apk add --no-cache \
+          alpine-sdk \
+          cmake \
+          git \
+          curl \
+          bash
+
+    - name: Build stone-prover and create Alpine package
+      run: |
+        chmod +x ./package_alpine.sh
+        ./package_alpine.sh
+
+    - name: Upload Alpine package
+      uses: actions/upload-artifact@v3
+      with:
+        name: stone-prover-alpine-package
+        path: ./alpine-package/*.apk
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./alpine-package/stone-prover-*.apk
+        asset_name: stone-prover-alpine-${{ github.ref }}.apk
+        asset_content_type: application/vnd.alpine.linux.apk
