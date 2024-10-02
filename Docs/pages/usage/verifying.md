@@ -47,7 +47,7 @@ make deps
 
 3. Compile and run the program to generate the prover input files:
 
-````bash
+```bash
 cargo run ../../fibonacci.cairo \
     --layout=small \
     --air_public_input=fibonacci_public_input.json \
@@ -55,7 +55,7 @@ cargo run ../../fibonacci.cairo \
     --trace_file=fibonacci_trace.bin \
     --memory_file=fibonacci_memory.bin \
     --proof_mode
-    ```
+```
 
 4. Then Run the prover:
 
@@ -66,9 +66,9 @@ cpu_air_prover \
     --public_input_file=fibonacci_public_input.json \
     --prover_config_file=../../cpu_air_prover_config.json \
     --parameter_file=../../cpu_air_params.json
-    ```
-The proof will be stored in the file`fibonacci_proof.json`.
+```
 
+The proof will be stored in the file`fibonacci_proof.json`.
 
 ## Verifying the Proof
 
@@ -76,40 +76,4 @@ The proof will be stored in the file`fibonacci_proof.json`.
 
 ```bash
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
-````
-
-<!-- 2. Using Stone Prover/Verifier
-
-- `stark_prover`: Generates proofs
-- `stark_verifier`: Verifies proofs
-
-- Generating a Proof
-
-To generate a proof:
-
-```bash
-./stark_prover <input_file> <output_proof_file>
 ```
-Replace <input_file> with your input data file and <output_proof_file> with the desired name for the proof file.
-
-- Verifying a Proof
-
-
-To verify a proof:
-
-```bash
-./stark_verifier <proof_file> <public_input_file>
-```
-Replace <proof_file> with the path to your proof file and <public_input_file> with the path to your public input file.
-
-
-3. The verifier will process the proof and output the result. A successful verification will display a message similar to:
-
-```bash
-Proof verification successful!
-```
-If the verification fails, you'll see an error message with details about the failure.
-
-# Docker-based Setup
-
-For those who prefer to use Docker for an isolated environment, follow these steps to run the entire process within a Docker container. -->
