@@ -24,7 +24,7 @@ jobs:
           git \
           curl \
           bash
-
+ 
     - name: Build stone-prover and create Alpine package
       run: |
         chmod +x ./package_alpine.sh
