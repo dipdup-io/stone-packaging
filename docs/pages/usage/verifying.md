@@ -41,7 +41,7 @@ cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified e
 
 ## Download Minimal Docker Images for x86_64
 
-Download the Docker image. The stone-prover package includes both cpu_air_prover and cpu_air_verifier:
+Download the Docker image. The stone-prover package includes both `cpu_air_prover` and `cpu_air_verifier`:
 
 ```bash
 docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
