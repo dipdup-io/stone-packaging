@@ -136,3 +136,11 @@ The cairo1-run cli supports the following optional arguments:
 * `--cairo_pie_output <CAIRO_PIE_OUTPUT>`: Receives the name of a file and outputs the Cairo PIE into it. Can only be used if proof_mode, is not enabled.
 
 * `--append_return_values`: Adds extra instructions to the program in order to append the return and input values to the output builtin's segment. This is the default behaviour for proof_mode. Only allows `Array<felt252>` as return and input value.
+
+
+## Additional resources
+
+**1.** The [cairo-vm](https://github.com/lambdaclass/cairo-vm)
+**2.** The [Stone Prover](https://github.com/starkware-libs/stone-prover)
+**3.** The [cairo1-run](https://github.com/lambdaclass/cairo-vm/tree/main/cairo1-run)
+**4.** The [Cairo Book](https://book.cairo-lang.org/title-page.html)
