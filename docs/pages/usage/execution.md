@@ -4,6 +4,8 @@ title: Cairo artifacts
 
 # Executing cairo program to obtain execution trace, memory, and AIR inputs
 
+This document guides the user through installing and running Cairo programs to obtain execution traces, memory and AIR inputs, as well as creating and verifying tests.
+
 ## Installing Rust
 
 In order to run the program you need to install Rust. Follow the instructions on the official website [here](https://www.rust-lang.org/tools/install).
@@ -12,7 +14,7 @@ In order to run the program you need to install Rust. Follow the instructions on
 
 If you have Scarb installed in your system, you can omit this first step. Since you already have the Cairo repository in your system. Otherwise follow all these steps.
 
-**1.** First you need to clone de Cairo repository:
+**1.** First you need to clone the Cairo repository:
 ```bash
 git clone --depth=1 -b v2.8.0 https://github.com/starkware-libs/cairo.git
 ```
