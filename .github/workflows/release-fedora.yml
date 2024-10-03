@@ -1,0 +1,78 @@
+name: Release Stone Prover for Fedora
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TARGET_ARCH: x86_64
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image (Fedora)
+      run: |
+        docker buildx build --target test --file Dockerfile.fedora --load -t stone-prover-fedora-test .
+
+    - name: Run tests in Fedora container
+      run: |
+        docker run --rm stone-prover-fedora-test /bin/bash -c "
+        bazelisk test //... &&
+        cd /app/e2e_test/CairoZero &&
+        cairo-compile fibonacci.cairo --output fibonacci_compiled.json --proof_mode &&
+        cairo-run --program=fibonacci_compiled.json --layout=small --program_input=fibonacci_input.json --air_public_input=fibonacci_public_input.json --air_private_input=fibonacci_private_input.json --trace_file=fibonacci_trace.json --memory_file=fibonacci_memory.json --min_steps=512 --print_output --proof_mode &&
+        cpu_air_prover --out_file=fibonacci_proof.json --private_input_file=fibonacci_private_input.json --public_input_file=fibonacci_public_input.json --prover_config_file=cpu_air_prover_config.json --parameter_file=cpu_air_params.json &&
+        cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'
+        "
+
+    - name: Set version output
+      id: vars
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
+    - name: Build target Docker image (Fedora)
+      run: |
+        docker buildx build --target target --file Dockerfile.fedora --load -t stone-prover-fedora .
+
+    - name: Extract binaries from Docker image
+      run: |
+        docker create --name temp stone-prover-fedora
+        docker cp temp:/usr/bin/cpu_air_prover ./cpu_air_prover-${TARGET_ARCH}
+        docker cp temp:/usr/bin/cpu_air_verifier ./cpu_air_verifier-${TARGET_ARCH}
+        docker rm temp
+
+    - name: Package RPM
+      run: |
+        docker run --rm -v $(pwd):/rpmbuild/SOURCES stone-prover-fedora \
+          bash -c "dnf install -y rpm-build && \
+                   mkdir -p /rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS} && \
+                   cp /rpmbuild/SOURCES/stone-prover.spec /rpmbuild/SPECS/ && \
+                   rpmbuild -ba /rpmbuild/SPECS/stone-prover.spec \
+                   --define \"version ${{ steps.vars.outputs.tag }}\" \
+                   --define \"_topdir /rpmbuild\""
+
+    - name: Rename RPM package
+      run: |
+        mv ./RPMS/x86_64/*.rpm ./stone-prover-fedora-${TARGET_ARCH}.rpm
+
+    - name: Verify file existence
+      run: |
+        ls -la ./
+        ls -la ./RPMS/x86_64/
+
+    - name: Upload files to GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          ./cpu_air_prover-${TARGET_ARCH}
+          ./cpu_air_verifier-${TARGET_ARCH}
+          ./stone-prover-fedora-${TARGET_ARCH}.rpm
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
