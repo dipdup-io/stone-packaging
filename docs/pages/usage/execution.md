@@ -4,11 +4,11 @@ title: Cairo artifacts
 
 # Executing cairo program to obtain execution trace, memory, and AIR inputs
 
-### Installing Rust
+## Installing Rust
 
 In order to run the program you need to install Rust. Follow the instructions on the official website [here](https://www.rust-lang.org/tools/install).
 
-### Installing corelib
+## Installing corelib
 
 If you have Scarb installed in your system, you can omit this first step. Since you already have the Cairo repository in your system. Otherwise follow all these steps.
 
@@ -27,14 +27,14 @@ mv cairo/corelib/ .
 rm -rf cairo/
 ```
 
-### Installing cairo1-run
+## Installing cairo1-run
 To install `cairo1-run` run the following command:
 
 ```bash
 cargo install --git https://github.com/lambdaclass/cairo-vm cairo1-run
 ```
 
-#### Installing cairo1-run from sources
+### Installing cairo1-run from sources
 If you prefer to install it from sources you can follow these steps:
 
 Clone the repo:
@@ -53,11 +53,7 @@ make deps
 ```
 
 
-### Running cairo1-run in a Scarb project
-- TODO
-
-### Running cairo1-run in a Scarb workspace (Sierra file)
-
+## Running cairo1-run in a Scarb project
 As cairo1-run skips gas checks when running, you will need to add the following to your Scarb.toml to ensure that compilation is done without adding gas checks:
 
 ```toml
@@ -74,7 +70,48 @@ Then run the compiled project's sierra file located at `project_name/target/proj
 ```
 
 
-### CLI argument list
+## Creating and verifying a proof of a Cairo program
+
+
+Navigate to the example test directory (`e2e_test/Cairo`):
+
+```bash
+cd e2e_test/Cairo
+```
+
+Compile and run the program to generate the prover input files:
+
+```bash
+cargo run ../../fibonacci.cairo \
+    --layout=small \
+    --air_public_input=fibonacci_public_input.json \
+    --air_private_input=fibonacci_private_input.json \
+    --trace_file=fibonacci_trace.bin \
+    --memory_file=fibonacci_memory.bin \
+    --proof_mode
+```
+
+Run the prover:
+```bash
+cpu_air_prover \
+    --out_file=fibonacci_proof.json \
+    --private_input_file=fibonacci_private_input.json \
+    --public_input_file=fibonacci_public_input.json \
+    --prover_config_file=../../cpu_air_prover_config.json \
+    --parameter_file=../../cpu_air_params.json
+```
+
+The proof is now available in the file `fibonacci_proof.json`.
+
+Finally, run the verifier to verify the proof:
+```bash
+cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
+```
+
+**Note**: The verifier only checks that the proof is consistent with the public input section that appears in the proof file. The public input section itself is not checked. For example, the verifier does not check what Cairo program is being proved, or that the builtins memory segments are of valid size. These things need to be checked externally.
+
+
+## CLI argument list
 
 The cairo1-run cli supports the following optional arguments:
 
