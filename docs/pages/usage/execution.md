@@ -84,7 +84,7 @@ cd e2e_test/Cairo
 Compile and run the program to generate the prover input files:
 
 ```bash
-cargo run ../../fibonacci.cairo \
+cairo1-run fibonacci.cairo \
     --layout=small \
     --air_public_input=fibonacci_public_input.json \
     --air_private_input=fibonacci_private_input.json \
