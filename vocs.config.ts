@@ -21,5 +21,9 @@ export default defineConfig({
       text: 'Stone Packaging Resources',
       link: '/resourcers',
     },
+    {
+      text: 'Stone Prover Parameters',
+      link: '/usage/parameters',
+    }
   ],
 })
