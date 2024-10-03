@@ -23,12 +23,6 @@ wget -O /tmp/stone-prover-linux-x86_64.deb https://github.com/dipdup-io/stone-pa
 sudo dpkg -i /tmp/stone-prover-linux-x86_64.deb 
 ```
 
-**Enter your password:** When prompted, enter your user password to proceed with the installation:
-```bash
-[sudo] password for <user>:
-```
-
-
 
 ## Step 3: Implement Run Test Proof
 
@@ -45,8 +39,13 @@ cd /tmp/stone-packaging/test_files
 
 **Run the Proof**: Execute the proof command using the cpu_air_prover. This command generates a proof file in the specificed `--out_file` option value(fibonacci_proof.json).
 ```bash
-cpu_air_prover --out_file=fibonacci_proof.json --private_input_file=fibonacci_private_input.json --public_input_file=fibonacci_public_input.json --prover_config_file=cpu_air_prover_config.json --parameter_file=cpu_air_params.json 
+cpu_air_prover \
+    --out_file=fibonacci_proof.json \
+    --private_input_file=fibonacci_private_input.json \
+    --public_input_file=fibonacci_public_input.json \
+    --prover_config_file=cpu_air_prover_config.json \
+    --parameter_file=cpu_air_params.json
 ```
 
-**Verify the Proof:** After generating the proof, verify it using the cpu_air_verifier. This command checks the validity of the proof and outputs a success message if the verification passes.
+**Verify the Proof:** After generating the proof, verify it using
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
