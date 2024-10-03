@@ -1,0 +1,83 @@
+name: Build and Publish image to Docker Hub
+on:
+    repository_dispatch:
+      types: [prover-update]
+    push:
+      tags:
+        - 'v*.*.*'
+
+jobs:
+  build_and_push:
+    env:
+      DOCKER_HUB: ${{ secrets.DOCKER_LOGIN }}
+      DOCKER_TAGS: latest
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        target:
+          - name: stone-prover
+            dockerfile: Dockerfile
+          - name: cpu_air_prover
+            dockerfile: air_prover/Dockerfile
+          - name: cpu_air_verifier
+            dockerfile: air_verifier/Dockerfile
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Determine Docker Tags
+        id: set-tag
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "repository_dispatch" ]]; then
+            echo "Latest version tags..."
+          elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            TAG_NAME=$(echo ${GITHUB_REF} | sed 's/refs\/tags\///')
+            echo "DOCKER_TAGS=${TAG_NAME}" >> $GITHUB_ENV
+          else
+            echo "No valid ref for tagging. Exiting..."
+            exit 1
+          fi
+        shell: bash
+
+      - name: Set image tags & labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_HUB }}/${{ matrix.target.name }}
+          tags: ${{ env.DOCKER_TAGS }}
+
+      - name: Build And Push Image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.target.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Generate artifact attestation
+        if: github.event.repository.fork == false
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ secrets.DOCKER_LOGIN }}/${{ matrix.target.name }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
