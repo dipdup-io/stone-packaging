@@ -28,7 +28,28 @@ rm -rf cairo/
 ```
 
 ### Installing cairo1-run
-- TODO
+To install `cairo1-run` run the following command:
+
+```bash
+cargo install --git https://github.com/lambdaclass/cairo-vm cairo1-run
+```
+
+#### Installing cairo1-run from sources
+If you prefer to install it from sources you can follow these steps:
+
+```bash
+git clone https://github.com/lambdaclass/cairo-vm.git
+```
+
+```bash
+cd cairo-vm/cairo1-run
+```
+
+```bash
+make deps
+```
+
+
 ### Running cairo1-run in a Scarb project
 - TODO
 
