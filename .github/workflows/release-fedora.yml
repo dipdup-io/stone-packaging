@@ -24,15 +24,12 @@ jobs:
 
     - name: Run tests in Fedora container
       run: |
-        docker run --rm stone-prover-fedora-test /bin/bash -c "
-        bazelisk test //... &&
-        cd /app/e2e_test/CairoZero &&
-        cairo-compile fibonacci.cairo --output fibonacci_compiled.json --proof_mode &&
-        cairo-run --program=fibonacci_compiled.json --layout=small --program_input=fibonacci_input.json --air_public_input=fibonacci_public_input.json --air_private_input=fibonacci_private_input.json --trace_file=fibonacci_trace.json --memory_file=fibonacci_memory.json --min_steps=512 --print_output --proof_mode &&
-        cpu_air_prover --out_file=fibonacci_proof.json --private_input_file=fibonacci_private_input.json --public_input_file=fibonacci_public_input.json --prover_config_file=cpu_air_prover_config.json --parameter_file=cpu_air_params.json &&
-        cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'
+        docker run --rm -v $(pwd):/app stone-prover-fedora-test /bin/bash -c "
+        cd /app &&
+        chmod +x ./test.sh &&
+        ./test.sh
         "
-
+        
     - name: Set version output
       id: vars
       run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
