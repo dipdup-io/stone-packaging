@@ -149,36 +149,7 @@ Run the verifier to confirm the proof:
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
 
-## Docker Image Publishing
-
-This repository contains a GitHub Actions workflow that automatically builds and publishes Docker images to Docker Hub.
-
-- **Workflow file:** `.github/workflows/docker-publish.yml`
-
-### Usage
-
-- The workflow is triggered by any push of a tag (v*.*.*) or when a prover-update event is dispatched. It builds the Docker image and publishes it to Docker Hub.
-
-### Workflow Overview
-
-The workflow performs the following actions:
-- Checks out the repository code.
-- Sets up Docker Buildx for cross-platform builds.
-- Logs in to Docker Hub using the credentials stored in GitHub Secrets.
-- Determine Docker Push Tags
-- Builds the Docker image based on the repository content.
-- Pushes the image to Docker Hub with the specified tag.
-- Generates an attestation for the image artifact (not applicable to forked repositories).
-- Logs out of Docker Hub after the process is complete.
-
-### Tests
-
-1. Forked the original repository.
-2. Update the workflow file by setting `env.DOCKER_HUB` to your testing docker hub account.
-3. Temporarily updated the workflow trigger branch for testing purposes.
-4. Pushed a test tag to trigger the workflow.
-5. Monitored the workflow in the **Actions** tab.
-6. Verified the Docker image was pushed to local Docker Hub.
+This project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
 
 
 ### USNG VOCS TO GENERATE DOCUMENTATION LOCALHOST SITE
@@ -236,5 +207,3 @@ To add a new page to the documentation:
 
 1. Create a new markdown file in the `docs/pages/` directory.
 2. Add the new page to the sidebar in `vocs.config.ts`.
-
-This project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
