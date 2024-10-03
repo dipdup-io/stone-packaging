@@ -39,7 +39,7 @@ RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazeli
 COPY . .
 
 # Build
-RUN bazelisk build //... --disk_cache=/tmp/bazel-disk-cache --cxxopt='-std=c++17'
+RUN bazelisk build //... 
 
 # Stage 2: Test
 FROM build AS test
