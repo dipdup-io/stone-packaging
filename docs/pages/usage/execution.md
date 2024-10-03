@@ -37,14 +37,17 @@ cargo install --git https://github.com/lambdaclass/cairo-vm cairo1-run
 #### Installing cairo1-run from sources
 If you prefer to install it from sources you can follow these steps:
 
+Clone the repo:
 ```bash
 git clone https://github.com/lambdaclass/cairo-vm.git
 ```
 
+Move inside of the cairo1-run directory:
 ```bash
 cd cairo-vm/cairo1-run
 ```
 
+Run makefile:
 ```bash
 make deps
 ```
