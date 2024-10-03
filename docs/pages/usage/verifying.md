@@ -18,7 +18,7 @@ cd /tmp/stone-packaging/test_files/
 
 - Download the Binary Files:
 
-You can download the binary files by navigating to the [Installation Guide](https://github.com/dipdup-io/stone-packaging/blob/master/docs/pages/install/binaries.md)
+To download binaries, please refer to the [Installation Guide](../install/binaries.md)
 
 - Run the prover:
 
