@@ -11,6 +11,7 @@ jobs:
     env:
       DOCKER_HUB: ${{ secrets.DOCKER_LOGIN }}
       DOCKER_TAGS: latest
+      DOCKER_REGISTRY: docker.io
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
@@ -39,6 +40,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
+          registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -60,7 +62,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.DOCKER_HUB }}/${{ matrix.target.name }}
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_HUB }}/${{ matrix.target.name }}
           tags: ${{ env.DOCKER_TAGS }}
 
       - name: Build And Push Image
@@ -74,10 +76,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
-        if: github.event.repository.fork == false
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ secrets.DOCKER_LOGIN }}/${{ matrix.target.name }}
+          subject-name: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_HUB }}/${{ matrix.target.name }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
