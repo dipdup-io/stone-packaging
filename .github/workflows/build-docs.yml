@@ -25,6 +25,7 @@ jobs:
       - name: Build docs
         run: yarn build
 
+        # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
