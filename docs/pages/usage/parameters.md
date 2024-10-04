@@ -541,3 +541,34 @@ As of Stone Prover version 2.0:
 
 7. StarkEx System Documentation: https://docs.starkware.co/starkex-v4/
 
+## Parameter References
+
+
+1. `field_prime`: 
+   - Reference: "STARK Math" by StarkWare, available at https://docs.starkware.co/starkex-v4/crypto/stark-math
+   - This prime defines the finite field used in the STARK proof system.
+
+2. `fri_step_list`:
+   - Reference: "DEEP-FRI: Sampling Outside the Box Improves Soundness" by Ben-Sasson et al., available at https://eprint.iacr.org/2019/336.pdf
+   - This parameter determines the degree reduction steps in the FRI protocol.
+
+3. `last_layer_degree_bound`:
+   - Reference: Stone Prover GitHub repository, https://github.com/starkware-libs/stone-prover
+   - Defines the maximum degree of the polynomial in the last layer of FRI.
+
+4. `n_queries`:
+   - Reference: "STARK Math" by StarkWare, https://docs.starkware.co/starkex-v4/crypto/stark-math#soundness
+   - This parameter affects the soundness of the proof system.
+
+5. `proof_of_work_bits`:
+   - Reference: Stone Prover GitHub repository, https://github.com/starkware-libs/stone-prover
+   - Adds a proof-of-work component to the STARK proof for additional security.
+
+6. `log_n_cosets`:
+   - Reference: "Scalable, transparent, and post-quantum secure computational integrity" by Eli Ben-Sasson et al., https://eprint.iacr.org/2018/046.pdf
+   - Determines the size of the evaluation domain in the STARK protocol.
+
+7. `number_of_steps`:
+   - Reference: Cairo Programming Language Documentation, https://www.cairo-lang.org/docs/how_cairo_works/cairo_intro.html
+   - Specifies the number of steps in the Cairo program execution trace.
+
