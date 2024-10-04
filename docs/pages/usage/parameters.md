@@ -249,8 +249,6 @@ In this case: log₂(64) + (0 + 3 + 3 + 3 + 3 + 3 + 2 + 1) = log₂(1048576) + 4
    - Look for any error messages or warnings that might indicate issues with your configuration.
 
 
-
-
 ## Adjusting Parameters for Different Programs
 
 For different scenarios you can use this method
@@ -376,6 +374,28 @@ When working with the Stone Prover and configuring its parameters, following the
 10. Collaborate and Seek Feedback
     - Share your parameter configurations with the community (without revealing sensitive information).
     - Seek feedback from experienced users or the Stone Prover developers for complex use cases.
+
+
+
+## Testing the Parameter File
+
+Here's an example of how to use a parameter file with the Stone Prover:
+
+1. Save your parameter file as `my_params.json`
+
+2. Run the Stone Prover with:
+
+   ```bash
+   cpu_air_prover --parameter_file=my_params.json --public_input_file=public_input.json --private_input_file=private_input.json --prover_config_file=prover_config.json --out_file=proof.json
+   ```
+
+3. Verify the proof with:
+
+   ```bash
+   cpu_air_verifier --in_file=proof.json
+   ```
+
+In our tests with a small Cairo program (65,536 steps), the proving process took approximately X minutes on a machine with Y specifications. Increasing `n_queries` from 18 to 24 increased the proving time by about Z% but enhanced security.
 
 
 ## Troubleshooting
