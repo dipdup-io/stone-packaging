@@ -3,11 +3,20 @@
 set -o xtrace
 set -e
 
-# Install system dependencies
-dnf install -y elfutils-libelf-devel gmp-devel python3-devel gcc make libffi-devel openssl-devel wget python3-virtualenv git
+# Update and install system dependencies
+dnf update -y && dnf install -y \
+    gcc gcc-c++ make wget git openssl-devel bzip2-devel libffi-devel \
+    elfutils-libelf-devel gmp-devel elfutils-devel clang \
+    libstdc++-devel libcxx libcxx-devel ncurses-compat-libs cairo-devel \
+    python3.9 python3.9-devel \
+    && dnf clean all && rm -rf /var/cache/dnf
 
-# Create a virtual environment
-python3 -m venv /tmp/stone-env
+# Install pip for Python 3.9
+wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
+python3.9 get-pip.py
+
+# Create a virtual environment with Python 3.9
+python3.9 -m venv /tmp/stone-env
 
 # Activate the virtual environment
 source /tmp/stone-env/bin/activate
@@ -23,10 +32,8 @@ wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-
 chmod 755 "bazelisk-linux-amd64"
 mv "bazelisk-linux-amd64" /usr/local/bin/bazelisk
 
-# Clone the stone-prover repository
-git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
-
-cd /tmp/stone-prover || exit
+# Navigate to the checked-out code
+cd "${GITHUB_WORKSPACE:-/github/workspace}" || exit
 
 # Ensure TARGET_ARCH is set
 arch=${TARGET_ARCH:-x86_64}
