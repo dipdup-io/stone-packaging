@@ -40,8 +40,6 @@ jobs:
 
     - name: Rename RPM package
       run: |
-        mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /github/workspace/cpu_air_prover-${TARGET_ARCH}
-        mv /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /github/workspace/cpu_air_verifier-${TARGET_ARCH}
         mv /tmp/stone-prover/*.rpm /github/workspace/stone-prover-fedora-${TARGET_ARCH}.rpm
         
 
@@ -49,7 +47,6 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-         /github/workspace/cpu_air*
          /github/workspace/*.rpm
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
