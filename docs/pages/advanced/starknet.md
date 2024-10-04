@@ -73,7 +73,7 @@ cpu_air_prover  --out_file=fibonacci_proof.json \
     --private_input_file=fibonacci_private_input.json \
     --public_input_file=fibonacci_public_input.json \
     --prover_config_file=cpu_air_prover_config.json \
-    --parameter_file=cpu_air_params.json \
+    --parameter_file=cpu_air_params_integrity.json \
     --generate_annotations true
 ```
 
@@ -169,10 +169,54 @@ Before deploying make sure you prefunded your account.
 
 [Deploy Account](https://foundry-rs.github.io/starknet-foundry/appendix/sncast/account/deploy.html)
 
-Execute the next [example](https://github.com/HerodotusDev/integrity?tab=readme-ov-file#monolith-proof) to check if the setup correct.
+Execute the next [example](https://github.com/HerodotusDev/integrity?tab=readme-ov-file#monolith-proof) to check if the setup is correct.
 
-## Deploying Integrity Contracts
--TODO
+## Cairo-VM-Verifier
+
+For veryfing the proof.json you can utilize the next tool by pasting the proof.json file in the drop box, it's made in Rust and WASM in JS: [cairo-vm-verifier](https://demo.swiftness.iosis.tech/)
+
+
+## Deploying in the Integrity Contracts for Verification
+
+Make sure you're in the Integrity cloned repository.
+
+```bash
+cd integrity
+```
+
+For verifying onchain with the Integrity contracts we will use the `verify-on-starknet.sh` script following the [deployed contracts](https://github.com/HerodotusDev/integrity/blob/main/deployed_contracts.md#main-contracts).
+
+This is the main Herodotus example for testing.
+
+```bash
+./verify-on-starknet.sh 0x16409cfef9b6c3e6002133b61c59d09484594b37b8e4daef7dcba5495a0ef1a examples/calldata recursive keccak_248_lsb stone5 cairo0
+```
+
+You can use the next configurations.
+
+- layout: [`dex`, `recursive`, `recursive_with_poseidon`, `small`, `starknet`, `starknet_with_keccak`]
+- hashers: [`keccak`, `blake2s`]
+- cairo_version: [`cairo0`, `cairo1`]
+- stone_version: [`stone5`, `stone6`]
+
+Hash function and hasher bit length are combined into one setting:
+
+- hasher: [`keccak_160_lsb`, `blake2s_160`, `blake2s_248_lsb`]
+
+Following this let's deploy our fibonacci_calldata in the Herodotus [proxy contract](https://github.com/HerodotusDev/integrity?tab=readme-ov-file#factregistry-and-proxy-contract).
+
+```bash
+./verify-on-starknet.sh \
+    0x16409cfef9b6c3e6002133b61c59d09484594b37b8e4daef7dcba5495a0ef1a \
+    /home/'user'/stone-packaging/test_files/fibonacci_calldata \
+    small \
+    keccak_160_lsb \
+    stone6 \
+    cairo1
+```
+
+Wait for the tx and you've made the verification in Starknet! :)
+
 
 
 
