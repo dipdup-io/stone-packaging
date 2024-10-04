@@ -1,11 +1,11 @@
-# name: Build
+name: Build
 
-# on:
-#   repository_dispatch:
-#     types: [prover-update]
-#   push:
-#     tags:
-#       - 'v*.*.*'
+on:
+  repository_dispatch:
+    types: [prover-update]
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
