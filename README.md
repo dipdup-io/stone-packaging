@@ -119,7 +119,7 @@ Download the .deb package from the latest release:
 wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-linux-x86_64.deb && sudo dpkg -i stone-prover-linux-x86_64.deb
 ```
 
-## Download Native Packages for Ubuntu
+## Download Native Packages for fedora
 
 Download the .rpm package from the latest release:
 
