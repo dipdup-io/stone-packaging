@@ -1,32 +1,32 @@
 {
   "layout": "small",
-  "rc_min": 32763,
+  "rc_min": 32762,
   "rc_max": 32769,
   "n_steps": 512,
   "memory_segments": {
-    "pedersen": {
-      "begin_addr": 138,
-      "stop_ptr": 138
-    },
-    "output": {
-      "begin_addr": 136,
-      "stop_ptr": 138
-    },
     "range_check": {
-      "begin_addr": 330,
-      "stop_ptr": 330
-    },
-    "execution": {
-      "begin_addr": 63,
-      "stop_ptr": 136
-    },
-    "ecdsa": {
-      "begin_addr": 394,
-      "stop_ptr": 394
+      "begin_addr": 270,
+      "stop_ptr": 270
     },
     "program": {
       "begin_addr": 1,
       "stop_ptr": 27
+    },
+    "execution": {
+      "begin_addr": 57,
+      "stop_ptr": 76
+    },
+    "pedersen": {
+      "begin_addr": 78,
+      "stop_ptr": 78
+    },
+    "output": {
+      "begin_addr": 76,
+      "stop_ptr": 78
+    },
+    "ecdsa": {
+      "begin_addr": 334,
+      "stop_ptr": 334
     }
   },
   "public_memory": [
@@ -177,162 +177,132 @@
     },
     {
       "address": 30,
-      "value": "0x2",
+      "value": "0x1",
       "page": 0
     },
     {
       "address": 31,
-      "value": "0x40780017fff7fff",
+      "value": "0x480680017fff8000",
       "page": 0
     },
     {
       "address": 32,
-      "value": "0x1",
+      "value": "0xab54a98ceb1f0ad2",
       "page": 0
     },
     {
       "address": 33,
-      "value": "0x480680017fff8000",
+      "value": "0x484480017fff8000",
       "page": 0
     },
     {
       "address": 34,
-      "value": "0x1",
+      "value": "0x55aa54d38e5267eea",
       "page": 0
     },
     {
       "address": 35,
-      "value": "0x480680017fff8000",
+      "value": "0x4824800180007fff",
       "page": 0
     },
     {
       "address": 36,
-      "value": "0x1",
+      "value": "0x39551b49bf4f8a3a2127989c1a6df3ff4",
       "page": 0
     },
     {
       "address": 37,
-      "value": "0x480680017fff8000",
+      "value": "0x20680017fff7fff",
       "page": 0
     },
     {
       "address": 38,
-      "value": "0xa",
+      "value": "0x9",
       "page": 0
     },
     {
       "address": 39,
-      "value": "0x40137ffc7fff8000",
+      "value": "0x480680017fff8000",
       "page": 0
     },
     {
       "address": 40,
-      "value": "0x40137ffc7fff8001",
+      "value": "0x1",
       "page": 0
     },
     {
       "address": 41,
-      "value": "0x1104800180018000",
+      "value": "0x400080007ffb7fff",
       "page": 0
     },
     {
       "address": 42,
-      "value": "0x7",
+      "value": "0x48127ffb7fff8000",
       "page": 0
     },
     {
       "address": 43,
-      "value": "0x4002800080017fff",
+      "value": "0x482480017ffa8000",
       "page": 0
     },
     {
       "address": 44,
-      "value": "0x480a80007fff8000",
+      "value": "0x1",
       "page": 0
     },
     {
       "address": 45,
-      "value": "0x4826800180018000",
+      "value": "0x208b7fff7fff7ffe",
       "page": 0
     },
     {
       "address": 46,
-      "value": "0x1",
+      "value": "0x480680017fff8000",
       "page": 0
     },
     {
       "address": 47,
-      "value": "0x208b7fff7fff7ffe",
+      "value": "0x0",
       "page": 0
     },
     {
       "address": 48,
-      "value": "0x20780017fff7ffd",
+      "value": "0x400080007ffb7fff",
       "page": 0
     },
     {
       "address": 49,
-      "value": "0x4",
+      "value": "0x48127ffb7fff8000",
       "page": 0
     },
     {
       "address": 50,
-      "value": "0x480a7ffb7fff8000",
+      "value": "0x482480017ffa8000",
       "page": 0
     },
     {
       "address": 51,
-      "value": "0x208b7fff7fff7ffe",
+      "value": "0x1",
       "page": 0
     },
     {
       "address": 52,
-      "value": "0x480a7ffc7fff8000",
+      "value": "0x208b7fff7fff7ffe",
       "page": 0
     },
     {
       "address": 53,
-      "value": "0x482a7ffc7ffb8000",
-      "page": 0
-    },
-    {
-      "address": 54,
-      "value": "0x4825800180007ffd",
-      "page": 0
-    },
-    {
-      "address": 55,
-      "value": "0x1",
-      "page": 0
-    },
-    {
-      "address": 56,
-      "value": "0x1104800180018000",
-      "page": 0
-    },
-    {
-      "address": 57,
-      "value": "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffff9",
-      "page": 0
-    },
-    {
-      "address": 58,
       "value": "0x208b7fff7fff7ffe",
       "page": 0
     },
     {
-      "address": 59,
-      "value": "0x208b7fff7fff7ffe",
-      "page": 0
-    },
-    {
-      "address": 136,
+      "address": 76,
       "value": "0x1",
       "page": 0
     },
     {
-      "address": 137,
-      "value": "0x59",
+      "address": 77,
+      "value": "0x1",
       "page": 0
     }
   ],

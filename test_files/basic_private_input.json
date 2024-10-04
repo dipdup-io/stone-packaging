@@ -1,0 +1,7 @@
+{
+  "trace_path": "/Users/baitcode/work/odhack/stone-packaging/test_files/basic_trace.b",
+  "memory_path": "/Users/baitcode/work/odhack/stone-packaging/test_files/basic_memory.b",
+  "pedersen": [],
+  "range_check": [],
+  "ecdsa": []
+}
