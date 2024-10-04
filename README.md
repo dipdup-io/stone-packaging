@@ -12,9 +12,10 @@ The goal of this project is to reduce friction and speed up the process of gener
 - [x] Static binary releases for ARM64
 - [x] Minimal Docker images for x86_64
 - [x] Native packages for Debian/Ubuntu
+- [x] Native packages for Fedora
 
 Follow-up work:
-- Native packages for Fedora
+
 - Native packages for Alpine
 - Homebrew packages
 - Technical documentation for file formats (inputs, outputs, memory, trace, proof), and test data
@@ -118,7 +119,15 @@ Download the .deb package from the latest release:
 wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-linux-x86_64.deb && sudo dpkg -i stone-prover-linux-x86_64.deb
 ```
 
-### Creating and Verifying a Test Proof Using the .deb Package
+## Download Native Packages for Ubuntu
+
+Download the .rpm package from the latest release:
+
+```bash
+sudo dnf install https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-fedora-x86_64.rpm
+```
+
+### Creating and Verifying a Test Proof Using the Native Packages
 
 Clone the repository:
 
