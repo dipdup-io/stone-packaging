@@ -45,7 +45,3 @@ ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /us
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/local/bin/cpu_air_verifier
 
 
-# Copy the built binaries to the workspace directory
-cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /github/workspace/cpu_air_prover
-cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /github/workspace/cpu_air_verifier
-

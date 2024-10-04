@@ -9,7 +9,7 @@ sudo dnf install -y ruby ruby-devel rubygems gcc make rpm-build
 sudo gem install --no-document fpm
 
 # Create a temporary directory for the package
-mkdir -p /tmp/stone-prover/RPM
+
 mkdir -p /tmp/stone-prover/usr/bin
 
 TAG=$1
@@ -23,7 +23,7 @@ fpm -s dir -t rpm \
     -n stone-prover \
     -v "$(echo $TAG | cut -c 2-)" \
     -a "$(uname -m)" \
-    -C /tmp/stone-prover \
+    -C /tmp/stone-prover/stone-prover.rpm \
     --prefix / \
     --depends libdw1 \
     --maintainer "Baking Bad <na@baking-bad.org>" \
