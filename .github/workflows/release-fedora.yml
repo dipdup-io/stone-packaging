@@ -9,9 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: fedora:latest
+      image: fedora:34
+      options: --workdir /github/workspace
     env:
       TARGET_ARCH: x86_64
+      GITHUB_WORKSPACE: /github/workspace
 
     steps:
     - name: Checkout code

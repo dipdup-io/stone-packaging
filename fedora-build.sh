@@ -1,5 +1,5 @@
 #!/bin/bash
-# Fix dependencies
+# Build script for Fedora 34
 set -o xtrace
 set -e
 
