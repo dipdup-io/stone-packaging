@@ -5,8 +5,6 @@ set -e
 os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-# Set architecture variable
-arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 # Update and install system dependencies
 dnf update -y && dnf install -y \
@@ -24,10 +22,6 @@ wget https://www.python.org/ftp/python/3.9.17/Python-3.9.17.tgz \
     && ./configure --enable-optimizations \
     && make altinstall \
     && cd .. && rm -rf Python-3.9.17*
-
-# Ensure Python 3.9 and pip are available
-ln -s /usr/local/bin/python3.9 /usr/bin/python3.9 \
-    && ln -s /usr/local/bin/pip3.9 /usr/bin/pip3.9
 
 # Install Python packages
 pip3.9 install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
