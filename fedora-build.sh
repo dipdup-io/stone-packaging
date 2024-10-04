@@ -5,7 +5,7 @@ set -e
 
 # Install system dependencies
 dnf install -y elfutils-libelf-devel gmp-devel python3-devel
-...
+
 mv "bazelisk-linux-amd64" /usr/local/bin/bazelisk
 
 
