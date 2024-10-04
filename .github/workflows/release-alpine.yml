@@ -28,8 +28,7 @@ jobs:
           build-base \
           boost-dev \
           gmp-dev \
-          abuild \
-          alpine-dev
+          abuild
 
     - name: Create Alpine package
       run: |
