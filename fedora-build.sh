@@ -4,10 +4,19 @@ set -o xtrace
 set -e
 
 # Install system dependencies
-dnf install -y elfutils-libelf-devel gmp-devel python3-devel gcc make libffi-devel openssl-devel
+dnf install -y elfutils-libelf-devel gmp-devel python3-devel gcc make libffi-devel openssl-devel wget python3-virtualenv
+
+# Create a virtual environment
+python3 -m venv /tmp/stone-env
+
+# Activate the virtual environment
+source /tmp/stone-env/bin/activate
+
+# Upgrade pip within the virtual environment
+pip install --upgrade pip
 
 # Install Python dependencies
-pip3 install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
 # Download and install Bazelisk
 wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-linux-amd64"
@@ -29,3 +38,6 @@ bazelisk test --cpu="$arch" //...
 # Create symbolic links for cpu_air_prover and cpu_air_verifier
 ln -s "$(pwd)/bazel-bin/src/starkware/main/cpu/cpu_air_prover" /usr/local/bin/cpu_air_prover
 ln -s "$(pwd)/bazel-bin/src/starkware/main/cpu/cpu_air_verifier" /usr/local/bin/cpu_air_verifier
+
+# Deactivate the virtual environment
+deactivate
