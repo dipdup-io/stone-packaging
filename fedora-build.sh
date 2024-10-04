@@ -4,7 +4,21 @@ set -o xtrace
 set -e
 
 # Install system dependencies
-dnf install -y elfutils-libelf-devel gmp-devel python3-devel gcc make libffi-devel openssl-devel wget python3-virtualenv
+dnf update -y && dnf install -y \
+    gcc gcc-c++ make wget git openssl-devel bzip2-devel libffi-devel \
+    elfutils-libelf-devel gmp-devel elfutils-devel clang \
+    libstdc++-devel libcxx libcxx-devel ncurses-compat-libs cairo-devel \
+
+wget https://www.python.org/ftp/python/3.9.17/Python-3.9.17.tgz \
+&& tar xzf Python-3.9.17.tgz \
+&& cd Python-3.9.17 \
+&& ./configure --enable-optimizations \
+&& make altinstall \
+&& cd .. && rm -rf Python-3.9.17*
+
+# Ensure Python 3.9 and pip are available
+ln -s /usr/local/bin/python3.9 /usr/bin/python3.9 \
+    && ln -s /usr/local/bin/pip3.9 /usr/bin/pip3.9
 
 # Create a virtual environment
 python3 -m venv /tmp/stone-env
