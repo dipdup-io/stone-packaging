@@ -62,7 +62,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_HUB }}/${{ matrix.target.name }}
+          images: ${{ env.DOCKER_REGISTRY }}/bakingbad/${{ matrix.target.name }}
           tags: ${{ env.DOCKER_TAGS }}
 
       - name: Build And Push Image
@@ -78,7 +78,7 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_HUB }}/${{ matrix.target.name }}
+          subject-name: ${{ env.DOCKER_REGISTRY }}/bakingbad/${{ matrix.target.name }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
