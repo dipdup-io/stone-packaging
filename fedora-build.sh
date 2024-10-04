@@ -1,47 +1,50 @@
 #!/bin/bash
-# Build script for Fedora 34
+# Build script for Fedora
 set -o xtrace
 set -e
+os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
+# Set architecture variable
+arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 # Update and install system dependencies
 dnf update -y && dnf install -y \
-    gcc gcc-c++ make wget git openssl-devel bzip2-devel libffi-devel \
+    git \
+    gcc gcc-c++ make wget openssl-devel bzip2-devel libffi-devel \
     elfutils-libelf-devel gmp-devel elfutils-devel clang \
     libstdc++-devel libcxx libcxx-devel ncurses-compat-libs cairo-devel \
-    python3.9 python3.9-devel \
-    && dnf clean all && rm -rf /var/cache/dnf
+    zlib-devel ncurses-devel sqlite-devel \
+    readline-devel tk-devel gdbm-devel xz-devel \
 
-# Create a virtual environment with Python 3.9
-python3.9 -m venv /tmp/stone-env
+# Install Python 3.9 from source
+wget https://www.python.org/ftp/python/3.9.17/Python-3.9.17.tgz \
+    && tar xzf Python-3.9.17.tgz \
+    && cd Python-3.9.17 \
+    && ./configure --enable-optimizations \
+    && make altinstall \
+    && cd .. && rm -rf Python-3.9.17*
 
-# Activate the virtual environment
-source /tmp/stone-env/bin/activate
+# Ensure Python 3.9 and pip are available
+ln -s /usr/local/bin/python3.9 /usr/bin/python3.9 \
+    && ln -s /usr/local/bin/pip3.9 /usr/bin/pip3.9
 
-# Upgrade pip within the virtual environment
-pip install --upgrade pip
+# Install Python packages
+pip3.9 install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
-# Install Python dependencies
-pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+# Install Bazelisk
+wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-$os-$arch"
+    chmod 755 "bazelisk-$os-$arch"
+    sudo mv "bazelisk-$os-$arch" /bin/bazelisk
 
-# Download and install Bazelisk
-wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-linux-amd64"
-chmod 755 "bazelisk-linux-amd64"
-mv "bazelisk-linux-amd64" /usr/local/bin/bazelisk
-
-# Clone the stone-prover repository
 git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
 
 cd /tmp/stone-prover || exit
 
-# Build and test with Bazelisk
-bazelisk build --cpu="$arch" //...
-bazelisk test --cpu="$arch" //...
+bazelisk build --cpu=$arch //...
+
+bazelisk test --cpu=$arch //...
 
 # Create symbolic links for cpu_air_prover and cpu_air_verifier
-ln -s "$(pwd)/bazel-bin/src/starkware/main/cpu/cpu_air_prover" /usr/local/bin/cpu_air_prover
-ln -s "$(pwd)/bazel-bin/src/starkware/main/cpu/cpu_air_verifier" /usr/local/bin/cpu_air_verifier
-
-# Deactivate the virtual environment
-deactivate
+ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/local/bin/cpu_air_prover
+ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/local/bin/cpu_air_verifier
