@@ -35,7 +35,6 @@ jobs:
     - name: Package RPM
       run: |
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-        cp stone-prover.spec ~/rpmbuild/SPECS/
         cp /usr/local/bin/cpu_air_prover ~/rpmbuild/SOURCES/cpu_air_prover-${TARGET_ARCH}
         cp /usr/local/bin/cpu_air_verifier ~/rpmbuild/SOURCES/cpu_air_verifier-${TARGET_ARCH}
         rpmbuild -ba ~/rpmbuild/SPECS/stone-prover.spec \
@@ -44,14 +43,15 @@ jobs:
 
     - name: Rename RPM package
       run: |
-        mv ~/rpmbuild/RPMS/x86_64/*.rpm ./stone-prover-fedora-${TARGET_ARCH}.rpm
+          mv ~/rpmbuild/RPMS/x86_64/*.rpm /github/workspace/stone-prover-fedora-${TARGET_ARCH}.rpm
+        
 
     - name: Upload files to GitHub release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          /usr/local/bin/cpu_air_prover
-          /usr/local/bin/cpu_air_verifier
-          ./stone-prover-fedora-${TARGET_ARCH}.rpm
+         ./cpu_air_prover
+         ./cpu_air_verifier
+         ./stone-prover-fedora-${TARGET_ARCH}.rpm
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

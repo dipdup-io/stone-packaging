@@ -13,6 +13,7 @@ dnf update -y && dnf install -y \
     elfutils-libelf-devel gmp-devel elfutils-devel clang \
     libstdc++-devel libcxx libcxx-devel ncurses-compat-libs cairo-devel \
     zlib-devel ncurses-devel sqlite-devel \
+    rpm-build \
     readline-devel tk-devel gdbm-devel xz-devel \
 
 # Install Python 3.9 from source
@@ -42,3 +43,9 @@ bazelisk test --cpu=$arch //...
 # Create symbolic links for cpu_air_prover and cpu_air_verifier
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /usr/local/bin/cpu_air_prover
 ln -s /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /usr/local/bin/cpu_air_verifier
+
+
+# Copy the built binaries to the workspace directory
+cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover /github/workspace/cpu_air_prover
+cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier /github/workspace/cpu_air_verifier
+
