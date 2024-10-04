@@ -2,6 +2,8 @@
 # Build script for Fedora 34
 set -o xtrace
 set -e
+arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
+
 
 # Update and install system dependencies
 dnf update -y && dnf install -y \
@@ -17,26 +19,21 @@ python3.9 -m venv /tmp/stone-env
 # Activate the virtual environment
 source /tmp/stone-env/bin/activate
 
-# Set a writable pip cache directory
-export PIP_CACHE_DIR=/tmp/pip-cache
-mkdir -p $PIP_CACHE_DIR
-
 # Upgrade pip within the virtual environment
-pip install --upgrade pip --cache-dir $PIP_CACHE_DIR
+pip install --upgrade pip
 
-# Install Python dependencies without using the cache
-pip install --no-cache-dir cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+# Install Python dependencies
+pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
 # Download and install Bazelisk
 wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-linux-amd64"
 chmod 755 "bazelisk-linux-amd64"
 mv "bazelisk-linux-amd64" /usr/local/bin/bazelisk
 
-# Navigate to the checked-out code
-cd "${GITHUB_WORKSPACE:-/github/workspace}" || exit
+# Clone the stone-prover repository
+git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
 
-# Ensure TARGET_ARCH is set
-arch=${TARGET_ARCH:-x86_64}
+cd /tmp/stone-prover || exit
 
 # Build and test with Bazelisk
 bazelisk build --cpu="$arch" //...
