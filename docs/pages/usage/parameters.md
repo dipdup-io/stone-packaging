@@ -12,7 +12,7 @@ Properly configured parameter files are very important for the following:
 2. Optimizing proof generation time and resource usage
 3. Balancing security and efficiency in the resulting proofs
 
-This documentation will walk you through the process of creating, understanding, and optimizing parameter files for the Stone Prover.
+This documentation will walk you through the process of creating, understanding, and optimizing parameter files for the Stone Prover based on tested results.
 
 ## Parameter File Format
 
@@ -441,8 +441,6 @@ During my work with the Stone Prover, parameter configuration problems came up. 
 10. Extremely Slow Proof Verification
     - This could indicate an issue with the `last_layer_degree_bound`. Ensure it's set appropriately for your program size.
     - Check that your `fri_step_list` is optimized for your program's complexity.
-
-
 
 
 ## Testing Results
