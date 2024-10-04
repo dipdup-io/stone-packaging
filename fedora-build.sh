@@ -11,21 +11,21 @@ dnf update -y && dnf install -y \
     python3.9 python3.9-devel \
     && dnf clean all && rm -rf /var/cache/dnf
 
-# Install pip for Python 3.9
-wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
-python3.9 get-pip.py
-
 # Create a virtual environment with Python 3.9
 python3.9 -m venv /tmp/stone-env
 
 # Activate the virtual environment
 source /tmp/stone-env/bin/activate
 
-# Upgrade pip within the virtual environment
-pip install --upgrade pip
+# Set a writable pip cache directory
+export PIP_CACHE_DIR=/tmp/pip-cache
+mkdir -p $PIP_CACHE_DIR
 
-# Install Python dependencies
-pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+# Upgrade pip within the virtual environment
+pip install --upgrade pip --cache-dir $PIP_CACHE_DIR
+
+# Install Python dependencies without using the cache
+pip install --no-cache-dir cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
 # Download and install Bazelisk
 wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-linux-amd64"
