@@ -2,20 +2,22 @@
 
 ## Introduction
 
-The Stone Prover is a high-performance STARK prover developed by StarkWare. It's designed to generate zero-knowledge proofs for computational integrity, which are crucial in blockchain and other cryptographic applications. 
+StarkWare developed a high-performance STARK prover called the Stone Prover. It's designed to provide zero-knowledge proofs for computational integrity, which are vital in blockchain and other cryptographic applications. 
 
-Parameter files play a vital role in configuring the Stone Prover for different programs and use cases. These files allow users to customize various aspects of the proving process, including input sizes, constraint systems, and performance optimizations.
+When setting the Stone Prover for various programs and use cases, parameter files are essential. Users can alter constraint systems, speed optimisations, input sizes, and other proving process elements with these files.
 
-Properly configured parameter files are essential for:
+
+Properly configured parameter files are very important for the following:
 1. Ensuring the prover can handle your specific program or computation
 2. Optimizing proof generation time and resource usage
 3. Balancing security and efficiency in the resulting proofs
 
-This guide will walk you through the process of creating, understanding, and optimizing parameter files for the Stone Prover.
+This documentation will walk you through the process of creating, understanding, and optimizing parameter files for the Stone Prover.
 
 ## Parameter File Format
 
-The Stone Prover uses JSON (JavaScript Object Notation) files for parameter configuration. These files contain crucial settings that affect the prover's behavior, performance, and the resulting proof characteristics.
+JSON (JavaScript Object Notation) files are used by the Stone Prover to configure its parameters. These files include important configurations that influence the behaviour, efficiency, and final proof properties of the prover.
+
 
 Key aspects of the parameter file format:
 
@@ -38,11 +40,13 @@ The constant 4 in this equation represents log₂(trace
 
 ## Key Components
 
-The Stone Prover parameter file contains several important components that configure various aspects of the proving process. Let's examine each of these key components:
+The Stone Prover parameter file contains several critical components that configure various parts of the proving process.  These are the essential elements:
+
 
 ### Field Prime
 
-The `field_prime` parameter defines the prime field over which the STARK proof is constructed. This is typically a large prime number that determines the security level of the proof.
+The prime field that the STARK proof is created upon is defined by the field_prime argument. The proof's level of security is usually determined by this big prime number.
+
 
 Example:
 ```json
@@ -89,13 +93,15 @@ Depending on the type of program being proved (e.g., Cairo programs, custom AIRs
 - Memory segment configurations
 - Custom constraint parameters
 
-These parameters would be defined based on the specific requirements of the program and the AIR (Algebraic Intermediate Representation) being used.
+These characteristics would be established in accordance with the particular program needs and the AIR (Algebraic Intermediate Representation) that is being utilised.
 
-Understanding and correctly configuring these components is crucial for generating valid and efficient STARK proofs with the Stone Prover.
+It is essential to comprehend and set up these elements appropriately in order to produce reliable and effective STARK proofs using the Stone Prover.
+
 
 ## Creating a Parameter File
 
-Creating an appropriate parameter file is crucial for the Stone Prover to generate correct and efficient proofs. Follow these steps to create a parameter file for your specific use case:
+In order for the Stone Prover to provide accurate and effective proofs, it is imperative that you create a suitable parameter file. To generate a parameter file for your particular use case, follow these steps:
+
 
 1. Determine Your Program Type
    - Identify whether you're using a Cairo program, a custom AIR, or another type of computation.
@@ -144,7 +150,8 @@ Creating an appropriate parameter file is crucial for the Stone Prover to genera
    - Run the Stone Prover with your parameter file on a small test case.
    - Verify that the prover executes successfully and produces a valid proof.
 
-Remember, the exact parameters you need may vary depending on your specific use case. Always refer to the Stone Prover documentation and your program's requirements when creating a parameter file.
+Keep in mind that your particular use case may dictate different requirements for the precise characteristics. When creating a parameter file, always check the requirements of your program and the Stone Prover manual.
+
 
 ## Example Configuration
 
@@ -190,9 +197,6 @@ Let's break down each part of this configuration:
      - `main_page`: The main memory segment.
      - `program`: The segment containing the program instructions.
 
-This example configuration is suitable for a medium-sized Cairo program. You may need to adjust these parameters based on your specific program's requirements and the desired security level.
-
-Remember to validate that this configuration satisfies the critical equation:
 
 ```
 log₂(last_layer_degree_bound) + ∑fri_step_list = log₂(number_of_steps) + 4
@@ -202,7 +206,7 @@ In this case: log₂(64) + (0 + 3 + 3 + 3 + 3 + 3 + 2 + 1) = log₂(1048576) + 4
 
 ## Validation
 
-Before using your parameter file with the Stone Prover, it's crucial to validate it to ensure it meets all requirements and will work correctly. Follow these steps to validate your parameter file:
+
 
 1. JSON Syntax Check
    - Use a JSON validator tool or a text editor with JSON linting capabilities to ensure your file has valid JSON syntax.
@@ -244,7 +248,90 @@ Before using your parameter file with the Stone Prover, it's crucial to validate
    - If possible, perform a dry run with the Stone Prover using your parameter file.
    - Look for any error messages or warnings that might indicate issues with your configuration.
 
-By following these validation steps, you can catch and correct many common issues before attempting to generate a proof. This can save time and prevent errors during the actual proving process.
+
+
+
+## Adjusting Parameters for Different Programs
+
+For different scenarios you can use this method
+
+### Small vs. Large Programs
+
+For smaller programs (e.g., fewer than 2^20 steps):
+- Use a smaller `last_layer_degree_bound`, such as 64 or 32
+- Use a shorter `fri_step_list`, e.g., [0, 3, 3, 3, 2, 1]
+
+For larger programs (e.g., more than 2^20 steps):
+- Increase `last_layer_degree_bound` to 128 or 256
+- Use a longer `fri_step_list`, e.g., [0, 3, 3, 3, 3, 3, 3, 2, 1]
+
+### Cairo Programs vs. Custom AIRs
+
+For Cairo programs:
+- Use the default Stark252 prime field
+- Adjust `number_of_steps` based on your program's execution trace
+- Configure `memory_segments` according to your program's memory usage
+
+For custom AIRs:
+- Choose a prime field appropriate for your constraint system
+- Adjust `number_of_steps` based on the size of your computation
+- Add custom parameters specific to your AIR implementation
+
+### Security Considerations
+
+For higher security:
+- Increase `n_queries` (e.g., from 18 to 24 or 32)
+- Increase `proof_of_work_bits` (e.g., from 24 to 28 or 32)
+
+Also note that increasing these parameters will result in longer proving times and larger proof sizes.
+
+### Example Configurations
+
+1. Small Cairo Program:
+```json
+{
+  "field_prime": 3618502788666131213697322783095070105623107215331596699973092056135872020481,
+  "stark": {
+    "fri": {
+      "fri_step_list": [0, 3, 3, 3, 2, 1],
+      "last_layer_degree_bound": 32,
+      "n_queries": 18,
+      "proof_of_work_bits": 24
+    },
+    "log_n_cosets": 4
+  },
+  "program_specific": {
+    "number_of_steps": 65536,
+    "memory_segments": {
+      "main_page": {"begin_addr": 0, "stop_ptr": 8192},
+      "program": {"begin_addr": 8192, "stop_ptr": 16384}
+    }
+  }
+}
+```
+
+2. Large Cairo Program with High Security:
+```json
+{
+  "field_prime": 3618502788666131213697322783095070105623107215331596699973092056135872020481,
+  "stark": {
+    "fri": {
+      "fri_step_list": [0, 3, 3, 3, 3, 3, 3, 2, 1],
+      "last_layer_degree_bound": 256,
+      "n_queries": 32,
+      "proof_of_work_bits": 28
+    },
+    "log_n_cosets": 4
+  },
+  "program_specific": {
+    "number_of_steps": 4194304,
+    "memory_segments": {
+      "main_page": {"begin_addr": 0, "stop_ptr": 524288},
+      "program": {"begin_addr": 524288, "stop_ptr": 1048576}
+    }
+  }
+}
+```
 
 ## Best Practices
 
@@ -290,11 +377,11 @@ When working with the Stone Prover and configuring its parameters, following the
     - Share your parameter configurations with the community (without revealing sensitive information).
     - Seek feedback from experienced users or the Stone Prover developers for complex use cases.
 
-By following these best practices, you can make the most of the Stone Prover's capabilities while ensuring efficient and secure proof generation for your specific use case.
 
 ## Troubleshooting
 
-When working with the Stone Prover, you may encounter issues related to parameter configuration. Here are some common problems and their potential solutions:
+During your work with the Stone Prover, parameter configuration problems could come up. The following are some typical issues and possible fixes for them:
+
 
 1. Prover Fails to Start
    - Check JSON syntax in your parameter file.
@@ -341,4 +428,4 @@ When working with the Stone Prover, you may encounter issues related to paramete
 
 7. StarkEx System Documentation: https://docs.starkware.co/starkex-v4/
 
-These references provide additional information on the Stone Prover, STARK proofs, and related technologies. They can be valuable resources for users looking to deepen their understanding of the system or troubleshoot complex issues.
+
