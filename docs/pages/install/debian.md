@@ -9,7 +9,7 @@ This guide provides instructions to install Stone from a `.deb` package on Ubunt
 
 ## Step 1: Download the Stone `.deb` Package
 
-Download the latest .deb package from the Stone Packaging Releases page to the /tmp directory. Alternatively, you can use `wget` to download it directly.
+Download the latest .deb package from the Stone Packaging Releases page to the /tmp directory. Using `wget` to download it directly.
 
 **Example**
 ```bash
@@ -22,30 +22,3 @@ wget -O /tmp/stone-prover-linux-x86_64.deb https://github.com/dipdup-io/stone-pa
 ```bash
 sudo dpkg -i /tmp/stone-prover-linux-x86_64.deb 
 ```
-
-
-## Step 3: Implement Run Test Proof
-
-**Clone the Repository:** First, clone the Stone packaging repository to your local machine. This will allow you to access the necessary test files.
-
-```bash
-git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
-``` 
-
-**Navigate to Test Files Directory:** Change to the directory where the test files are located. This is where you will find the input files needed for running the proof.
-```bash
-cd /tmp/stone-packaging/test_files 
-```
-
-**Run the Proof**: Execute the proof command using the cpu_air_prover. This command generates a proof file in the specificed `--out_file` option value(fibonacci_proof.json).
-```bash
-cpu_air_prover \
-    --out_file=fibonacci_proof.json \
-    --private_input_file=fibonacci_private_input.json \
-    --public_input_file=fibonacci_public_input.json \
-    --prover_config_file=cpu_air_prover_config.json \
-    --parameter_file=cpu_air_params.json
-```
-
-**Verify the Proof:** After generating the proof, verify it using
-cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
