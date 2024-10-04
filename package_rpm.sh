@@ -23,10 +23,15 @@ fpm -s dir -t rpm \
     -n stone-prover \
     -v "$(echo $TAG | cut -c 2-)" \
     -a "$(uname -m)" \
-    -C /tmp/stone-prover/stone-prover.rpm \
+    -C /tmp/stone-prover/ \
     --prefix / \
     --depends libdw1 \
     --maintainer "Baking Bad <na@baking-bad.org>" \
-    --description "Stone prover RPM package"
+    --description "Stone prover RPM package" \
+    -p /tmp/stone-prover/stone-prover.rpm
+
+    
+
+
 
 # The RPM package will be created in the current directory
