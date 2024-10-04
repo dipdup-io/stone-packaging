@@ -4,7 +4,7 @@ set -o xtrace
 set -e
 
 # Install system dependencies
-dnf install -y elfutils-libelf-devel gmp-devel python3-devel
+dnf install -y elfutils-libelf-devel gmp-devel python3-devel gcc make libffi-devel openssl-devel
 
 # Install Python dependencies
 pip3 install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
