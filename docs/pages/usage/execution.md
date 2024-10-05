@@ -21,7 +21,7 @@ git clone --depth=1 -b v2.8.0 https://github.com/starkware-libs/cairo.git
 
 **2.** Second, you have to move the corelib from the cloned repository to your current path.
 ```bash
-mv cairo/corelib/ .
+ln -s <path-to-cairo>/corelib corelib
 ```
 
 **3.** Finally, remove the cloned repository:
