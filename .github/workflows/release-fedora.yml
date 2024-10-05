@@ -1,0 +1,52 @@
+name: Release Stone Prover for Fedora
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:38
+      options: --workdir /github/workspace
+    env:
+      TARGET_ARCH: x86_64
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up environment and build
+      run: |
+        chmod +x ./fedora-build.sh
+        ./fedora-build.sh
+
+    - name: Test
+      run: |
+        chmod +x ./test.sh
+        ./test.sh
+
+    - name: Set version output
+      id: vars
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
+    - name: Package RPM
+      run: |
+        chmod +x ./package_rpm.sh
+        ./package_rpm.sh ${{ steps.vars.outputs.tag }}
+
+
+    - name: Rename RPM package
+      run: |
+        mv /tmp/stone-prover/*.rpm /github/workspace/stone-prover-fedora-${TARGET_ARCH}.rpm
+        
+
+    - name: Upload files to GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+         /github/workspace/*.rpm
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
