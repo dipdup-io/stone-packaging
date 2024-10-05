@@ -4,9 +4,9 @@
   "rc_max": 64996,
   "n_steps": 131072,
   "memory_segments": {
-    "output": {
-      "begin_addr": 620,
-      "stop_ptr": 623
+    "program": {
+      "begin_addr": 1,
+      "stop_ptr": 34
     },
     "execution": {
       "begin_addr": 451,
@@ -16,6 +16,10 @@
       "begin_addr": 21103,
       "stop_ptr": 21103
     },
+    "range_check": {
+      "begin_addr": 12911,
+      "stop_ptr": 12917
+    },
     "ec_op": {
       "begin_addr": 31471,
       "stop_ptr": 31492
@@ -24,21 +28,17 @@
       "begin_addr": 21231,
       "stop_ptr": 21231
     },
-    "pedersen": {
-      "begin_addr": 623,
-      "stop_ptr": 623
-    },
     "poseidon": {
       "begin_addr": 32367,
       "stop_ptr": 32367
     },
-    "range_check": {
-      "begin_addr": 12911,
-      "stop_ptr": 12917
+    "pedersen": {
+      "begin_addr": 623,
+      "stop_ptr": 623
     },
-    "program": {
-      "begin_addr": 1,
-      "stop_ptr": 34
+    "output": {
+      "begin_addr": 620,
+      "stop_ptr": 623
     }
   },
   "public_memory": [

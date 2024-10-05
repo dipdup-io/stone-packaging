@@ -4,33 +4,33 @@
   "rc_max": 32773,
   "n_steps": 32768,
   "memory_segments": {
-    "range_check": {
-      "begin_addr": 597,
-      "stop_ptr": 597
-    },
-    "bitwise": {
-      "begin_addr": 2645,
-      "stop_ptr": 2645
-    },
     "output": {
       "begin_addr": 211,
-      "stop_ptr": 213
-    },
-    "pedersen": {
-      "begin_addr": 213,
       "stop_ptr": 213
     },
     "poseidon": {
       "begin_addr": 12885,
       "stop_ptr": 12903
     },
-    "execution": {
-      "begin_addr": 160,
-      "stop_ptr": 211
+    "pedersen": {
+      "begin_addr": 213,
+      "stop_ptr": 213
+    },
+    "range_check": {
+      "begin_addr": 597,
+      "stop_ptr": 597
     },
     "program": {
       "begin_addr": 1,
       "stop_ptr": 30
+    },
+    "execution": {
+      "begin_addr": 160,
+      "stop_ptr": 211
+    },
+    "bitwise": {
+      "begin_addr": 2645,
+      "stop_ptr": 2645
     }
   },
   "public_memory": [

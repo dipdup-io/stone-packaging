@@ -1,6 +1,6 @@
 {
-  "trace_path": "/Users/baitcode/work/odhack/stone-packaging/test_files/ecdsa_trace.b",
-  "memory_path": "/Users/baitcode/work/odhack/stone-packaging/test_files/ecdsa_memory.b",
+  "trace_path": "./test_files/ecdsa_trace.b",
+  "memory_path": "./test_files/ecdsa_memory.b",
   "pedersen": [],
   "range_check": [
     {

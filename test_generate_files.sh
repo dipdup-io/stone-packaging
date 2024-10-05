@@ -1,6 +1,18 @@
+#!/bin/bash
+
+# TODO(baitcode): Should live in a scripts folder
+
 CAIRO1_RUNNER=../cairo-vm/cairo1-run
 TEST_FILES=$(pwd)/test_files
 PROGRAMS_DIR=$(pwd)/e2e_test/Cairo
+ESCAPED_PWD=$(printf '%s' "$(pwd)" | sed 's/[\/&]/\\&/g')
+
+# TODO(baitcode): should be moved out of the script to a common place
+if [[ "$(uname)" == "Darwin" ]]; then
+    SED_REPLACE="sed -i \"\" \"s/$ESCAPED_PWD/./\""
+else
+    SED_REPLACE="sed -i \"s/$ESCAPED_PWD/./\""
+fi
 
 function generate_inputs {
     local PROGRAM=$1
@@ -14,6 +26,9 @@ function generate_inputs {
         --trace_file=${TEST_FILES}/${PROGRAM}_trace.b \
         --memory_file=${TEST_FILES}/${PROGRAM}_memory.b \
         --proof_mode --print_output --layout=${LAYOUT})
+
+    bash -c "$SED_REPLACE test_files/${PROGRAM}_private_input.json"
+    bash -c "$SED_REPLACE test_files/${PROGRAM}_public_input.json"
 }
 
 generate_inputs basic small
