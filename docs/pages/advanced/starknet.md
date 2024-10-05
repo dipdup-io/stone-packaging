@@ -14,7 +14,7 @@ Make sure to follow the next usage instructions as referenced [here](https://git
 
 ### Download Binaries
 
-By following the next [installation guide](https://github.com/dipdup-io/stone-packaging/blob/master/docs/pages/install/binaries.md#download-and-install-binaries).
+By following the next [installation guide](../install/binaries.md).
 
 ### Creating and Verifying a Test Proof Using Binaries
 
