@@ -90,7 +90,8 @@ cairo1-run fibonacci.cairo \
     --air_private_input=fibonacci_private_input.json \
     --trace_file=fibonacci_trace.bin \
     --memory_file=fibonacci_memory.bin \
-    --proof_mode
+    --proof_mode \
+    --args file_to_be_included_here.txt
 ```
 
 Run the prover:
