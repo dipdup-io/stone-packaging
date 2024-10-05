@@ -93,7 +93,7 @@ cairo1-run fibonacci.cairo \
     --proof_mode \
     --args_file file_to_be_included_here.txt
 ```
-Replace `file_to_be_included_here.txt` with the path to the file you want to include. Another thing to add here. 
+Replace `file_to_be_included_here.txt` with the name of the file you want to include. Another thing to add here. 
 Is that we can use `args_file` as an arguments as well as just `args`. Example:
 
 ```bash
