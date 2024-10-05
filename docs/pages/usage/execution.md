@@ -91,7 +91,20 @@ cairo1-run fibonacci.cairo \
     --trace_file=fibonacci_trace.bin \
     --memory_file=fibonacci_memory.bin \
     --proof_mode \
-    --args file_to_be_included_here.txt
+    --args_file file_to_be_included_here.txt
+```
+Replace `file_to_be_included_here.txt` with the path to the file you want to include. Another thing to add here. 
+Is that we can use `args_file` as an arguments as well as just `args`. Example:
+
+```bash
+cairo1-run fibonacci.cairo \
+    --layout=small \
+    --air_public_input=fibonacci_public_input.json \
+    --air_private_input=fibonacci_private_input.json \
+    --trace_file=fibonacci_trace.bin \
+    --memory_file=fibonacci_memory.bin \
+    --proof_mode \
+    --args "[1 2 300]"
 ```
 
 Run the prover:
