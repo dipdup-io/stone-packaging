@@ -15,21 +15,23 @@ else
     SED_REPLACE="sed -i \"s/$ESCAPED_PWD/./\""
 fi
 
+TEST_FILES=$(pwd)/test_files
+
 function generate_verify_proof {
     local PROGRAM=$1
     local PARAMS_FILE=$2
 
     cpu_air_prover \
         -v 1 \
-        --out_file=test_files/${PROGRAM}_proof.json \
-        --private_input_file=test_files/${PROGRAM}_private_input.json \
-        --public_input_file=test_files/${PROGRAM}_public_input.json \
-        --prover_config_file=test_files/cpu_air_prover_config.json \
-        --parameter_file=test_files/${PARAMS_FILE}
+        --out_file=${TEST_FILES}/${PROGRAM}/proof.json \
+        --private_input_file=${TEST_FILES}/${PROGRAM}/private_input.json \
+        --public_input_file=${TEST_FILES}/${PROGRAM}/public_input.json \
+        --prover_config_file=${TEST_FILES}/cpu_air_prover_config.json \
+        --parameter_file=${TEST_FILES}/${PARAMS_FILE}
 
-    # bash -c "$SED_REPLACE test_files/${PROGRAM}_proof.json"
+    bash -c "$SED_REPLACE ${TEST_FILES}/${PROGRAM}/proof.json"
 
-    cpu_air_verifier --in_file=test_files/${PROGRAM}_proof.json && echo "Successfully verified ${PROGRAM} example proof."
+    cpu_air_verifier --in_file=${TEST_FILES}/${PROGRAM}/proof.json && echo "Successfully verified ${PROGRAM} example proof."
 }
 
 generate_verify_proof basic cpu_air_params.json

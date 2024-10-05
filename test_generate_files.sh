@@ -20,15 +20,17 @@ function generate_inputs {
 
     echo "generating inputs for ${PROGRAM} with layout ${LAYOUT}"
 
+    mkdir -p ${TEST_FILES}/${PROGRAM}
+
     (cd ${CAIRO1_RUNNER} && cargo run ${PROGRAMS_DIR}/${PROGRAM}.cairo \
-        --air_public_input=${TEST_FILES}/${PROGRAM}_public_input.json \
-        --air_private_input=${TEST_FILES}/${PROGRAM}_private_input.json \
-        --trace_file=${TEST_FILES}/${PROGRAM}_trace.b \
-        --memory_file=${TEST_FILES}/${PROGRAM}_memory.b \
+        --air_public_input=${TEST_FILES}/${PROGRAM}/public_input.json \
+        --air_private_input=${TEST_FILES}/${PROGRAM}/private_input.json \
+        --trace_file=${TEST_FILES}/${PROGRAM}/trace.b \
+        --memory_file=${TEST_FILES}/${PROGRAM}/memory.b \
         --proof_mode --print_output --layout=${LAYOUT})
 
-    bash -c "$SED_REPLACE test_files/${PROGRAM}_private_input.json"
-    bash -c "$SED_REPLACE test_files/${PROGRAM}_public_input.json"
+    bash -c "$SED_REPLACE ${TEST_FILES}/${PROGRAM}/private_input.json"
+    bash -c "$SED_REPLACE ${TEST_FILES}/${PROGRAM}/public_input.json"
 }
 
 generate_inputs basic small

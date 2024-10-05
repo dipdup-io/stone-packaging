@@ -1,6 +1,6 @@
 {
-  "trace_path": "./test_files/ecdsa_trace.b",
-  "memory_path": "./test_files/ecdsa_memory.b",
+  "trace_path": "./test_files/ecdsa/trace.b",
+  "memory_path": "./test_files/ecdsa/memory.b",
   "pedersen": [],
   "range_check": [
     {

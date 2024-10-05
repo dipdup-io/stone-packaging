@@ -1,6 +1,6 @@
 {
-  "trace_path": "./test_files/hash_pedersen_trace.b",
-  "memory_path": "./test_files/hash_pedersen_memory.b",
+  "trace_path": "./test_files/hash_pedersen/trace.b",
+  "memory_path": "./test_files/hash_pedersen/memory.b",
   "pedersen": [
     {
       "index": 0,

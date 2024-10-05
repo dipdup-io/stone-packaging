@@ -4,10 +4,6 @@
   "rc_max": 32769,
   "n_steps": 512,
   "memory_segments": {
-    "program": {
-      "begin_addr": 1,
-      "stop_ptr": 27
-    },
     "pedersen": {
       "begin_addr": 138,
       "stop_ptr": 138
@@ -16,17 +12,21 @@
       "begin_addr": 63,
       "stop_ptr": 136
     },
-    "ecdsa": {
-      "begin_addr": 394,
-      "stop_ptr": 394
+    "output": {
+      "begin_addr": 136,
+      "stop_ptr": 138
     },
     "range_check": {
       "begin_addr": 330,
       "stop_ptr": 330
     },
-    "output": {
-      "begin_addr": 136,
-      "stop_ptr": 138
+    "ecdsa": {
+      "begin_addr": 394,
+      "stop_ptr": 394
+    },
+    "program": {
+      "begin_addr": 1,
+      "stop_ptr": 27
     }
   },
   "public_memory": [

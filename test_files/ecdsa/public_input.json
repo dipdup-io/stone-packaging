@@ -4,41 +4,41 @@
   "rc_max": 64996,
   "n_steps": 131072,
   "memory_segments": {
-    "program": {
-      "begin_addr": 1,
-      "stop_ptr": 34
+    "pedersen": {
+      "begin_addr": 623,
+      "stop_ptr": 623
     },
     "execution": {
       "begin_addr": 451,
       "stop_ptr": 620
     },
-    "ecdsa": {
-      "begin_addr": 21103,
-      "stop_ptr": 21103
+    "ec_op": {
+      "begin_addr": 31471,
+      "stop_ptr": 31492
+    },
+    "program": {
+      "begin_addr": 1,
+      "stop_ptr": 34
     },
     "range_check": {
       "begin_addr": 12911,
       "stop_ptr": 12917
     },
-    "ec_op": {
-      "begin_addr": 31471,
-      "stop_ptr": 31492
+    "output": {
+      "begin_addr": 620,
+      "stop_ptr": 623
     },
-    "bitwise": {
-      "begin_addr": 21231,
-      "stop_ptr": 21231
+    "ecdsa": {
+      "begin_addr": 21103,
+      "stop_ptr": 21103
     },
     "poseidon": {
       "begin_addr": 32367,
       "stop_ptr": 32367
     },
-    "pedersen": {
-      "begin_addr": 623,
-      "stop_ptr": 623
-    },
-    "output": {
-      "begin_addr": 620,
-      "stop_ptr": 623
+    "bitwise": {
+      "begin_addr": 21231,
+      "stop_ptr": 21231
     }
   },
   "public_memory": [
