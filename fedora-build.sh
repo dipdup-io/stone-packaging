@@ -9,7 +9,7 @@ arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 # Update and install system dependencies
 dnf update -y && dnf install -y \
     git \
-    gcc gcc-c++ make wget openssl-devel bzip2-devel libffi-devel libtinfo5 libdw-dev libgmp3-dev \
+    gcc gcc-c++ make wget openssl-devel bzip2-devel libffi-devel \
     elfutils-libelf-devel gmp-devel elfutils-devel clang \
     libstdc++-devel libcxx libcxx-devel ncurses-compat-libs cairo-devel \
     zlib-devel ncurses-devel sqlite-devel \

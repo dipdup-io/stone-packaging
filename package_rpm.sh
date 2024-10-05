@@ -25,7 +25,6 @@ fpm -s dir -t rpm \
     -a "$(uname -m)" \
     -C /tmp/stone-prover/ \
     --prefix / \
-    --depends libdw1 \
     --maintainer "Baking Bad <na@baking-bad.org>" \
     --description "Stone prover RPM package" \
     -p /tmp/stone-prover/stone-prover.rpm
