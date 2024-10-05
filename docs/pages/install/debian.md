@@ -4,14 +4,13 @@ This guide provides instructions to install Stone from a `.deb` package on Ubunt
 
 ## Prerequisites
 
-- A Debian-based system (recommended: Ubuntu 22.04 or Debian 11; minimum supported: Ubuntu 18.04 or Debian 9)
+- A Debian-based system (recommended: Ubuntu 22.04 or Debian 11)
 - Super user Privilege (sudo) access to install packages
 
 ## Step 1: Download the Stone `.deb` Package
 
-Download the latest .deb package from the Stone Packaging Releases page to the /tmp directory. Using `wget` to download it directly.
+Download the latest .deb package from the Stone Packaging Releases page or using `wget` to download it directly:
 
-**Example**
 ```bash
 wget -O /tmp/stone-prover-linux-x86_64.deb https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-linux-x86_64.deb
 ```
