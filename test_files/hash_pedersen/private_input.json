@@ -1,0 +1,34 @@
+{
+  "trace_path": "./test_files/hash_pedersen/trace.b",
+  "memory_path": "./test_files/hash_pedersen/memory.b",
+  "pedersen": [
+    {
+      "index": 0,
+      "x": "0x0",
+      "y": "0x0"
+    },
+    {
+      "index": 1,
+      "x": "0x49ee3eba8c1600700ee1b87eb599f16716b0b1022947733551fde4050ca6804",
+      "y": "0x1"
+    },
+    {
+      "index": 2,
+      "x": "0x137c95c76862129847d0f5e3618c7a4c3822ee344f4aa80bcb897cb97d3e16",
+      "y": "0x1"
+    },
+    {
+      "index": 3,
+      "x": "0x15d08c76ed374940f3a856abd42f25b3808a858cd9efc3ec9850ac386425e12",
+      "y": "0x2"
+    },
+    {
+      "index": 4,
+      "x": "0x496b823ad29884d4d0a44bca71142baa8a9e8a34144e4fb51c6fb23ea163623",
+      "y": "0x0"
+    }
+  ],
+  "range_check": [],
+  "bitwise": [],
+  "poseidon": []
+}

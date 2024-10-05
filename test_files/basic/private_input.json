@@ -1,0 +1,7 @@
+{
+  "trace_path": "./test_files/basic/trace.b",
+  "memory_path": "./test_files/basic/memory.b",
+  "pedersen": [],
+  "range_check": [],
+  "ecdsa": []
+}
