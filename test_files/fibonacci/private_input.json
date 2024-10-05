@@ -1,0 +1,7 @@
+{
+  "trace_path": "./test_files/fibonacci/trace.b",
+  "memory_path": "./test_files/fibonacci/memory.b",
+  "pedersen": [],
+  "range_check": [],
+  "ecdsa": []
+}

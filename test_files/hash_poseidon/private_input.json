@@ -1,0 +1,27 @@
+{
+  "trace_path": "./test_files/hash_poseidon/trace.b",
+  "memory_path": "./test_files/hash_poseidon/memory.b",
+  "pedersen": [],
+  "range_check": [],
+  "bitwise": [],
+  "poseidon": [
+    {
+      "index": 0,
+      "input_s0": "0x0",
+      "input_s1": "0x1",
+      "input_s2": "0x0"
+    },
+    {
+      "index": 1,
+      "input_s0": "0x545d6f7d28a8a398e543948be5a026af60c4dea482867a6eeb2525b35d1e1e2",
+      "input_s1": "0x4ab21b33238edd75ec3d277c11d7a67143761597d11a100c8baab14aeb78fa7",
+      "input_s2": "0x48b9ef1d77f1d8ea5216a77326787d7da3f408a64c15f4bd05de2d2ef64f7f9"
+    },
+    {
+      "index": 2,
+      "input_s0": "0x7431d44594beddc10616d6e38a960ca637e4f36d8aea6f0776128434079d920",
+      "input_s1": "0x673205ff525863afb3e43866a14f4e69adb6a7115463c8aeb4a274b5b5890d7",
+      "input_s2": "0x3ec94ae21f68bcf073c828ca92792df9620ea9d34deb9c1a9125875b394453b"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "trace_path": "./test_files/ecdsa/trace.b",
+  "memory_path": "./test_files/ecdsa/memory.b",
+  "pedersen": [],
+  "range_check": [
+    {
+      "index": 0,
+      "value": "0x7310ee4653751936c134d74411122ed9"
+    },
+    {
+      "index": 1,
+      "value": "0xb869d381b44bb1f00dd66e108e4a1c"
+    },
+    {
+      "index": 2,
+      "value": "0xfcb869d381b44ba9700dd66e108e4a1b"
+    },
+    {
+      "index": 3,
+      "value": "0xf1641a8ef121608efc63679881bace7f"
+    },
+    {
+      "index": 4,
+      "value": "0x1e4c78609b85a7aa1405f884cb17bc3"
+    },
+    {
+      "index": 5,
+      "value": "0xfde4c78609b85a7221405f884cb17bc2"
+    }
+  ],
+  "ecdsa": [],
+  "bitwise": [],
+  "ec_op": [
+    {
+      "index": 0,
+      "p_x": "0x6f794601384b7f1fe092d3313464e74c7fb8a151a759f04da3ae3daa87e2bb2",
+      "p_y": "0x644af465db4eb3007be99dc3d5db231615184a1faa36f89b02e4252ba041e83",
+      "m": "0x677ae6bba6daf00d2631fab14c8acf24be6579f9d9e98f67aa7f2770e57a1f5",
+      "q_x": "0xbe96d72eb4f94078192c2e84d5230cde2a70f4b45c8797e2c907acff5060bb",
+      "q_y": "0x3c5906a3bc4858a3fc46f5d63a29ff95f31b816586c35b221405f884cb17bc3"
+    },
+    {
+      "index": 1,
+      "p_x": "0x6f794601384b7f1fe092d3313464e74c7fb8a151a759f04da3ae3daa87e2bb2",
+      "p_y": "0x644af465db4eb3007be99dc3d5db231615184a1faa36f89b02e4252ba041e83",
+      "m": "0x503f4bea29baee10b22a7f10bdc82dda071c977c1f25b8f3973d34e6b03b2c",
+      "q_x": "0x1ef15c18599971b7beced415a40f0c7deacfd9b0d1819e03d723d8bc943cfca",
+      "q_y": "0x5668060aa49730b7be4801df46ec62de53ecd11abe43a32873000c36e8dc1f"
+    },
+    {
+      "index": 2,
+      "p_x": "0x6f794601384b7f1fe092d3313464e74c7fb8a151a759f04da3ae3daa87e2bb2",
+      "p_y": "0x644af465db4eb3007be99dc3d5db231615184a1faa36f89b02e4252ba041e83",
+      "m": "0xbe96d72eb4f94078192c2e84d5230cde2a70f4b45c8797e2c907acff5060bb",
+      "q_x": "0x7b7454acbe7845da996377f85eb0892044d75ae95d04d3325a391951f35d2ec",
+      "q_y": "0x1cc43b9194dd468ad14bcb2d5a79f0ccef98f9612ced9e6700dd66e108e4a1c"
+    }
+  ],
+  "poseidon": []
+}
