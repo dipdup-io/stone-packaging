@@ -50,7 +50,7 @@ docker pull ghcr.io/dipdup-io/stone-packaging/stone-prover:latest
 
 ## Creating and Verifying a Test Proof Using Docker
 
-- First you have to make that Docker is installed on your machine. You can refer to [Docker’s official documentation](https://docs.docker.com/get-docker/) for installation instructions and more informations.
+- First, ensure Docker is installed on your machine. For installation instructions, check [Docker’s official documentation](https://docs.docker.com/get-docker/)
 
 1. Clone the Repository:
 
@@ -60,7 +60,7 @@ git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 
 2. Run the Docker Container to generate the Proof
 
-Run the container with an amount of volume mounted to the local repository directory:
+Run the container with a volume mounted to the local repository directory:
 
 ```bash
 docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_prover \
