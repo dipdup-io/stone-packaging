@@ -20,11 +20,6 @@ git clone --depth=1 -b v2.8.0 https://github.com/starkware-libs/cairo.git
 ln -s <path-to-cairo>/corelib corelib
 ```
 
-**3.** Finally, remove the cloned repository:
-```bash
-rm -rf cairo/
-```
-
 ## Installing cairo1-run
 To install `cairo1-run` run the following command:
 
