@@ -78,8 +78,3 @@ The proof will be created at `test_files/fibonacci_proof.json.`.
 ```bash
 docker run --entrypoint /bin/bash -v /tmp/stone-packaging/test_files:/app/prover ghcr.io/dipdup-io/stone-packaging/stone-prover -c "cd /app/prover && exec cpu_air_verifier --in_file=fibonacci_proof.json && echo 'Successfully verified example proof.'"
 ```
-
-### Regular issues commonly found
-- **Docker not found:** Ensure Docker is installed correctly by running `docker --version`. If not installed, follow the [Docker installation guide](https://docs.docker.com/get-started/get-docker/).
-
-- **Docker Build Errors:** Make sure your Dockerfile syntax is correct and that you have a stable internet connection to download dependencies.
