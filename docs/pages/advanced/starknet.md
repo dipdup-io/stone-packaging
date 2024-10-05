@@ -12,21 +12,9 @@ Before you begin, ensure you have the following tools and dependencies installed
 
 Make sure to follow the next usage instructions as referenced [here](https://github.com/dipdup-io/stone-packaging?tab=readme-ov-file#usage-instructions).
 
-### Download Binaries for x86_64
+### Download Binaries
 
-```bash
-sudo wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_prover-x86_64 -O /usr/local/bin/cpu_air_prover && sudo chmod +x /usr/local/bin/cpu_air_prover
-
-sudo wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_verifier-x86_64 -O /usr/local/bin/cpu_air_verifier && sudo chmod +x /usr/local/bin/cpu_air_verifier
-```
-
-### Download Binaries for macOS ARM64
-
-```bash
-wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_prover-arm64 -O /usr/local/bin/cpu_air_prover && chmod +x /usr/local/bin/cpu_air_prover
-
-wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/cpu_air_verifier-arm64 -O /usr/local/bin/cpu_air_verifier && chmod +x /usr/local/bin/cpu_air_verifier
-```
+By following the next [installation guide](https://github.com/dipdup-io/stone-packaging/blob/master/docs/pages/install/binaries.md#download-and-install-binaries).
 
 ### Creating and Verifying a Test Proof Using Binaries
 
@@ -46,24 +34,6 @@ cd /tmp/stone-packaging/test_files/
 
 Copy or download the binary files from the latest release to this directory.
 
-Run the prover:
-```bash
-cpu_air_prover \
-    --out_file=fibonacci_proof.json \
-    --private_input_file=fibonacci_private_input.json \
-    --public_input_file=fibonacci_public_input.json \
-    --prover_config_file=cpu_air_prover_config.json \
-    --parameter_file=cpu_air_params.json
-```
-
-The proof will be available at `fibonacci_proof.json`.
-
-Run the verifier to verify the proof:
-
-```bash
-cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
-```
-
 ### Splitting the Proof
 
 Run the following command to generate the annotated split proof:
@@ -75,6 +45,14 @@ cpu_air_prover  --out_file=fibonacci_proof.json \
     --prover_config_file=cpu_air_prover_config.json \
     --parameter_file=cpu_air_params_integrity.json \
     --generate_annotations true
+```
+
+The proof will be available at `fibonacci_proof.json`.
+
+Run the verifier to verify the proof:
+
+```bash
+cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
 
 ## stark_evm_adapter
