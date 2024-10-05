@@ -121,10 +121,10 @@ wget https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone
 
 ## Download Native Packages for fedora
 
-Download the .rpm package from the latest release:
+install the .rpm package from the latest release:
 
 ```bash
-sudo dnf download https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-fedora-x86_64.rpm
+sudo dnf install https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-fedora-x86_64.rpm
 ```
 
 ### Creating and Verifying a Test Proof Using the Native Packages
