@@ -1,131 +1,146 @@
 # Stone Prover Examples Documentation
 
 
-## Reference Test Files
+This documentation outlines the reference test files used in Cairo program execution for the Stone Prover. These files are used to generate and verify cryptographic proofs.
 
-This section outlines the key files used in testing the Stone Prover with Cairo programs. These files are organized into different categories, each serving a crucial role in proof generation and verification. Below is a list of the main components for each test scenario:
+## Stone Prover Reference Test Files
 
-### 1. Cairo Sources
-- **Fibonacci Cairo Source**: [`fibonacci.cairo`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/fibonacci.cairo)  
-  - **Description**: This file contains the Cairo source code for computing the Fibonacci sequence using `felt252` as the core data type. It recursively computes Fibonacci terms up to a given value `n` and returns the results in an array.It’s a simple yet effective example of implementing computational logic in Cairo.
+The files for each test case are categorized into four main groups:
 
- - **Code**:
-    ```rust
-    use core::felt252;
+1. **Cairo Source Files**: Programs written in Cairo.
+2. **Execution Artifacts**: Files generated during program execution (e.g., trace, memory dumps).
+3. **Prover Parameters and Configurations**: Parameters for controlling the prover's behavior.
+4. **Proof Files**: Final output files containing cryptographic proofs.
 
-    fn main() -> Array<felt252> {
-        let n = 10;
-        let mut result = array![];
-        result.append(fib(1, 1, n));
-        result
-    }
+### Test Files
 
-    fn fib(a: felt252, b: felt252, n: felt252) -> felt252 {
-        match n {
-            0 => a,
-            _ => fib(b, a + b, n - 1),
-        }
-    }
+For each test case, files are organized as follows:
+
+1. **Cairo Source Files**  
+   These contain Cairo programs that perform their specific cryptographic or mathematical operations.
+
+   Examples:
+   - `fibonacci.cairo`
+     - **Path**: `e2e_test/Cairo/fibonacci.cairo`
+     - **Arguments**: JSON file input with initial values for the Fibonacci sequence.
+   - `ecdsa.cairo`
+     - **Path**: `e2e_test/Cairo/ecdsa.cairo`
+    - `bitwise.cairo`
+         - **Path**: `e2e_test/Cairo/bitwise.cairo`
+    - `basic.cairo`
+         - **Path**: `e2e_test/Cairo/basic.cairo`
+    - `hash_pedersen.cairo`
+         - **Path**: `e2e_test/Cairo/hash_pedersen.cairo`
+    - `hash_poseidon.cairo`
+         - **Path**: `e2e_test/Cairo/poseidon.cairo`
+    - `keccak.cairo`
+         - **Path**: `e2e_test/Cairo/keccak.cairo`
+2. **Execution Artifacts**  
+   Generated during the program execution. Each test case has the following execution artifacts:
+   
+   - **Trace File** (`trace.b`): Contains execution trace.
+     - Example: `test_files/fibonacci/trace.json`
+   - **Memory File** (`memory.b`): Stores the program’s memory state.
+     - Example: `test_files/fibonacci/memory.b`
+   - **Private Input** (`private_input.json`): Contains private input data.
+     - Example: `test_files/fibonacci/private_input.json`
+   - **Public Input** (`public_input.json`): Public data shared with the prover.
+     - Example: `test_files/fibonacci/public_input.json`
+
+3. **Prover Parameters & Configurations**  
+   The prover parameters and configuration files define how the prover operates, including settings for FRI (Fast Reed-Solomon IOP) related parameters and degree bounds, as well as other aspects that control the prover's behavior. These settings also affect the proof generation process.
+
+    #### Examples:
+    - cpu_air_params_integrity.json
+    - ecdsa_cpu_air_params.json
+    - hash_pedersen_cpu_air_params.json
+    - hash_poseidon_cpu_air_params.json
+
+    ####  Parameters and Configuration
+
+    All configurations use "field": "PrimeField0", which indicates that the STARK system operates over a prime field.
+
+    **a. Configuration Params:**
+
+    - "field": "PrimeField0"
+    - **FRI (Fast Reed-Solomon Interactive Oracle Proofs of Proximity)**: The fri_step_list in the configuration params defines the steps of the FRI protocol, determining domain reductions in each step:
+
+     - **First Config**: [0, 4, 3] (shorter reduction, followed by larger reductions).
+    - **Second Config**: [4, 4, 4, 3] (consistent reductions, with a final step of 3).
+    - **Third Config**: [4, 4, 4] (three consistent reductions of 4).
+    - **Fourth Config**: [4, 4, 4, 1] (three reductions of 4, with a final smaller reduction of 1).
+
+    - "log_n_cosets": 4: Determines the number of cosets in the logarithmic domain, impacting polynomial evaluations.
+
+    **b. Hashes:**
+
+    - "channel_hash": "poseidon3": Poseidon hash function is used in the prover's channel.
+    - "pow_hash": "keccak256": Keccak256 is used for Proof of Work.
+    - "statement.page_hash": "pedersen" (in the first configuration): Pedersen hash is used for data commitments.
+
+4. **Proof Files**  
+   The final output of the prover after successful execution. Proofs are stored as JSON files.
+
+   - Example: `test_files/fibonacci/proof.json`
+
+> **Note**: The `cpu_air_prover_config.json` is shared across all test cases.
+
+## List of test cases
+
+Below is a table listing each test case, along with a short description, layout, and builtins used in each case.
+
+| Test Case          | Description                                   | Layout | Builtins     |
+|--------------------|-----------------------------------------------|--------|--------------|
+| `fibonacci.cairo`   | Calculates Fibonacci sequence                 | small  | default      |
+| `ecdsa.cairo`       | Implements ECDSA signature verification       | large  | ecdsa_builtin|
+| `hash_pedersen.cairo` | Computes Pedersen hash                      | large  | pedersen_hash|
+| `hash_poseidon.cairo` | Computes Poseidon hash                      | small  | poseidon3    |
+
+### Adding New Test Cases
+
+To add new test cases, follow the same folder structure as the `test_files/fibonacci` directory:
+
+- Create subfolders for each test in `test_files/` (e.g., `test_files/ecdsa`).
+- Include execution artifacts (trace, memory, input files), prover parameters, and proof files for each case.
+
+## Creating and Verifying Proofs
+
+To run a test case like `fibonacci.cairo`, follow these steps:
+
+1. **Navigate to the test directory**:
+    ```bash
+    cd e2e_test/Cairo
     ```
-  - **Explanation**:
-    - `felt252`: A type in Cairo that represents field elements, where values are limited by a modulus of 2^252.
-    - The `main` function initializes `n` (the number of Fibonacci terms) and starts the Fibonacci sequence with the initial values `a = 1` and `b = 1`.
-    - The recursive `fib` function computes Fibonacci numbers. The base case returns `a` when `n` is 0, while the recursive case reduces `n` by 1 and swaps the values of `a` and `b` until the result is computed.
 
-
-### 2. Execution Artifacts
-Execution artifacts include the trace and memory files generated when running the Cairo programs.
-
-- **Trace**: [`fibonacci_trace.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/fibonacci_trace.json)  
-  - **Description**: A detailed step-by-step execution log of the Fibonacci program. This file provides insight into the program’s execution, making it a key tool for debugging and verification.
-  
-- **Memory**: [`fibonacci_memory.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/fibonacci_memory.json)  
-  - **Description**: Shows the memory state during execution, including how `felt252` values are stored and manipulated.It records how variables are stored and changed throughout the run, helping developers ensure proper memory handling.
-
-- **Input Files**:
-  - **Private Input**: [`fibonacci_private_input.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/fibonacci_private_input.json)  
-    - **Description**: Contains cryptographic inputs like Pedersen hashes and range checks and other sensitive data used during the proof generation process.  
-    - **Content**:
-      ```json
-      {
-          "trace_path": "./fibonacci_trace.json",
-          "memory_path": "./fibonacci_memory.json",
-          "pedersen": [],
-          "range_check": [],
-          "ecdsa": []
-      }
-      ```
-
-  - **Public Input**: [`fibonacci_public_input.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/fibonacci_public_input.json)  
-    - **Description**: Lays out the public input values required for running the Fibonacci program. This file ensures the correct parameters, such as the number of steps and memory segments, are applied.
-    - **Content**:
-      ```json
-      {
-          "layout": "small",
-          "n_steps": 512,
-          "program": "<program_memory_segment>",
-          "output": "<output_memory_segment>"
-      }
-      ```
-
-### 3. Prover Parameters & Config
-These configuration files dictate how the prover operates, including how the proof is generated.
-
-- **Prover Config**: [`cpu_air_prover_config.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/cpu_air_prover_config.json)  
-  - **Description**: Contains settings that control how the prover behaves, such as task sizes and memory usage. This configuration remains the same across all test scenarios.
-  - **Content**:
-    ```json
-    {
-        "cached_lde_config": {
-            "store_full_lde": false,
-            "use_fft_for_eval": false
-        },
-        "constraint_polynomial_task_size": 256,
-        "n_out_of_memory_merkle_layers": 1,
-        "table_prover_n_tasks_per_segment": 32
-    }
+2. **Install cairo-vm/cairo1-run**:
+    ```bash
+    git clone https://github.com/lambdaclass/cairo-vm.git
+    cd cairo-vm/cairo1-run
+    make deps
     ```
 
-- **Prover Parameters**: [`cpu_air_params.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/cpu_air_params.json)  
-  - **Description**: Specifies cryptographic and STARK-related parameters used during proof generation. These influence the prover's interaction with the Cairo program and cryptographic constructs.
-  - **Content**:
-    ```json
-    {
-        "field": "PrimeField0",
-        "stark": {
-            "fri": {
-                "fri_step_list": [0, 4, 3],
-                "last_layer_degree_bound": 64,
-                "n_queries": 18,
-                "proof_of_work_bits": 24
-            },
-            "log_n_cosets": 4
-        },
-        "use_extension_field": false
-    }
+3. **Compile and run the Cairo program**:
+    ```bash
+    cargo run ../../fibonacci.cairo \
+        --layout=small \
+        --air_public_input=fibonacci_public_input.json \
+        --air_private_input=fibonacci_private_input.json \
+        --trace_file=fibonacci_trace.bin \
+        --memory_file=fibonacci_memory.bin \
+        --proof_mode
     ```
 
-### 4. Proof
-- **Proof File**: [`fibonacci_proof.json`](https://github.com/dipdup-io/stone-packaging/tree/master/test_files/fibonacci/fibonacci_proof.json)  
-  - **Description**: This is the generated proof of the Fibonacci program execution. It can be used to verify that the computation was executed correctly according to the Cairo framework.
+4. **Run the prover**:
+    ```bash
+    cpu_air_prover \
+        --out_file=fibonacci_proof.json \
+        --private_input_file=fibonacci_private_input.json \
+        --public_input_file=fibonacci_public_input.json \
+        --prover_config_file=../../cpu_air_prover_config.json \
+        --parameter_file=../../cpu_air_params.json
+    ```
 
-## Test Cases Overview
-Below is a summary of the available test cases, detailing what each Cairo program does, its layout, and its built-ins:
-
-| Program          | Description                                         | Layout   | Built-ins          |
-|------------------|-----------------------------------------------------|----------|--------------------|
-| Fibonacci        | Computes Fibonacci sequence terms using recursive `felt252`.                  | Small    | Range Check, ECDSA |
-
-
-## Usage Instructions
-
-### Creating a Proof
-To generate a proof for the Fibonacci program, use the following command:
-
-```bash
-cpu_air_prover \
-    --out_file=fibonacci_proof.json \
-    --private_input_file=fibonacci_private_input.json \
-    --public_input_file=fibonacci_public_input.json \
-    --prover_config_file=cpu_air_prover_config.json \
-    --parameter_file=cpu_air_params.json
+5. **Verify the proof**:
+    ```bash
+    cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
+    ```
