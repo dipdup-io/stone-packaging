@@ -1,0 +1,3 @@
+import{u as o,j as n}from"./index-Dv0NejMW.js";const r={title:"Introduction",description:"undefined"};function a(t){const e={a:"a",div:"div",h1:"h1",header:"header",p:"p",...o(),...t.components};return n.jsxs(n.Fragment,{children:[n.jsx(e.header,{children:n.jsxs(e.h1,{id:"stone-packaging",children:["Stone Packaging",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#stone-packaging",children:n.jsx(e.div,{"data-autolink-icon":!0})})]})}),`
+`,n.jsx(e.p,{children:"This is the main page of Stone Packaging documentation."}),`
+`,n.jsx(e.p,{children:"Here's an example of how to use Stone Packaging..."})]})}function s(t={}){const{wrapper:e}={...o(),...t.components};return e?n.jsx(e,{...t,children:n.jsx(a,{...t})}):a(t)}export{s as default,r as frontmatter};
