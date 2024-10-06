@@ -1,11 +1,11 @@
-## Stone Prover Configuration Guide
+## Stone Prover Configuration 
 
-This guide explains how to create a configuration file for the Stone prover, focusing on the security settings of the FRI protocol and the format of the configuration file. It also covers detailed instructions on configuring specific parameters for an optimal balance between security and performance.
+This guide will explain how to create a configuration file for the Stone prover, focusing on the security settings of the FRI protocol and the format of the configuration file. It also covers detailed instructions on configuring specific parameters for an optimal balance between security and performance.
 
 ### 1. Overview of the Stone Prover Configuration
 
 The Stone prover requires a configuration file to define critical proof generation settings. These settings control various aspects, from security to performance optimizations. Key components in the configuration file include:
-
+ 
 * Proof Options: Parameters for the FRI protocol, low-degree polynomial commitment, and Merkle tree depth.
 
 * Optimization Settings: Settings for parallelization and memory allocation.
