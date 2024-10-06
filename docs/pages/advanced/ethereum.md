@@ -12,6 +12,8 @@ A comprehensive guide for creating and verifying Stone proofs on Ethereum networ
 ## Prerequisites
 
 Before you begin, ensure you are on `linux/amd64` with `AVX` supported.
+Running the prover is also supported on `Apple M3` chip takes about `512 secs`.
+Running the prover in wsl Ubuntu on `Ryzen 7` takes about `252 secs`.
 
 ## Installation
 
