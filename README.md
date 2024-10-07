@@ -226,4 +226,3 @@ To add a new page to the documentation:
 2. Add the new page to the sidebar in `vocs.config.ts`.
 
 This project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
-```
