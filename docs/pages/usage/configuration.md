@@ -129,8 +129,8 @@ The configuration file typically contains parameters that define how the prover 
 
 Example Structure (`cpu_air_params.json`)
 
-```json
-{
+    ```json
+    {
     "field": "PrimeField0",
     "stark": {
         "fri": {
@@ -142,7 +142,7 @@ Example Structure (`cpu_air_params.json`)
         "log_n_cosets": 4
     },
     "use_extension_field": false
-}
+    }
 
 * `field`: Specifies the type of prime field used in computations (e.g., PrimeField0).
 
@@ -160,7 +160,7 @@ Example Structure (`cpu_air_params.json`)
 
 Example Structure (`cpu_air_prover_config.json`)
 
-```json
+    ```json
     {
     "cached_lde_config": {
         "store_full_lde": false,
@@ -169,7 +169,7 @@ Example Structure (`cpu_air_prover_config.json`)
     "constraint_polynomial_task_size": 256,
     "n_out_of_memory_merkle_layers": 1,
     "table_prover_n_tasks_per_segment": 32
-}
+    }
 
 * `cached_lde_config`: Configures caching for Low Degree Extension (LDE).
 
@@ -191,7 +191,7 @@ Example Structure (`cpu_air_prover_config.json`)
 
  * `table_prover_n_tasks_per_segment`: Defines the number of tasks assigned per table segment during proving. Example: 
 
-  `"table_prover_n_tasks_per_segment": 32`
+    `"table_prover_n_tasks_per_segment": 32`
 
 **3.1 How to Create a Configuration File**
 
@@ -208,7 +208,8 @@ Example of a custom Configuration File:
 
 **3.2 Example of a Configuration File**
 
-```json{
+    ```json
+    {
     "field": "PrimeField0",
     "stark": {
         "fri": {
@@ -227,4 +228,4 @@ Example of a custom Configuration File:
     "constraint_polynomial_task_size": 256,
     "n_out_of_memory_merkle_layers": 1,
     "table_prover_n_tasks_per_segment": 32
-}
+    }
