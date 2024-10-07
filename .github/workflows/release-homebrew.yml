@@ -87,8 +87,8 @@ jobs:
       - name: Checkout Homebrew Formula Repository
         uses: actions/checkout@v3
         with:
-          repository: MrRoudyk/homebrew-stone-prover
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repository: dipdup-io/homebrew-stone-prover
+          token: ${{ secrets.HOMEBREW_ACCESS_TOKEN }}
           path: homebrew-stone-prover
 
       - name: Set up Git
@@ -112,7 +112,7 @@ jobs:
         working-directory: homebrew-stone-prover
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          ROOT_URL="https://github.com/MrRoudyk/stone-packaging/releases/download/v${VERSION}"
+          ROOT_URL="https://github.com/dipdup-io/stone-packaging/releases/download/v${VERSION}"
 
           sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/stone-prover.rb
           sed -i "s|url \".*\"|url \"${ROOT_URL}/stone-prover-macos-arm64.tar.gz\"|" Formula/stone-prover.rb
