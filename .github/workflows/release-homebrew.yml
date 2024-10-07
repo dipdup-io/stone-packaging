@@ -1,0 +1,123 @@
+name: Release Homebrew Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          brew install gmp bazelisk
+          pip3 install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+
+      - name: Build binaries
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+
+      - name: Test binaries
+        run: |
+          chmod +x ./test.sh
+          ./test.sh
+
+      - name: Copy and rename binaries for Homebrew
+        run: |
+          cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-arm64
+          cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-arm64
+          chmod +x cpu_air_prover-arm64 cpu_air_verifier-arm64
+
+      - name: Package binaries
+        run: tar -czvf stone-prover-macos-arm64.tar.gz cpu_air_prover-arm64 cpu_air_verifier-arm64
+
+      - name: Compute SHA256
+        id: compute_sha
+        run: |
+          SHA256=$(shasum -a 256 stone-prover-macos-arm64.tar.gz | awk '{ print $1 }')
+          echo "${SHA256}" > sha256_arm64.txt
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: stone-prover-macos-arm64
+          path: |
+            stone-prover-macos-arm64.tar.gz
+
+      - name: Upload sha256
+        uses: actions/upload-artifact@v3
+        with:
+          name: sha256_arm64
+          path: |
+            sha256_arm64.txt
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download binaries and SHA256 artifacts for arm64
+        uses: actions/download-artifact@v3
+        with:
+          name: stone-prover-macos-arm64
+          path: ./release_assets/arm64
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./release_assets/arm64/stone-prover-macos-arm64.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update_formula:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Homebrew Formula Repository
+        uses: actions/checkout@v3
+        with:
+          repository: dipdup-io/homebrew-stone-prover
+          token: ${{ secrets.HOMEBREW_ACCESS_TOKEN }}
+          path: homebrew-stone-prover
+
+      - name: Set up Git
+        working-directory: homebrew-stone-prover
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Download arm64 SHA256 Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: sha256_arm64
+          path: ./release_assets/arm64
+
+      - name: Read SHA256
+        run: |
+          SHA256_arm64=$(cat ./release_assets/arm64/sha256_arm64.txt)
+          echo "SHA256_arm64=${SHA256_arm64}" >> $GITHUB_ENV
+
+      - name: Update Homebrew Formula
+        working-directory: homebrew-stone-prover
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          ROOT_URL="https://github.com/dipdup-io/stone-packaging/releases/download/v${VERSION}"
+
+          sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/stone-prover.rb
+          sed -i "s|url \".*\"|url \"${ROOT_URL}/stone-prover-macos-arm64.tar.gz\"|" Formula/stone-prover.rb
+          sed -i "s|sha256 \".*\"|sha256 \"${SHA256_arm64}\"|" Formula/stone-prover.rb
+
+          git add Formula/stone-prover.rb
+          git commit -m "Update Stone Prover to version ${VERSION} for arm64 and x86_64" || echo "No changes to commit"
+          git push origin main
