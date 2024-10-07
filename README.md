@@ -127,7 +127,7 @@ install the .rpm package from the latest release:
 sudo dnf install https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-fedora-x86_64.rpm
 ```
 
-## Download Homebrew Packages for macOS
+## Download Homebrew Packages for macOS ARM64
 
 Install the `stone-prover` package via Homebrew:
 

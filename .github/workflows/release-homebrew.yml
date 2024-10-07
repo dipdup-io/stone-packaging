@@ -7,15 +7,8 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.runs-on }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: x86_64
-            runs-on: macos-12
-          - arch: arm64
-            runs-on: macos-14
+    runs-on: macos-14
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -42,43 +35,37 @@ jobs:
 
       - name: Copy and rename binaries for Homebrew
         run: |
-          cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-${{ matrix.arch }}
-          cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-${{ matrix.arch }}
-          chmod +x cpu_air_prover-${{ matrix.arch }} cpu_air_verifier-${{ matrix.arch }}
+          cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_prover ./cpu_air_prover-arm64
+          cp /tmp/stone-prover/build/bazelbin/src/starkware/main/cpu/cpu_air_verifier ./cpu_air_verifier-arm64
+          chmod +x cpu_air_prover-arm64 cpu_air_verifier-arm64
 
       - name: Package binaries
-        run: tar -czvf stone-prover-macos-${{ matrix.arch }}.tar.gz cpu_air_prover-${{ matrix.arch }} cpu_air_verifier-${{ matrix.arch }}
+        run: tar -czvf stone-prover-macos-arm64.tar.gz cpu_air_prover-arm64 cpu_air_verifier-arm64
 
       - name: Compute SHA256
         id: compute_sha
         run: |
-          SHA256=$(shasum -a 256 stone-prover-macos-${{ matrix.arch }}.tar.gz | awk '{ print $1 }')
-          echo "${SHA256}" > sha256_${{ matrix.arch }}.txt
+          SHA256=$(shasum -a 256 stone-prover-macos-arm64.tar.gz | awk '{ print $1 }')
+          echo "${SHA256}" > sha256_arm64.txt
 
       - name: Upload binaries
         uses: actions/upload-artifact@v3
         with:
-          name: stone-prover-macos-${{ matrix.arch }}
+          name: stone-prover-macos-arm64
           path: |
-            stone-prover-macos-${{ matrix.arch }}.tar.gz
+            stone-prover-macos-arm64.tar.gz
 
       - name: Upload sha256
         uses: actions/upload-artifact@v3
         with:
-          name: sha256_${{ matrix.arch }}
+          name: sha256_arm64
           path: |
-            sha256_${{ matrix.arch }}.txt
+            sha256_arm64.txt
 
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download binaries and SHA256 artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: stone-prover-macos-x86_64
-          path: ./release_assets/x86_64
-
       - name: Download binaries and SHA256 artifacts for arm64
         uses: actions/download-artifact@v3
         with:
@@ -89,7 +76,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./release_assets/x86_64/stone-prover-macos-x86_64.tar.gz
             ./release_assets/arm64/stone-prover-macos-arm64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -111,12 +97,6 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Download x86_64 SHA256 Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: sha256_x86_64
-          path: ./release_assets/x86_64
-
       - name: Download arm64 SHA256 Artifact
         uses: actions/download-artifact@v3
         with:
@@ -125,9 +105,7 @@ jobs:
 
       - name: Read SHA256
         run: |
-          SHA256_x86_64=$(cat ./release_assets/x86_64/sha256_x86_64.txt)
           SHA256_arm64=$(cat ./release_assets/arm64/sha256_arm64.txt)
-          echo "SHA256_x86_64=${SHA256_x86_64}" >> $GITHUB_ENV
           echo "SHA256_arm64=${SHA256_arm64}" >> $GITHUB_ENV
 
       - name: Update Homebrew Formula
@@ -136,16 +114,9 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/v}
           ROOT_URL="https://github.com/MrRoudyk/stone-packaging/releases/download/v${VERSION}"
 
-          sed -i "/^  if Hardware::CPU.arm?$/,/^  end$/c\\
-            if Hardware::CPU.arm?\\
-              url \"${ROOT_URL}/stone-prover-macos-arm64.tar.gz\"\\
-              sha256 \"${SHA256_arm64}\"\\
-            else\\
-              url \"${ROOT_URL}/stone-prover-macos-x86_64.tar.gz\"\\
-              sha256 \"${SHA256_x86_64}\"\\
-            end" Formula/stone-prover.rb
-
           sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/stone-prover.rb
+          sed -i "s|url \".*\"|url \"${ROOT_URL}/stone-prover-macos-arm64.tar.gz\"|" Formula/stone-prover.rb
+          sed -i "s|sha256 \".*\"|sha256 \"${SHA256_arm64}\"|" Formula/stone-prover.rb
 
           git add Formula/stone-prover.rb
           git commit -m "Update Stone Prover to version ${VERSION} for arm64 and x86_64" || echo "No changes to commit"
