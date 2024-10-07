@@ -13,11 +13,11 @@ The goal of this project is to reduce friction and speed up the process of gener
 - [x] Minimal Docker images for x86_64
 - [x] Native packages for Debian/Ubuntu
 - [x] Native packages for Fedora
+- [x] Homebrew packages
 
 Follow-up work:
 
 - Native packages for Alpine
-- Homebrew packages
 - Technical documentation for file formats (inputs, outputs, memory, trace, proof), and test data
 - Documentation hosted on GitHub Pages
 - Integrated proof decomposition (related to https://github.com/zksecurity/stark-evm-adapter)
@@ -127,6 +127,17 @@ install the .rpm package from the latest release:
 sudo dnf install https://github.com/dipdup-io/stone-packaging/releases/latest/download/stone-prover-fedora-x86_64.rpm
 ```
 
+## Download Homebrew Packages for macOS
+
+Install the `stone-prover` package via Homebrew:
+
+```bash
+brew tap dipdup-io/stone-packaging
+brew install stone-prover
+```
+
+> **Note:** The Homebrew formula is maintained in the [homebrew-stone-prover](https://github.com/dipdup-io/homebrew-stone-prover) repository. If you encounter any issues or wish to contribute to the formula, please visit the repository.
+
 ### Creating and Verifying a Test Proof Using the Native Packages
 
 Clone the repository:
@@ -157,9 +168,6 @@ Run the verifier to confirm the proof:
 ```bash
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
-
-This project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
-
 
 ### USNG VOCS TO GENERATE DOCUMENTATION LOCALHOST SITE
 
@@ -216,3 +224,6 @@ To add a new page to the documentation:
 
 1. Create a new markdown file in the `docs/pages/` directory.
 2. Add the new page to the sidebar in `vocs.config.ts`.
+
+This project is supported by Nethermind and Starknet Foundation via [OnlyDust platform](https://app.onlydust.com/p/stone-packaging-)
+```
