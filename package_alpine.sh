@@ -1,0 +1,71 @@
+#!/bin/bash
+set -e
+
+echo "Starting package creation process..."
+echo "Checking necessary dependencies..."
+
+# Ensure necessary dependencies are installed
+apk add --no-cache alpine-sdk build-base
+
+# Define the binary paths
+PROVER_PATH="/usr/local/bin/cpu_air_prover"
+VERIFIER_PATH="/usr/local/bin/cpu_air_verifier"
+
+# Check if the binaries exist
+if [ ! -f "$PROVER_PATH" ]; then
+    echo "Error: cpu_air_prover not found in /usr/local/bin. Please ensure the binary is built."
+    exit 1
+fi
+
+if [ ! -f "$VERIFIER_PATH" ]; then
+    echo "Error: cpu_air_verifier not found in /usr/local/bin. Please ensure the binary is built."
+    exit 1
+fi
+
+# Log found binaries
+echo "Found cpu_air_prover at $PROVER_PATH"
+echo "Found cpu_air_verifier at $VERIFIER_PATH"
+
+# Create a temporary directory for the package
+echo "Creating temporary directories..."
+mkdir -p /tmp/stone-prover/ALPINE || { echo "Failed to create directory /tmp/stone-prover/ALPINE"; exit 1; }
+mkdir -p /tmp/stone-prover/usr/bin || { echo "Failed to create directory /tmp/stone-prover/usr/bin"; exit 1; }
+
+TAG=$1
+echo "Using tag $TAG"
+
+# Copy binaries to the appropriate directory
+echo "Copying binaries to package directories..."
+cp "$PROVER_PATH" /tmp/stone-prover/usr/bin/
+cp "$VERIFIER_PATH" /tmp/stone-prover/usr/bin/
+
+# Create the APKBUILD file for Alpine package creation
+echo "Creating APKBUILD file..."
+cat <<EOF > /tmp/stone-prover/APKBUILD
+# Contributor: Baking Bad <na@baking-bad.org>
+# Maintainer: Baking Bad <na@baking-bad.org>
+pkgname=stone-prover
+pkgver=$(echo $TAG | cut -c 2-)
+pkgrel=0
+pkgdesc="Stone prover alpine package"
+arch="x86_64"
+license="GPL-3.0"
+source=""
+builddir="/tmp/stone-prover"
+
+package() {
+    mkdir -p "\$pkgdir/usr/bin"
+    install -Dm755 "\$builddir"/usr/bin/cpu_air_prover "\$pkgdir"/usr/bin/cpu_air_prover
+    install -Dm755 "\$builddir"/usr/bin/cpu_air_verifier "\$pkgdir"/usr/bin/cpu_air_verifier
+}
+EOF
+
+# Build the Alpine package using abuild
+echo "Building the package using abuild..."
+cd /tmp/stone-prover || { echo "Failed to change directory to /tmp/stone-prover"; exit 1; }
+abuild checksum || { echo "abuild checksum failed"; exit 1; }
+abuild -r || { echo "abuild build failed"; exit 1; }
+
+# Output the built package location
+echo "Alpine package built successfully."
+echo "Package location: /tmp/packages/main/x86_64/stone-prover-*.apk"
