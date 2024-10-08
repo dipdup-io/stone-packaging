@@ -12,8 +12,16 @@
     "moduleResolution": "node",
     "module": "esnext",
     "noEmit": true,
-    "lib": ["es2022", "dom", "dom.iterable"],
-    "types": ["vocs"]
+    "lib": [
+      "es2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "types": [
+      "vocs"
+    ]
   },
-  "include": ["vocs.config.ts"]
+  "include": [
+    "vocs.config.ts"
+  ]
 }
