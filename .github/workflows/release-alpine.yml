@@ -1,9 +1,9 @@
 name: Build Alpine Package
 
 on:
-  push:
-    tags:
-      - 'v*'
+#  push:
+#    tags:
+#      - 'v*'
 
 jobs:
   build:
