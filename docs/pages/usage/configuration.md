@@ -129,8 +129,8 @@ The configuration file typically contains parameters that define how the prover 
 
 Example Structure (`cpu_air_params.json`)
 
-    ```json
-    {
+```json
+{
     "field": "PrimeField0",
     "stark": {
         "fri": {
@@ -142,7 +142,8 @@ Example Structure (`cpu_air_params.json`)
         "log_n_cosets": 4
     },
     "use_extension_field": false
-    }
+}
+```
 
 * `field`: Specifies the type of prime field used in computations (e.g., PrimeField0).
 
@@ -160,8 +161,8 @@ Example Structure (`cpu_air_params.json`)
 
 Example Structure (`cpu_air_prover_config.json`)
 
-    ```json
-    {
+```json
+{
     "cached_lde_config": {
         "store_full_lde": false,
         "use_fft_for_eval": false
@@ -169,7 +170,8 @@ Example Structure (`cpu_air_prover_config.json`)
     "constraint_polynomial_task_size": 256,
     "n_out_of_memory_merkle_layers": 1,
     "table_prover_n_tasks_per_segment": 32
-    }
+}
+```
 
 * `cached_lde_config`: Configures caching for Low Degree Extension (LDE).
 
@@ -208,24 +210,25 @@ Example of a custom Configuration File:
 
 **3.2 Example of a Configuration File**
 
-    ```json
-    {
-    "field": "PrimeField0",
-    "stark": {
-        "fri": {
-            "fri_step_list": [4, 4, 4, 1],
-            "last_layer_degree_bound": 64,
-            "n_queries": 18,
-            "proof_of_work_bits": 24
-        },
-        "log_n_cosets": 4
+```json
+{
+"field": "PrimeField0",
+"stark": {
+    "fri": {
+        "fri_step_list": [4, 4, 4, 1],
+        "last_layer_degree_bound": 64,
+        "n_queries": 18,
+        "proof_of_work_bits": 24
     },
-    "use_extension_field": false,
-    "cached_lde_config": {
-        "store_full_lde": false,
-        "use_fft_for_eval": false
-    },
-    "constraint_polynomial_task_size": 256,
-    "n_out_of_memory_merkle_layers": 1,
-    "table_prover_n_tasks_per_segment": 32
-    }
+    "log_n_cosets": 4
+},
+"use_extension_field": false,
+"cached_lde_config": {
+    "store_full_lde": false,
+    "use_fft_for_eval": false
+},
+"constraint_polynomial_task_size": 256,
+"n_out_of_memory_merkle_layers": 1,
+"table_prover_n_tasks_per_segment": 32
+}
+```
