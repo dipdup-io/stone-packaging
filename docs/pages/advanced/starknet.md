@@ -1,29 +1,34 @@
-## Verifying Stone proofs on Starknet
+# Verifying Stone Proofs on Starknet
 
-This guide provides detailed instructions on creating and verifying Stone proofs on Starknet as well as how to deploy integrity contracts. Follow the steps below to ensure a smooth verification process.
+> [!IMPORTANT]
+> This guide provides detailed instructions for creating and verifying Stone proofs on Starknet, as well as deploying integrity contracts. Follow these steps for a smooth verification process.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following tools and dependencies installed these are outlined here [Integrity prerequisites](https://github.com/HerodotusDev/integrity?tab=readme-ov-file#prerequisites).
+Before you start, ensure the following tools and dependencies are installed. They are outlined in the [Integrity prerequisites](https://github.com/HerodotusDev/integrity?tab=readme-ov-file#prerequisites):
 
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Scarb](https://docs.swmansion.com/scarb/download.html)
 - [Starknet Foundry](https://github.com/foundry-rs/starknet-foundry?tab=readme-ov-file#installation)
 
-Make sure to follow the next usage instructions as referenced [here](https://github.com/dipdup-io/stone-packaging?tab=readme-ov-file#usage-instructions).
+For usage instructions, follow the guide [here](https://github.com/dipdup-io/stone-packaging?tab=readme-ov-file#usage-instructions).
 
-### Download Binaries
+---
 
-By following the next [installation guide](../install/binaries.md).
+## 1. Download Binaries
 
-### Creating and Verifying a Test Proof Using Binaries
+Follow the [installation guide](../install/binaries.md) to download the necessary binaries.
 
-To create and verify a test proof, follow the next steps outlined in the [Creating and Verifying a Test Proof Guide](https://github.com/dipdup-io/stone-packaging?tab=readme-ov-file#creating-and-verifying-a-test-proof-using-binaries).
+---
 
-Clone the repository:
+## 2. Creating and Verifying a Test Proof Using Binaries
 
-```bash
-git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
+To create and verify a test proof, follow the steps in the [Creating and Verifying a Test Proof Guide](https://github.com/dipdup-io/stone-packaging?tab=readme-ov-file#creating-and-verifying-a-test-proof-using-binaries).
+
+- Clone the repository:
+
+   ```bash
+   git clone https://github.com/dipdup-io/stone-packaging.git /tmp/stone-packaging
 ```
 
 Navigate to the example test directory:
@@ -34,7 +39,9 @@ cd /tmp/stone-packaging/test_files/
 
 Copy or download the binary files from the latest release to this directory.
 
-### Splitting the Proof
+---
+
+## 3. Splitting the Proof
 
 Run the following command to generate the annotated split proof:
 
@@ -55,7 +62,7 @@ Run the verifier to verify the proof:
 cpu_air_verifier --in_file=fibonacci_proof.json && echo "Successfully verified example proof."
 ```
 
-## stark_evm_adapter
+### Using stark_evm_adapter
 
 Alternatively, you can use the `stark_evm_adapter` by following the next instructions shown [here](https://github.com/zksecurity/stark-evm-adapter?tab=readme-ov-file#cli).
 
@@ -90,15 +97,18 @@ stark_evm_adapter gen-annotated-proof \
     --output fibonacci_annotated_proof.json
 ```
 
-* `stark_evm_adapter --stone-proof-file` comes from `cpu_air_prover --out_file` (JSON format)
-* `stark_evm_adapter --stone-annotation-file` comes from `cpu_air_verifier --annotation-file` (.txt format)
-* `stark_evm_adapter --stone-extra-annotation-file` comes from `cpu_air_verifier --extra-output-file` (.txt format)
+- `stark_evm_adapter --stone-proof-file` comes from `cpu_air_prover --out_file` (JSON format)
+- `stark_evm_adapter --stone-annotation-file` comes from `cpu_air_verifier --annotation-file` (.txt format)
+- `stark_evm_adapter --stone-extra-annotation-file` comes from `cpu_air_verifier --extra-output-file` (.txt format)
 
 Proceed when receiving the next output:
 ```bash
 Annotated proof wrote to fibonacci_annotated_proof.json
 ```
-## Utilizing the Herodotus Integrity File to Serialize the Proof
+
+---
+
+## 4. Utilizing the Herodotus Integrity File to Serialize the Proof
 
 Clone the Herodotus Integrity repository for later procedures:
 
@@ -127,7 +137,9 @@ proof_serializer < fibonacci_proof.json > fibonacci_calldata
 proof_serializer < fibonacci_annotated_proof.json > fibonacci_calldata
 ```
 
-## Setting Up Starknet Foundry
+---
+
+## 5. Setting Up Starknet Foundry
 
 To interact with Starknet Foundry, set up your account and configuration as follows.
 
@@ -145,16 +157,22 @@ Make sure you set up up your 'snfoundry.toml' configuration with appropriate acc
 
 Before deploying make sure you prefunded your account.
 
+> [!NOTE]
+> You may need to append one or two 0s in front of the address (Ex: 0x12345, 0x012345), for the faucet to validate the wallet.
+
 [Deploy Account](https://foundry-rs.github.io/starknet-foundry/appendix/sncast/account/deploy.html)
 
 Execute the next [example](https://github.com/HerodotusDev/integrity?tab=readme-ov-file#monolith-proof) to check if the setup is correct.
 
-## Cairo-VM-Verifier
+---
 
-For veryfing the proof.json you can utilize the next tool by pasting the proof.json file in the drop box, it's made in Rust and WASM in JS: [cairo-vm-verifier](https://demo.swiftness.iosis.tech/)
+## 6. Cairo-VM-Verifier
 
+For veryfing the proof.json you can utilize the next tool by pasting the proof.json file in the drop box, it's made in Rust and WASM, and runs in the browser: [cairo-vm-verifier](https://demo.swiftness.iosis.tech/)
 
-## Deploying in the Integrity Contracts for Verification
+---
+
+## 7. Deploying in the Integrity Contracts for Verification
 
 Make sure you're in the Integrity cloned repository.
 
@@ -193,7 +211,7 @@ Following this let's deploy our fibonacci_calldata in the Herodotus [proxy contr
     cairo1
 ```
 
-Wait for the tx and you've made the verification in Starknet! :)
+Wait for the tx, and you've successfully verified the proof on Starknet! :)
 
 
 
