@@ -1,7 +1,6 @@
 # Verifying Stone Proofs on Starknet
 
-> [!IMPORTANT]
-> This guide provides detailed instructions for creating and verifying Stone proofs on Starknet, as well as deploying integrity contracts. Follow these steps for a smooth verification process.
+**IMPORTANT:** This guide provides detailed instructions for creating and verifying Stone proofs on Starknet, as well as deploying integrity contracts. Follow these steps for a smooth verification process.
 
 ## Prerequisites
 
@@ -157,8 +156,7 @@ Make sure you set up up your 'snfoundry.toml' configuration with appropriate acc
 
 Before deploying make sure you prefunded your account.
 
-> [!NOTE]
-> You may need to append one or two 0s in front of the address (Ex: 0x12345, 0x012345), for the faucet to validate the wallet.
+**NOTE:** You may need to append one or two 0s in front of the address (Ex: 0x12345, 0x012345), for the faucet to validate the wallet.
 
 [Deploy Account](https://foundry-rs.github.io/starknet-foundry/appendix/sncast/account/deploy.html)
 
