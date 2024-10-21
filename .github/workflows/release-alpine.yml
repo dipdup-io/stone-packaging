@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: alpine:latest
+    env:
+      TARGET_ARCH: x86_64
 
     steps:
     - name: Checkout code
