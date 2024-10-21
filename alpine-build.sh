@@ -7,9 +7,9 @@ arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 apk add --no-cache ncurses elfutils-dev gmp-dev python3 python3-dev py3-pip build-base
 
-#python3 -m venv venv
-#chmod 777 -R venv/
-#./venv/bin/activate
+python3 -m venv venv
+chmod 777 -R venv/
+./venv/bin/activate
 
 pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
