@@ -5,7 +5,7 @@ set -e
 os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-apk add ncurses elfutils-dev gmp-dev python3=3.9.16-r0 py3-pip
+apk add ncurses elfutils-dev gmp-dev python3 py3-pip
 
 pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
