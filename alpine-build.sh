@@ -11,7 +11,9 @@ apk add --no-cache ncurses elfutils-dev gmp-dev python3 python3-dev py3-pip buil
 # chmod 777 -R venv/
 # ./venv/bin/activate
 
-pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
+pip install --user pipx
+export PATH="$HOME/.local/bin:$PATH"
+pipx install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
 
 wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-$os-$arch"
 chmod 755 "bazelisk-$os-$arch"
