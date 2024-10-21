@@ -48,6 +48,7 @@ jobs:
         source venv/bin/activate
         pip install --upgrade pip
         pip install sympy==1.12.1 cairo-lang==0.12.0
+      shell: bash
 
     - name: Change ownership of /github/home
       run: sudo chown -R $(whoami) /github/home
