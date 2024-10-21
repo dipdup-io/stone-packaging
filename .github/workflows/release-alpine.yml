@@ -34,7 +34,20 @@ jobs:
           build-base \
           boost-dev \
           gmp-dev \
-          abuild
+          abuild 
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architecture: 'x64'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install sympy==1.12.1 cairo-lang==0.12.0
 
     - name: Change ownership of /github/home
       run: sudo chown -R $(whoami) /github/home
