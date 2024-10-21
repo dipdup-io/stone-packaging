@@ -21,6 +21,19 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install dependencies
+      run: |
+        apk add --no-cache \
+          alpine-sdk \
+          cmake \
+          git \
+          curl \
+          bash \
+          build-base \
+          boost-dev \
+          gmp-dev \
+          abuild
+
     - name: Build
       run: |
         chmod +x ./build.sh
