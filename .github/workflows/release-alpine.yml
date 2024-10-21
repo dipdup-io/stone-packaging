@@ -27,6 +27,7 @@ jobs:
         apk add --no-cache \
           alpine-sdk \
           cmake \
+          sudo \
           git \
           curl \
           bash \
