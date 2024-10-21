@@ -6,7 +6,7 @@ os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 apk update
-apk add --no-cache ncurses elfutils-dev gmp-dev build-base python3 python3-dev py3-pip
+apk add --no-cache ncurses elfutils-dev gmp-dev build-base python3 python3-dev py3-pip build-essentials
 
 python3 -m venv venv
 chmod 777 -R venv/
