@@ -1,9 +1,11 @@
 name: Build Alpine Package
 
 on:
-#  push:
-#    tags:
-#      - 'v*'
+ push:
+   branches:
+     - master
+   tags:
+     - 'v*'
 
 jobs:
   build:
@@ -17,18 +19,15 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install dependencies
+    - name: Build
       run: |
-        apk add --no-cache \
-          alpine-sdk \
-          cmake \
-          git \
-          curl \
-          bash \
-          build-base \
-          boost-dev \
-          gmp-dev \
-          abuild
+        chmod +x ./build.sh
+        ./build.sh
+    
+    - name: Test
+      run: |
+        chmod +x ./test.sh
+        ./test.sh
 
     - name: Create Alpine package
       run: |
