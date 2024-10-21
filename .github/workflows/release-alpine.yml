@@ -35,6 +35,9 @@ jobs:
           gmp-dev \
           abuild
 
+    - name: Change ownership of /github/home
+      run: sudo chown -R $(whoami) /github/home
+
     - name: Build
       run: |
         chmod +x ./alpine-build.sh
