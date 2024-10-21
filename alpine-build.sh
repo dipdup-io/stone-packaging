@@ -8,6 +8,8 @@ arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 apk add ncurses elfutils-dev gmp-dev python3 py3-pip
 
 python3 -m venv venv
+pwd
+ls -la
 . /venv/bin/activate
 
 pip install cpplint pytest numpy sympy==1.12.1 cairo-lang==0.12.0
