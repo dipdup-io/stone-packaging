@@ -5,7 +5,7 @@ set -e
 os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-apk add --no-cache ncurses elfutils-dev gmp-dev python3 python3-dev py3-pip build-base cairo-dev
+apk add --no-cache ncurses elfutils-dev gmp-dev build-base
 
 # python3 -m venv venv
 # chmod 777 -R venv/
