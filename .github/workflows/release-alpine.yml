@@ -45,7 +45,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m venv venv
-        source venv/bin/activate
+        ./venv/bin/activate
         pip install --upgrade pip
         pip install sympy==1.12.1 cairo-lang==0.12.0
       shell: bash
