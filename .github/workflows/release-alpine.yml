@@ -4,8 +4,9 @@ on:
  push:
    branches:
      - master
-   tags:
-     - 'v*'
+ pull_request:
+  branches:
+  - master
 
 jobs:
   build:
@@ -26,13 +27,31 @@ jobs:
         apk add --no-cache \
           alpine-sdk \
           cmake \
+          sudo \
           git \
           curl \
           bash \
           build-base \
           boost-dev \
           gmp-dev \
-          abuild
+          abuild 
+
+    # - name: Set up Python
+    #   uses: actions/setup-python@v2
+    #   with:
+    #     python-version: '3.9'
+    #     architecture: 'x64'
+
+    # - name: Install dependencies
+    #   run: |
+    #     python -m venv venv
+    #     ./venv/bin/activate
+    #     pip install --upgrade pip
+    #     pip install sympy==1.12.1 cairo-lang==0.12.0
+    #   shell: bash
+
+    # - name: Change ownership of /github/home
+    #   run: sudo chown -R $(whoami) /github/home
 
     - name: Build
       run: |
