@@ -6,9 +6,6 @@ os=$(uname | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 apk update
-curl -Lo /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
-curl -Lo glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r0/glibc-2.35-r0.apk
-apk add glibc.apk
 apk add --no-cache bazel7 ncurses elfutils-dev gmp-dev build-base python3 python3-dev py3-pip libffi-dev cairo-dev py3-sympy py3-cairo py3-pytest
 
 # # python3 -m venv venv
@@ -26,6 +23,8 @@ apk add --no-cache bazel7 ncurses elfutils-dev gmp-dev build-base python3 python
 wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-$os-$arch"
 chmod 755 "bazelisk-$os-$arch"
 sudo mv "bazelisk-$os-$arch" /bin/bazelisk
+which baselisk
+bazelisk version
 
 git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
 
