@@ -23,7 +23,7 @@ apk add --no-cache ncurses elfutils-dev gmp-dev build-base python3 python3-dev p
 wget "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-$os-$arch"
 chmod 755 "bazelisk-$os-$arch"
 sudo mv "bazelisk-$os-$arch" /bin/bazelisk
-which baselisk
+
 bazelisk version
 
 git clone https://github.com/baking-bad/stone-prover.git /tmp/stone-prover
