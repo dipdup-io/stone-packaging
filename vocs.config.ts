@@ -17,6 +17,7 @@ export default defineConfig({
         { text: "Static binaries", link: "/install/binaries" },
         { text: "Docker images", link: "/install/docker" },
         { text: "Debian packages", link: "/install/debian" },
+        { text: "Homebrew", link: "/install/homebrew" },
       ],
     },
     {
