@@ -1,0 +1,53 @@
+---
+title: Examples
+---
+
+## Table of content:
+
+| Name | Description | Src   | Args  | Memory | Trace | Private Input | Public Input | Proof | Prover config | Prover Params |
+| :--- | :---        | :---: | :---: | :---:  | :---: | :---:         | :---:        | :---: | :---:         | :---:         |
+{% for i in examples -%}
+| [{{ i.name | replace("_"," ") | capitalize }}](#{{ i.name | replace("_","-") }}-arrow_up) | {{ i.short_description }} | [link]({{ i.src_file_path }}) | {% if i.args_path is not none %} [link]({{ i.args_path }}) {% else %} :x: {% endif %} | [link]({{ i.memory_path }}) | [link]({{ i.trace_path }}) | [link]({{ i.private_input_path }}) | [link]({{ i.public_input_path }}) | [link]({{ i.proof_path }}) | [link]({{ i.prover_config_path }}) | [link]({{ i.prover_params_path }}) |
+{% endfor %}
+
+{% for i in examples %}
+## {{ i.name | replace("_"," ") | capitalize }} [:arrow_up:](#table-of-content)
+
+([src](/{{ i.src_file_path}}))
+([input arguments](/{{ i.args_path }}))
+
+{{ i.full_description }}
+
+**Outputs Format**: 
+
+    {{ i.outputs_format }}
+
+**Memory Layout**: 
+
+    {{ i.memory_layout }}
+
+**Arguments Format**: ([arguments file]({{ i.args_path }}))
+
+    {{ i.args_format }}
+
+**Execution traces**:
+
+[Memory File]({{ i.memory_path }})
+
+[Trace File]({{ i.trace_path }})
+
+[Private Input]({{ i.private_input_path }})
+
+[Public Input]({{ i.public_input_path }})
+
+[Proof]({{ i.proof_path }})
+
+[Prover Config]({{ i.prover_config_path }})
+
+[Prover Params]({{ i.prover_params_path }})
+
+{% endfor %}
+
+
+
+

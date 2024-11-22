@@ -1,3 +1,5 @@
+// does not compile. Needs StarnetOS as an execution environment
+
 use core::felt252;
 use core::keccak::compute_keccak_byte_array;
 

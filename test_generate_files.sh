@@ -41,10 +41,10 @@ function generate_inputs {
 }
 
 generate_inputs basic small
-# generate_inputs fibonacci small
-# generate_inputs hash_pedersen recursive_large_output
-# generate_inputs hash_poseidon recursive_with_poseidon
-# generate_inputs ecdsa starknet
+generate_inputs fibonacci small
+generate_inputs hash_pedersen recursive_large_output
+generate_inputs hash_poseidon recursive_with_poseidon
+generate_inputs ecdsa starknet
 
 # Keccak and bitwise can't execute correctly. Keccak requires Startnet OS environment.
 # Bitwise operators just don't work according to official documentation.

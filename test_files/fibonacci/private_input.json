@@ -2,6 +2,15 @@
   "trace_path": "./test_files/fibonacci/trace.b",
   "memory_path": "./test_files/fibonacci/memory.b",
   "pedersen": [],
-  "range_check": [],
+  "range_check": [
+    {
+      "index": 0,
+      "value": "0xffffffffffffffffffffffffffffffff"
+    },
+    {
+      "index": 1,
+      "value": "0x0"
+    }
+  ],
   "ecdsa": []
 }

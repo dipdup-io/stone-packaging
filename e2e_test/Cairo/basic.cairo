@@ -11,11 +11,11 @@
 //!
 //! Input arguments:
 //!
-//!     x : felt252
+//!     [ x ] as Array<felt252>
 //!    
 //! Output values: 
 //!
-//!     (felt252)
+//!     [ y ] as Array<felt252>
 //!
 //! Memory layout:
 //!

@@ -1,3 +1,20 @@
+//! Calculate Pedersen hash 
+//!
+//! This program calculates Pedersen hash of the struct. For the struct definition see below.
+//!
+//!     StructForHash { first: 0, second: 1, third: (1, 2), last: false };
+//!
+//!
+//! Output values: 
+//!
+//!     [ hashValue ] as Array<felt252>
+//!
+//! Memory layout:
+//!
+//!     recursive_large_output
+//!
+
+
 use core::felt252;
 use core::pedersen::PedersenTrait;
 use core::hash::{HashStateTrait, HashStateExTrait};

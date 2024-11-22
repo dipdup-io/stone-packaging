@@ -5,26 +5,42 @@
   "range_check": [
     {
       "index": 0,
-      "value": "0x7310ee4653751936c134d74411122ed9"
+      "value": "0x3"
     },
     {
       "index": 1,
-      "value": "0xb869d381b44bb1f00dd66e108e4a1c"
+      "value": "0x2"
     },
     {
       "index": 2,
-      "value": "0xfcb869d381b44ba9700dd66e108e4a1b"
+      "value": "0x1"
     },
     {
       "index": 3,
-      "value": "0xf1641a8ef121608efc63679881bace7f"
+      "value": "0x0"
     },
     {
       "index": 4,
-      "value": "0x1e4c78609b85a7aa1405f884cb17bc3"
+      "value": "0x7310ee4653751936c134d74411122ed9"
     },
     {
       "index": 5,
+      "value": "0xb869d381b44bb1f00dd66e108e4a1c"
+    },
+    {
+      "index": 6,
+      "value": "0xfcb869d381b44ba9700dd66e108e4a1b"
+    },
+    {
+      "index": 7,
+      "value": "0xf1641a8ef121608efc63679881bace7f"
+    },
+    {
+      "index": 8,
+      "value": "0x1e4c78609b85a7aa1405f884cb17bc3"
+    },
+    {
+      "index": 9,
       "value": "0xfde4c78609b85a7221405f884cb17bc2"
     }
   ],
