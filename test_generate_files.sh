@@ -15,29 +15,36 @@ else
 fi
 
 function generate_inputs {
-    local PROGRAM=$1
-    local LAYOUT=$2
+    local program=$1;
+    local layout=$2;
+    local args="";
 
-    echo "generating inputs for ${PROGRAM} with layout ${LAYOUT}"
+    echo "generating inputs for ${program} with layout ${layout}"
 
-    mkdir -p ${TEST_FILES}/${PROGRAM}
+    mkdir -p ${TEST_FILES}/${program}
 
-    (cd ${CAIRO1_RUNNER} && cargo run ${PROGRAMS_DIR}/${PROGRAM}.cairo \
-        --air_public_input=${TEST_FILES}/${PROGRAM}/public_input.json \
-        --air_private_input=${TEST_FILES}/${PROGRAM}/private_input.json \
-        --trace_file=${TEST_FILES}/${PROGRAM}/trace.b \
-        --memory_file=${TEST_FILES}/${PROGRAM}/memory.b \
-        --proof_mode --print_output --layout=${LAYOUT})
+    if [ -e "${PROGRAMS_DIR}/${program}_args.json" ]; then
+        args="--args_file=${PROGRAMS_DIR}/${program}_args.json"
 
-    bash -c "$SED_REPLACE ${TEST_FILES}/${PROGRAM}/private_input.json"
-    bash -c "$SED_REPLACE ${TEST_FILES}/${PROGRAM}/public_input.json"
+        # cp ${PROGRAMS_DIR}/${program}_args.json ${TEST_FILES}/${program}/args.json
+    fi
+
+    (cd ${CAIRO1_RUNNER} && cargo run ${PROGRAMS_DIR}/${program}.cairo \
+        --air_public_input=${TEST_FILES}/${program}/public_input.json \
+        --air_private_input=${TEST_FILES}/${program}/private_input.json \
+        --trace_file=${TEST_FILES}/${program}/trace.b \
+        --memory_file=${TEST_FILES}/${program}/memory.b \
+        --proof_mode --print_output --layout=${layout} ${args})
+
+    bash -c "${SED_REPLACE} ${TEST_FILES}/${program}/private_input.json"
+    bash -c "${SED_REPLACE} ${TEST_FILES}/${program}/public_input.json"
 }
 
 generate_inputs basic small
-generate_inputs fibonacci small
-generate_inputs hash_pedersen recursive_large_output
-generate_inputs hash_poseidon recursive_with_poseidon
-generate_inputs ecdsa starknet
+# generate_inputs fibonacci small
+# generate_inputs hash_pedersen recursive_large_output
+# generate_inputs hash_poseidon recursive_with_poseidon
+# generate_inputs ecdsa starknet
 
 # Keccak and bitwise can't execute correctly. Keccak requires Startnet OS environment.
 # Bitwise operators just don't work according to official documentation.

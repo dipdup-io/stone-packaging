@@ -2,6 +2,15 @@
   "trace_path": "./test_files/basic/trace.b",
   "memory_path": "./test_files/basic/memory.b",
   "pedersen": [],
-  "range_check": [],
+  "range_check": [
+    {
+      "index": 0,
+      "value": "0xffffffffffffffffffffffffffffffff"
+    },
+    {
+      "index": 1,
+      "value": "0x0"
+    }
+  ],
   "ecdsa": []
 }
