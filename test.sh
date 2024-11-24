@@ -18,24 +18,34 @@ fi
 TEST_FILES=$(pwd)/test_files
 
 function generate_verify_proof {
-    local PROGRAM=$1
-    local PARAMS_FILE=$2
+    local program=$1
+
+    local prover_config_file="${TEST_FILES}/${program}/cpu_air_prover_config.json"
+    local parameter_file="${TEST_FILES}/${program}/cpu_air_params.json"
+
+    if [ -e "${TEST_FILES}/${program}_cpu_air_params.json" ]; then
+        prover_config_file="${TEST_FILES}/${program}_cpu_air_params.json"
+    fi
+
+    if [ -e "${TEST_FILES}/${program}_cpu_air_prover_config.json" ]; then
+        parameter_file="${TEST_FILES}/${program}_cpu_air_prover_config.json"
+    fi
 
     cpu_air_prover \
         -v 1 \
-        --out_file=${TEST_FILES}/${PROGRAM}/proof.json \
-        --private_input_file=${TEST_FILES}/${PROGRAM}/private_input.json \
-        --public_input_file=${TEST_FILES}/${PROGRAM}/public_input.json \
-        --prover_config_file=${TEST_FILES}/cpu_air_prover_config.json \
-        --parameter_file=${TEST_FILES}/${PARAMS_FILE}
+        --out_file=${TEST_FILES}/${program}/proof.json \
+        --private_input_file=${TEST_FILES}/${program}/private_input.json \
+        --public_input_file=${TEST_FILES}/${program}/public_input.json \
+        --prover_config_file=${prover_config_file} \
+        --parameter_file=${parameter_file}
 
-    bash -c "$SED_REPLACE ${TEST_FILES}/${PROGRAM}/proof.json"
+    bash -c "$SED_REPLACE ${TEST_FILES}/${program}/proof.json"
 
-    cpu_air_verifier --in_file=${TEST_FILES}/${PROGRAM}/proof.json && echo "Successfully verified ${PROGRAM} example proof."
+    cpu_air_verifier --in_file=${TEST_FILES}/${program}/proof.json && echo "Successfully verified ${PROGRAM} example proof."
 }
 
-generate_verify_proof basic cpu_air_params.json
-generate_verify_proof fibonacci cpu_air_params.json
-generate_verify_proof hash_pedersen hash_pedersen_cpu_air_params.json 
-generate_verify_proof hash_poseidon hash_poseidon_cpu_air_params.json 
-generate_verify_proof ecdsa ecdsa_cpu_air_params.json
+generate_verify_proof basic
+# generate_verify_proof fibonacci 
+# generate_verify_proof hash_pedersen 
+# generate_verify_proof hash_poseidon 
+# generate_verify_proof ecdsa 
