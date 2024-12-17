@@ -4,17 +4,18 @@ title: Examples
 
 ## Table of content:
 
-| Name | Description | Src   | Args  | Memory | Trace | Private Input | Public Input | Proof | Prover config | Prover Params |
+| Name | Description | Source   | Args  | Memory | Trace | Private Input | Public Input | Proof | Prover config | Prover Params |
 | :--- | :---        | :---: | :---: | :---:  | :---: | :---:         | :---:        | :---: | :---:         | :---:         |
 {% for i in examples -%}
-| [{{ i.name | replace("_"," ") | capitalize }}](#{{ i.name | replace("_","-") }}-arrow_up) | {{ i.short_description }} | [link]({{ i.src_file_path }}) | {% if i.args_path is not none %} [link]({{ i.args_path }}) {% else %} :x: {% endif %} | [link]({{ i.memory_path }}) | [link]({{ i.trace_path }}) | [link]({{ i.private_input_path }}) | [link]({{ i.public_input_path }}) | [link]({{ i.proof_path }}) | [link]({{ i.prover_config_path }}) | [link]({{ i.prover_params_path }}) |
+| [{{ i.name | replace("_"," ") | capitalize }}](#{{ i.name | replace("_","-") }}) | {{ i.short_description }} | [●]({{ i.src_path }}) | {% if i.args_path is not none %} [●]({{ i.args_path }}) {% else %} x {% endif %} | [●]({{ i.memory_path }}) | [●]({{ i.trace_path }}) | [●]({{ i.private_input_path }}) | [●]({{ i.public_input_path }}) | [●]({{ i.proof_path }}) | [●]({{ i.prover_config_path }}) | [●]({{ i.prover_params_path }}) |
 {% endfor %}
 
 {% for i in examples %}
-## {{ i.name | replace("_"," ") | capitalize }} [:arrow_up:](#table-of-content)
+## {{ i.name | replace("_"," ") | capitalize }} 
 
-([src](/{{ i.src_file_path}}))
-([input arguments](/{{ i.args_path }}))
+([src]({{ i.src_path}}))
+{% if i.args_path %}([input arguments]({{ i.args_path }})){% endif %}
+([table of contents](#table-of-content))
 
 {{ i.full_description }}
 
@@ -25,11 +26,11 @@ title: Examples
 **Memory Layout**: 
 
     {{ i.memory_layout }}
-
+{% if i.args_path %}
 **Arguments Format**: ([arguments file]({{ i.args_path }}))
 
     {{ i.args_format }}
-
+{% endif %}
 **Execution traces**:
 
 [Memory File]({{ i.memory_path }})

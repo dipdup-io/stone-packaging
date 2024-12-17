@@ -112,7 +112,7 @@ class ExampleBuilder():
     
             return Example(
                 name = example_name,
-                src_path = absolute_src_path,
+                src_path = check_path(absolute_src_path),
                 args_path = check_path(absolute_args_path),
                 memory_path = check_path(absolute_memory_path),
                 trace_path = check_path(absolute_trace_path),
