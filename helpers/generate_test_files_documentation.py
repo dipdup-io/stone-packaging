@@ -3,8 +3,8 @@ import os
 import dataclasses as dc
 
 ROOT_PATH = os.getcwd()
-EXAMPLE_SRC_DIR = os.path.join(ROOT_PATH, "./e2e_test/Cairo")
-TEST_FILES_DIR = os.path.join(ROOT_PATH, "./test_files/")
+EXAMPLE_SRC_DIR = os.path.join(ROOT_PATH, "e2e_test/Cairo")
+TEST_FILES_DIR = os.path.join(ROOT_PATH, "test_files")
 
 
 @dc.dataclass
@@ -108,11 +108,11 @@ class ExampleBuilder():
                 if not os.path.exists(path):
                     return None
                 else:
-                    return path.replace(ROOT_PATH, "")
+                    return path.replace(ROOT_PATH, "../..")
     
             return Example(
                 name = example_name,
-                src_path = absolute_src_path,
+                src_path = check_path(absolute_src_path),
                 args_path = check_path(absolute_args_path),
                 memory_path = check_path(absolute_memory_path),
                 trace_path = check_path(absolute_trace_path),

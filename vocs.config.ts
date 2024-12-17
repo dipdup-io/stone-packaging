@@ -1,5 +1,22 @@
 import { defineConfig } from 'vocs'
 
+const GITHUB_URL_PREFIX = "https://github.com/dipdup-io/stone-packaging/tree/master"
+
+const replaceInFiles = (fileExt: string, replacements: [string, string][]) => 
+  (code: string, id: string) => {
+    if (!id.endsWith(`.${fileExt}`)) {
+      return null;
+    }
+    for (const rec of replacements.values()) {
+      code = code.replaceAll(rec[0], rec[1]);
+    }
+    return {
+      code,
+      map: null,
+    };
+  }
+
+
 export default defineConfig({
   title: 'Stone Packaging',
   rootDir: 'docs',
@@ -8,6 +25,10 @@ export default defineConfig({
     {
       text: "Overview",
       link: "/",
+    },
+    {
+      text: "Examples",
+      link: "/example",
     },
     {
       text: 'Installation',
@@ -43,4 +64,17 @@ export default defineConfig({
       link: '/resourcers',
     },
   ],
-})
+
+  vite: {
+    plugins: [
+      {
+        name: "vite-plugin-rewrite-links", // Plugin name
+        enforce: "pre", // Run before default transformations
+        transform: replaceInFiles("md", [
+          ["../../test_files/", `${GITHUB_URL_PREFIX}/test_files/`],
+          ["../../e2e_test/", `${GITHUB_URL_PREFIX}/e2e_test/`],
+        ])
+      }
+    ]
+  }
+});
