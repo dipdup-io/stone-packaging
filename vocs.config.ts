@@ -71,8 +71,8 @@ export default defineConfig({
         name: "vite-plugin-rewrite-links", // Plugin name
         enforce: "pre", // Run before default transformations
         transform: replaceInFiles("md", [
-          ["../test_files/", `${GITHUB_URL_PREFIX}/test_files/`],
-          ["../e2e_test/", `${GITHUB_URL_PREFIX}/e2e_test/`],
+          ["../../test_files/", `${GITHUB_URL_PREFIX}/test_files/`],
+          ["../../e2e_test/", `${GITHUB_URL_PREFIX}/e2e_test/`],
         ])
       }
     ]
