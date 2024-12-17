@@ -108,7 +108,7 @@ class ExampleBuilder():
                 if not os.path.exists(path):
                     return None
                 else:
-                    return path.replace(ROOT_PATH, "..")
+                    return path.replace(ROOT_PATH, "../..")
     
             return Example(
                 name = example_name,
