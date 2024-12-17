@@ -1,6 +1,6 @@
 import { defineConfig } from 'vocs'
 
-const GITHUB_URL_PREFIX = "https://github.com/baitcode/stone-packaging/tree/master"
+const GITHUB_URL_PREFIX = "https://github.com/dipdup-io/stone-packaging/tree/master"
 
 const replaceInFiles = (fileExt: string, replacements: [string, string][]) => 
   (code: string, id: string) => {
