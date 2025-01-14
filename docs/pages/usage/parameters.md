@@ -106,6 +106,8 @@ For example:
 
 ### Proof optimisation
 
+Important fact: the num of security bits for the stone proof calculated by (n_queries * log_n_cosets) + proof_of_work_bits. 
+
 To summarize the above:
 
 `n_queries` - If you decrease n_queries, then verification time goes down. Soundness and gets worse, proof size gets less. Can be traded for `proof_of_work_bits` or/and `log_n_cosets`.
@@ -122,43 +124,42 @@ To summarize the above:
 {
     ...
     "verifier_friendly_channel_updates": true,
+    "n_verifier_friendly_commitment_layers": 1000,    
+
     "verifier_friendly_commitment_hash": "poseidon3",
     "channel_hash": "poseidon3",
-    "n_verifier_friendly_commitment_layers": 1000,    
     "pow_hash": "keccak256",
     "commitment_hash": "keccak256_masked160_lsb",
     ...
 }
 ```
 
+
+#### Hashes
+
 These parameters are often found in configuration files related to the verifier, and they aim to optimize the verification process.
 
-`verifier_friendly_channel_updates -  If true, sets input hash function for channel to verifier_friendly_channel_updates value.
+`commitment_hash` - Hash function used for generating commitments, which are crucial for zero-knowledge proofs. Default value: `keccak256_masked160_msb`.
 
-```json
-"verifier_friendly_channel_updates": true
-```
+`channel_hash` - Specifies the input hash function used for transcript channel security. Transcript used for exchanging data between prover and verifier. All queries are communicated over it.
+Default value is `keccak256`.
 
-verifier_friendly_commitment_hash - Specifies the type of hash function used for the verifier's commitment, optimized for verification. Example:
+`verifier_friendly_channel_updates` -  If verifier_friendly_channel_updates is true, then the channel initialization is performed by a hash of the verifier friendly hash function (`n_verifier_friendly_commitment_layers` layers are being created), and afterwards the channel continues to produce numbers based on the channel_hash function. Otherwise, the channel_hash is used for the entire process. Deafult value is `false`. 
 
-```json
-"verifier_friendly_commitment_hash": "poseidon3"
-```
+`verifier_friendly_commitment_hash` - Specifies the type of hash function used for the verifier's commitment, optimized for verification. Default value is taken from `commitment_hash`.
 
-`channel_hash` - Specifies the hash function used for secure communication between the prover and verifier. Example:
+`n_verifier_friendly_commitment_layers` - defines the number of layers in transcript that have the `verifier_friednly_commitment_hash`, the rest of the layers (bigger ones) are defined by `commitment_hash` - This is basically tradeoff, you can increase the number of layers that use zk friendly hash function (eg poseidon) to make verification cheaper, but proving will be longer
 
-```json
-"channel_hash": "poseidon3"
-```
+`pow_hash` - Defines the hash used for proof-of-work, ensuring security in proof generation. Default value is `blake256`. This hash function must produce 256 bit long digest (can't be poseidon)
 
-`commitment_hash` - Hash function used for generating commitments, which are crucial for zero-knowledge proofs.
+`commitment_hash`, `channel_hash`, `verifier_friendly_channel_updates`, `verifier_friendly_commitment_hash`, `verifier_friendly_commitment_hash`, `pow_hash` - are all different hash functions. Available set of hash function names can be defined as follows:
 
-```json
-"commitment_hash": "keccak256_masked160_lsb"
-```
+- "keccak256" - Keccak hash with 256 bit digest.
+- "blake2s256" - Blake hash with 256 bit digest.
+- "pedersen" - Pedersen Keccak hash with 256 bit digest.
+- "poseidon3" - Poseidon3 Keccak hash with 252 bit digest.
+- "keccak256_masked_160_msb" - This is similar to `keccak256` but the size of digest is truncated to 160 bits, 96 least significant bits are thrown away.
+- "blake2s256_masked_160_msb" - This is similar to `blake2s256` but the size of digest is truncated to 160 bits, 96 least significant bits are thrown away.
+- "blake2s256_masked_248_lsb" - This is similar to `blake2s256` but the size of digest is truncated to 248 bits, 8 most significant bits are thrown away.
+- "keccak256_masked_160_lsb" - This is similar to `keccak256` but the size of digest is truncated to 248 bits, 96 most significant bits are thrown away.
 
-`pow_hash` - Defines the hash used for proof-of-work, ensuring security in proof generation.
-
-```json
-"pow_hash": "keccak256"
-```

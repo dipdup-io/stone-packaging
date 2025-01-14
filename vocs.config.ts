@@ -46,7 +46,6 @@ export default defineConfig({
       collapsed: true,
       items: [
         { text: "Generating execution artifacts", link: "/usage/execution" },
-        { text: "Stone Prover configuration", link: "/usage/configuration" },
         { text: "Stone Prover parameters file", link: "/usage/parameters" },
         { text: "Proving execution", link: "/usage/proving" },
         { text: "Verifying proof", link: "/usage/verifying" },
