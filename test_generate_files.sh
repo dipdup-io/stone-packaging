@@ -3,8 +3,8 @@
 # TODO(baitcode): Should live in a scripts folder
 
 CAIRO1_RUNNER=../cairo-vm/cairo1-run
-TEST_FILES=$(pwd)/test_files
-PROGRAMS_DIR=$(pwd)/e2e_test/Cairo
+TEST_FILES=$(pwd)/docs/test_files
+PROGRAMS_DIR=$(pwd)/docs/e2e_test/Cairo
 ESCAPED_PWD=$(printf '%s' "$(pwd)" | sed 's/[\/&]/\\&/g')
 
 # TODO(baitcode): should be moved out of the script to a common place

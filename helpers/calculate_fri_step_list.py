@@ -1,4 +1,5 @@
 import sys
+import math
 
 '''
 Whenever you encounter error like:
@@ -23,17 +24,8 @@ except:
 
 to_process = desired_degree_bound // last_layer_degree_bound
 
-def highest_power_of_2_in(n):
-    power = 0
-    
-    while n % 2 == 0:
-        n //= 2
-        power += 1
-        
-    return power
-
 fri_step_list = []
-highest_power_of_2 = highest_power_of_2_in(to_process)
+highest_power_of_2 = math.log2(to_process)
 
 while True:
     if highest_power_of_2 <= 4:
