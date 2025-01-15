@@ -163,3 +163,49 @@ Default value is `keccak256`.
 - "blake2s256_masked_248_lsb" - This is similar to `blake2s256` but the size of digest is truncated to 248 bits, 8 most significant bits are thrown away.
 - "keccak256_masked_160_lsb" - This is similar to `keccak256` but the size of digest is truncated to 248 bits, 96 most significant bits are thrown away.
 
+### Stone prover configuration file
+
+```json
+
+{
+    "cached_lde_config": {
+        "store_full_lde": false,
+        "use_fft_for_eval": false
+    },
+    "constraint_polynomial_task_size": 256,
+    "n_out_of_memory_merkle_layers": 1,
+    "table_prover_n_tasks_per_segment": 32
+}
+```
+
+### Stone prover configuration
+
+`LDE` - The low degree extension() is a polynomial of degree `n` resulting from 
+interpolating `n` + 1 data points.
+
+`store_full_lde` - Controls a Memory/Performance tradeoff. Setting this 
+value to false, reduces the memory consumption by recomputing the LDE when 
+needed instead of storing it. Obviously recomputing will increase computational 
+costs.
+
+`use_fft_for_eval` - Setting this value to true will recompute the LDE (using 
+FFT on the entire coset) when evaluating at a point. Otherwise, only the 
+evaluations required will be computed (using horner evaluation). This value has
+no effect when `store_full_lde` is true.
+
+`table_prover_n_tasks_per_segment` - Controls The number of tasks used to 
+commit to a segment in the table prover. Table prover used as a part of FRI 
+verification process.
+
+`constraint_polynomial_task_size` - Evaluation of composition polynomial on 
+the coset is split to different tasks of size `constraint_polynomial_task_size` 
+each to allow multithreading. The larger the task size the lower the amortized
+threading overhead but this can also affect the fragmentation effect in case 
+the number of tasks doesn't divide the coset by a multiple of the number of 
+threads in the thread pool.
+
+`n_out_of_memory_merkle_layers` - Number of merkle layer that are not stored 
+in memory but instead recalculated when required by decommitment request. When 
+`n_out_of_memory_merkle_layers` is 0 it means that all the data is stored in the
+merkle tree. When `n_out_of_memory_merkle_layers` is 1 it means that the layer 
+of the leaves are not stored in memory and so on.
